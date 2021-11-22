@@ -34,7 +34,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<Article> GetArticleById(int id)
         {
-            var article = await _dbContext.Articles.FindAsync(id);
+            var article = await _dbContext.Articles.FirstOrDefaultAsync(a=>a.Id == id);
 
             if (article is null)
             {
@@ -44,50 +44,36 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return article;
         }
 
-        public async Task<List<Article>> GetArticlesByUser(int id)
+        public async Task<List<Article>> GetArticlesByUser(User user)
         {
-            var user = await _dbContext.Users.FindAsync(id);
-            
-            if (user is null)
-            {
-                throw new UserNotFoundException(id);
-            }
-
-            return await _dbContext.Articles.Where(a => a.User == user).ToListAsync();
+            return await _dbContext.Articles.Where(a => a.User == user)
+                .ToListAsync();
         }
 
         public async Task<List<Article>> GetPublishedArticles()
         {
-            return await _dbContext.Articles.Where(a => a.PublishedAt != null).ToListAsync();
+            return await _dbContext.Articles.Where(a => a.PublishedAt != null)
+                .ToListAsync();
         }
 
-        public async Task<List<Article>> GetPublishedArticlesByUser(int id)
+        public async Task<List<Article>> GetPublishedArticlesByUser(User user)
         {
-            var user = await _dbContext.Users.FindAsync(id);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException(id);
-            }
-
-            return await _dbContext.Articles.Where(a => a.User == user).Where(a=>a.PublishedAt!=null).ToListAsync();
+            return await _dbContext.Articles.Where(a => a.User == user)
+                .Where(a=>a.PublishedAt!=null)
+                .ToListAsync();
         }
 
-        public async Task<List<Article>> GetUnpublishedArticlesByUser(int id)
+        public async Task<List<Article>> GetUnpublishedArticlesByUser(User user)
         {
-            var user = await _dbContext.Users.FindAsync(id);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException(id);
-            }
-
-            return await _dbContext.Articles.Where(a => a.User == user).Where(a => a.PublishedAt == null).ToListAsync();
+            return await _dbContext.Articles.Where(a => a.User == user)
+                .Where(a => a.PublishedAt == null)
+                .ToListAsync();
         }
 
         public async Task<List<Article>> SortArticlesByDate()
         {
-            return await _dbContext.Articles.OrderByDescending(a => a.PublishedAt).ToListAsync();
+            return await _dbContext.Articles.OrderByDescending(a => a.PublishedAt)
+                .ToListAsync();
         }
 
         public async Task UpdateArticle(Article article)
@@ -99,6 +85,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             _dbContext.Articles.Update(article);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Article> GetPublishedArticleById(int id)
+        {
+            return await _dbContext.Articles.Where(a => a.PublishedAt != null)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
     }
 }

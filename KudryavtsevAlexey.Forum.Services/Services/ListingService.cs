@@ -59,12 +59,15 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(category));    
             }
 
-            return await _dbContext.Listings.Where(l => l.Category == category).Where(l => l.PublishedAt != null).ToListAsync();
+            return await _dbContext.Listings.Where(l => l.Category == category)
+                .Where(l => l.PublishedAt != null)
+                .ToListAsync();
         }
 
         public async Task<List<Listing>> SortListingsByDate()
         {
-            return await _dbContext.Listings.OrderByDescending(l => l.PublishedAt).ToListAsync();
+            return await _dbContext.Listings.OrderByDescending(l => l.PublishedAt)
+                .ToListAsync();
         }
 
         public async Task UpdateListing(Listing listing)

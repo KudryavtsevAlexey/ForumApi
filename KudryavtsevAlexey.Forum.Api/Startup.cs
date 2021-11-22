@@ -1,5 +1,7 @@
 using System.Text;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.ServiceManager;
+using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,8 +23,10 @@ namespace KudryavtsevAlexey.Forum.Api
 		public IConfiguration Configuration { get; }
 
 		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddDbContext<ForumDbContext>(config => config.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
+        {
+			services.AddDbContext<ForumDbContext>(config =>
+                config.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
+
 			services.AddAuthentication("OAuth2.0")
 				.AddJwtBearer("OAuth2.0", config =>
 			   {
@@ -42,8 +46,11 @@ namespace KudryavtsevAlexey.Forum.Api
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
 			});
+
 			services.AddControllers();
-		}
+
+			services.AddScoped<IServiceManager, ServiceManager>();
+        }
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
@@ -61,6 +68,8 @@ namespace KudryavtsevAlexey.Forum.Api
 			app.UseAuthentication();
 
 			app.UseAuthorization();
+
+			//TODO: ExceptionHandlingMiddleware
 
 			app.UseEndpoints(endpoints =>
 			{

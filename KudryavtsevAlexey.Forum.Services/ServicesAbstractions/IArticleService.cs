@@ -15,12 +15,14 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<Article> GetArticleById(int id);
 
-        public Task<List<Article>> GetArticlesByUser(int id);
+        public Task<List<Article>> GetArticlesByUser(User user);
 
-        public Task<List<Article>> GetPublishedArticlesByUser(int id);
+        public Task<List<Article>> GetPublishedArticlesByUser(User user);
 
-        public Task<List<Article>> GetUnpublishedArticlesByUser(int id);
+        public Task<List<Article>> GetUnpublishedArticlesByUser(User user);
 
         public Task UpdateArticle(Article article);
+
+        public Task<Article> GetPublishedArticleById(int id);
     }
 }
