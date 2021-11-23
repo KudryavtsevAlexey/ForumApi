@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 
-namespace KudryavtsevAlexey.Forum.Services.Dto
+namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record ArticleDto(int Id,
         string Title,

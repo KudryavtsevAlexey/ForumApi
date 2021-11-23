@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Services.Dto;
+using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Profiles
 {
@@ -13,7 +13,8 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<Article, ArticleDto>();
+            CreateMap<Article, ArticleDto>()
+                .ReverseMap();
         }
     }
 }

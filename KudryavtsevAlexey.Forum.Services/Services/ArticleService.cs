@@ -10,19 +10,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using KudryavtsevAlexey.Forum.Services.Dto;
+using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class ArticleService : IArticleService
     {
         private readonly ForumDbContext _dbContext;
-        private readonly IMapper _mapper;
+        private readonly IMappingHelper<ArticleDto, Article> _mappingHelper;
 
-        public ArticleService(ForumDbContext dbContext, IMapper mapper)
+        public ArticleService(ForumDbContext dbContext, IMappingHelper<ArticleDto, Article> mappingHelper)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
+            _mappingHelper = mappingHelper;
         }
 
         public async Task AddArticle(ArticleDto article)
@@ -32,7 +33,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(article));
             }
 
-            var articleToAdding = _mapper.Map<Article>(article);
+            var articleToAdding = _mappingHelper.MapModelToSecondType(article);
 
             await _dbContext.Articles.AddAsync(articleToAdding);
             await _dbContext.SaveChangesAsync();
@@ -50,36 +51,81 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return article;
         }
 
-        public async Task<List<Article>> GetArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetArticlesByUser(User user)
         {
-            return await _dbContext.Articles.Where(a => a.User == user)
+            var articles = await _dbContext.Articles.Where(a => a.User == user)
                 .ToListAsync();
+
+            if (articles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
+
+            var articleDtos = _mappingHelper.MapListModelsToFirstType(articles);
+
+            return articleDtos;
         }
 
-        public async Task<List<Article>> GetPublishedArticles()
+        public async Task<List<ArticleDto>> GetPublishedArticles()
         {
-            return await _dbContext.Articles.Where(a => a.PublishedAt != null)
+            var articles = await _dbContext.Articles.Where(a => a.PublishedAt != null)
                 .ToListAsync();
+
+            if (articles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
+
+            var articleDtos = _mappingHelper.MapListModelsToFirstType(articles);
+
+            return articleDtos;
         }
 
-        public async Task<List<Article>> GetPublishedArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetPublishedArticlesByUser(User user)
         {
-            return await _dbContext.Articles.Where(a => a.User == user)
+            var articles = await _dbContext.Articles.Where(a => a.User == user)
                 .Where(a=>a.PublishedAt!=null)
                 .ToListAsync();
+
+            if (articles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
+
+            var articleDtos = _mappingHelper.MapListModelsToFirstType(articles);
+
+            return articleDtos;
         }
 
-        public async Task<List<Article>> GetUnpublishedArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetUnpublishedArticlesByUser(User user)
         {
-            return await _dbContext.Articles.Where(a => a.User == user)
+            var articles = await _dbContext.Articles.Where(a => a.User == user)
                 .Where(a => a.PublishedAt == null)
                 .ToListAsync();
+
+            if (articles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
+
+            var articleDtos = _mappingHelper.MapListModelsToFirstType(articles);
+
+            return articleDtos;
         }
 
-        public async Task<List<Article>> SortArticlesByDate()
+        public async Task<List<ArticleDto>> SortArticlesByDate()
         {
-            return await _dbContext.Articles.OrderByDescending(a => a.PublishedAt)
+            var articles = await _dbContext.Articles.OrderByDescending(a => a.PublishedAt)
                 .ToListAsync();
+
+            if (articles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
+
+            var articleDtos = _mappingHelper.MapListModelsToFirstType(articles);
+
+            return articleDtos;
         }
 
         public async Task UpdateArticle(ArticleDto article)
@@ -96,15 +142,24 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleNotFoundException(article.Id);
             }
 
-            var updatedArticle = _mapper.Map<Article>(article);
+            articleToUpdate = _mappingHelper.MapModelToSecondType(article);
 
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Article> GetPublishedArticleById(int id)
+        public async Task<ArticleDto> GetPublishedArticleById(int id)
         {
-            return await _dbContext.Articles.Where(a => a.PublishedAt != null)
+            var article = await _dbContext.Articles.Where(a => a.PublishedAt != null)
                 .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (article is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
+
+            var articleDto = _mappingHelper.MapModelToFirstType(article);
+
+            return articleDto;
         }
     }
 }

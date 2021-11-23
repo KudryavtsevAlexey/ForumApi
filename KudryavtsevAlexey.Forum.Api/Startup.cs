@@ -1,5 +1,7 @@
 using System.Text;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.MappingHelpers;
+using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +44,8 @@ namespace KudryavtsevAlexey.Forum.Api
 				   };
 			   });
 
+			services.AddAutoMapper(typeof(MappingProfile));
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
@@ -61,7 +65,7 @@ namespace KudryavtsevAlexey.Forum.Api
 				app.UseSwaggerUI();
 			}
 
-			app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
 			app.UseRouting();
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.ServiceManager;
+﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -21,7 +19,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns comments to article
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Comments to article</returns>

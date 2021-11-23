@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Dto
+namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public class UserDto
     {

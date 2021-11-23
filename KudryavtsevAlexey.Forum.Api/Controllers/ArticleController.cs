@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Services.Dto;
+﻿using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
+using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -24,7 +20,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             _serviceManager = serviceManager;
         }
-
 
         /// <summary>
         /// Returns list of the published articles
@@ -193,7 +188,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             return Ok(articles);
         }
 
-
         /// <summary>
         /// Adds article
         /// </summary>
@@ -207,7 +201,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 
             return Ok(article);
         }
-
 
         /// <summary>
         /// Updates article
