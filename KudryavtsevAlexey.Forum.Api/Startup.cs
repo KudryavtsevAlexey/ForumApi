@@ -27,7 +27,7 @@ namespace KudryavtsevAlexey.Forum.Api
 			services.AddDbContext<ForumDbContext>(config =>
                 config.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
 
-			services.AddAuthentication("OAuth2.0")
+            services.AddAuthentication("OAuth2.0")
 				.AddJwtBearer("OAuth2.0", config =>
 			   {
 				   byte[] bytes = Encoding.UTF8.GetBytes(Constants.SecretKey);

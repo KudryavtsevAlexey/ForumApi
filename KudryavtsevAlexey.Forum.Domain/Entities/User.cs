@@ -8,19 +8,14 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
 	public class User : BaseEntity
     {
-	    [Required]
-		public string UserName { get; set; }
+        public string UserName { get; set; }
 
-		[Required]
 		public string Name { get; set; }
 
-		[Required]
 		public string Summary { get; set; }
 
-		[Required]
 		public string Location { get; set; }
 
-		[Required]
 		public DateTime JoinedAt { get; set; }
 
 		public ICollection<Article> Articles { get; set; } = new List<Article>();

@@ -7,7 +7,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
 	public class Organization : BaseEntity
 	{
-		[Required]
         public string Name { get; set; }
 
         public ICollection<Listing> Listings { get; set; } = new List<Listing>();

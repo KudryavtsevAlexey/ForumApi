@@ -9,26 +9,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using KudryavtsevAlexey.Forum.Services.Dto;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class ArticleService : IArticleService
     {
         private readonly ForumDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ArticleService(ForumDbContext dbContext)
+        public ArticleService(ForumDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task AddArticle(Article article)
+        public async Task AddArticle(ArticleDto article)
         {
             if (article is null)
             {
                 throw new ArgumentNullException(nameof(article));
             }
 
-            await _dbContext.AddAsync(article);
+            var articleToAdding = _mapper.Map<Article>(article);
+
+            await _dbContext.Articles.AddAsync(articleToAdding);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -76,14 +82,22 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ToListAsync();
         }
 
-        public async Task UpdateArticle(Article article)
+        public async Task UpdateArticle(ArticleDto article)
         {
             if (article is null)
             {
                 throw new ArgumentNullException(nameof(article));
             }
 
-            _dbContext.Articles.Update(article);
+            var articleToUpdate = await _dbContext.Articles.FirstOrDefaultAsync(a => a.Id == article.Id);
+
+            if (articleToUpdate is null)
+            {
+                throw new ArticleNotFoundException(article.Id);
+            }
+
+            var updatedArticle = _mapper.Map<Article>(article);
+
             await _dbContext.SaveChangesAsync();
         }
 

@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dto;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
@@ -9,7 +10,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
     {
         public Task<List<Article>> GetPublishedArticles();
 
-        public Task AddArticle(Article article);
+        public Task AddArticle(ArticleDto article);
 
         public Task<List<Article>> SortArticlesByDate();
 
@@ -21,7 +22,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<Article>> GetUnpublishedArticlesByUser(User user);
 
-        public Task UpdateArticle(Article article);
+        public Task UpdateArticle(ArticleDto article);
 
         public Task<Article> GetPublishedArticleById(int id);
     }

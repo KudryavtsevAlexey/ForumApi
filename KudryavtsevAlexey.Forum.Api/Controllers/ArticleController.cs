@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
+using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Services.Dto;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +30,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Returns list of the published articles
         /// </summary>
         /// <returns>Published articles</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -50,8 +52,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Returns list of the articles sorted by date
         /// </summary>
         /// <returns>Articles sorted by date</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("sorted")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,8 +75,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Published article by id</returns>
-        /// <response code="200">Returns article</response>
-        /// <response code="404">If article not found</response>
+        /// <produce code="200">Returns article</produce>
+        /// <produce code="404">If article not found</produce>
         [HttpGet]
         [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -96,8 +98,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Published articles by user</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -121,8 +123,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Unpublished articles by user</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -146,8 +148,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Unpublished articles by user</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -171,8 +173,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>All articles by user</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="404">If articles not found</response>
+        /// <produce code="200">Returns articles</produce>
+        /// <produce code="404">If articles not found</produce>
         [HttpGet]
         [Route("{id}/all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -189,6 +191,37 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             }
 
             return Ok(articles);
+        }
+
+
+        /// <summary>
+        /// Adds article
+        /// </summary>
+        /// <produce code="201">Returns ok when article added</produce>
+        [HttpPost]
+        [Route("creating")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateArticle(ArticleDto article)
+        {
+            await _serviceManager.ArticleService.AddArticle(article);
+
+            return Ok(article);
+        }
+
+
+        /// <summary>
+        /// Updates article
+        /// </summary>
+        /// <param name="article"></param>
+        /// <produce code="200">Returns ok when article updated</produce>
+        [HttpPut]
+        [Route("updating")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateArticle(ArticleDto article)
+        {
+            await _serviceManager.ArticleService.UpdateArticle(article);
+
+            return Ok(article);
         }
     }
 }

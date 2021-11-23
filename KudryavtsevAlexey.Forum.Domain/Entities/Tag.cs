@@ -10,7 +10,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
     public class Tag : BaseEntity
     {
-	    [Required]
-		public string Name { get; set; }
+        public string Name { get; set; }
     }
 }
