@@ -191,11 +191,39 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds article
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///{
+        ///    "title": "Title20",
+        ///    "shortDescription": "ShortDesctiption20",
+        ///    "organizationId" : "1",
+        ///
+        ///    "organization": {
+        ///        "Id" : "1",
+        ///        "imageUrl": "ProfileImages\\ProfileImage.png",
+        ///        "organizationId" : "1",
+        ///        "organization": {
+        ///            "organizationId" : "1",
+        ///        }, 
+        ///        "imageUrl": "ProfileImages\\ProfileImage.png",
+        ///    },
+        ///
+        ///    "userId" : "1",
+        ///    "user" : {
+        ///        "Id" : "1",
+        ///        },
+        ///    },
+        ///    "publishedAt": "2021-11-24T09:24:08.088Z",
+        ///},
+
+        /// 
+        /// </remarks>
         /// <produce code="201">Returns ok when article added</produce>
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateArticle(ArticleDto article)
+        public async Task<IActionResult> CreateArticle([FromBody]ArticleDto article)
         {
             await _serviceManager.ArticleService.AddArticle(article);
 

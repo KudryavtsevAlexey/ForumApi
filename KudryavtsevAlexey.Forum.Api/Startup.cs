@@ -51,12 +51,14 @@ namespace KudryavtsevAlexey.Forum.Api
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
 			});
 
-			services.AddControllers();
+			services.AddControllers()
+                .AddNewtonsoftJson(options=>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddScoped<IServiceManager, ServiceManager>();
         }
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
