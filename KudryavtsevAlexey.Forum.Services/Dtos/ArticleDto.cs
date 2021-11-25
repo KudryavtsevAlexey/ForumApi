@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+
+using System;
+using System.Collections.Generic;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record ArticleDto(int Id,
+    public record ArticleDto(
+        int Id,
         string Title,
         string ShortDescription,
         List<Tag> Tags,

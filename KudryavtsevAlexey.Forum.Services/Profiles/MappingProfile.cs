@@ -15,6 +15,9 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
         {
             CreateMap<Article, ArticleDto>()
                 .ReverseMap();
+
+            CreateMap<Article, PutArticleDto>()
+                .ReverseMap();
         }
     }
 }

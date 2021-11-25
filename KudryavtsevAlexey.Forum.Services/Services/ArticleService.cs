@@ -55,6 +55,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new UserNotFoundException(articleToAdding.UserId);
             }
 
+
+            user.Articles.Add(articleToAdding);
+
             articleToAdding.User = user;
 
             try
@@ -73,6 +76,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var article = await _dbContext.Articles
                 .Include(u=>u.User)
                 .Include(o=>o.Organization)
+                .Include(t=>t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a=>a.Id == id);
 
             if (article is null)
@@ -89,6 +95,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(u=>u.User)
                 .Where(a => a.User == user)
                 .Include(o => o.Organization)
+                .Include(t=>t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (articles is null)
@@ -107,6 +116,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
                 .Include(o => o.Organization)
+                .Include(t=>t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (articles is null)
@@ -126,6 +138,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
                 .Include(o => o.Organization)
+                .Include(t=>t.Tags)
+                .Include(c=>c.MainComments)
+                .ThenInclude(s=>s.SubComments)
                 .ToListAsync();
 
             if (articles is null)
@@ -145,6 +160,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(a => a.User == user)
                 .Where(a => a.PublishedAt == null)
                 .Include(o => o.Organization)
+                .Include(t => t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (articles is null)
@@ -163,6 +181,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .OrderByDescending(a => a.PublishedAt)
                 .Include(u=>u.User)
                 .Include(o=>o.Organization)
+                .Include(t => t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (articles is null)
@@ -175,7 +196,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleDtos;
         }
 
-        public async Task UpdateArticle(ArticleDto article)
+        public async Task UpdateArticle(int id, PutArticleDto article)
         {
             if (article is null)
             {
@@ -183,19 +204,21 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             var articleToUpdate = await _dbContext.Articles
-                .Include(u => u.User)
-                .Include(o => o.Organization)
-                .FirstOrDefaultAsync(a => a.Id == article.Id);
+                .Include(x=>x.Tags)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (articleToUpdate is null)
             {
-                throw new ArticleNotFoundException(article.Id);
+                throw new ArticleNotFoundException(id);
             }
 
-            articleToUpdate = MappingHelper.MapModelToSecondType<ArticleDto, Article>(article, _mapper);
+            articleToUpdate.Tags = article.Tags;
+            articleToUpdate.Title = article.Title;
+            articleToUpdate.ShortDescription = article.ShortDescription;
 
             try
             {
+                _dbContext.Update(articleToUpdate);
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!ArticleExists(articleToUpdate.Id).GetAwaiter().GetResult())
@@ -210,6 +233,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(a => a.PublishedAt != null)
                 .Include(u=>u.User)
                 .Include(o=>o.Organization)
+                .Include(t => t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (article is null)

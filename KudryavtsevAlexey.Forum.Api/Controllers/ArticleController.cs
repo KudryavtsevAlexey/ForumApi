@@ -22,11 +22,26 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         }
 
         /// <summary>
+        /// Returns article by id
+        /// </summary>
+        /// <returns>Article</returns>
+        /// <response code="200">Returns article</response>
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetArticleById(int id)
+        {
+            var article = await _serviceManager.ArticleService.GetArticleById(id);
+
+            return Ok(article);
+        }
+
+        /// <summary>
         /// Returns list of the published articles
         /// </summary>
         /// <returns>Published articles</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -47,10 +62,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Returns list of the articles sorted by date
         /// </summary>
         /// <returns>Articles sorted by date</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("sorted")]
+        [Route("by-date")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetSortedArticlesByDate()
@@ -68,10 +83,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns published article by id
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Published article by id</returns>
-        /// <produce code="200">Returns article</produce>
-        /// <produce code="404">If article not found</produce>
+        /// <response code="200">Returns article</response>
+        /// <response code="404">If article not found</response>
         [HttpGet]
         [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -91,12 +105,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns published articles by user
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Published articles by user</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("{id}")]
+        [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticlesByUser(int id)
@@ -116,12 +129,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns unpublished articles by user
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Unpublished articles by user</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("{id}/published")]
+        [Route("user/{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPublishedArticlesByUser(int id)
@@ -141,12 +153,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns unpublished articles by user
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Unpublished articles by user</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("{id}/unpublished")]
+        [Route("user/{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUnpublishedArticlesByUser(int id)
@@ -166,12 +177,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns all articles by user
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>All articles by user</returns>
-        /// <produce code="200">Returns articles</produce>
-        /// <produce code="404">If articles not found</produce>
+        /// <response code="200">Returns articles</response>
+        /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("{id}/all")]
+        [Route("user/{id}/all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllArticlesByUser(int id)
@@ -191,39 +201,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds article
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///{
-        ///    "title": "Title20",
-        ///    "shortDescription": "ShortDesctiption20",
-        ///    "organizationId" : "1",
-        ///
-        ///    "organization": {
-        ///        "Id" : "1",
-        ///        "imageUrl": "ProfileImages\\ProfileImage.png",
-        ///        "organizationId" : "1",
-        ///        "organization": {
-        ///            "organizationId" : "1",
-        ///        }, 
-        ///        "imageUrl": "ProfileImages\\ProfileImage.png",
-        ///    },
-        ///
-        ///    "userId" : "1",
-        ///    "user" : {
-        ///        "Id" : "1",
-        ///        },
-        ///    },
-        ///    "publishedAt": "2021-11-24T09:24:08.088Z",
-        ///},
-
-        /// 
-        /// </remarks>
-        /// <produce code="201">Returns ok when article added</produce>
+        /// <response code="201">Returns ok when article added</response>
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateArticle([FromBody]ArticleDto article)
+        public async Task<IActionResult> CreateArticle(ArticleDto article)
         {
             await _serviceManager.ArticleService.AddArticle(article);
 
@@ -233,14 +215,13 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Updates article
         /// </summary>
-        /// <param name="article"></param>
-        /// <produce code="200">Returns ok when article updated</produce>
+        /// <response code="200">Returns ok when article updated</response>
         [HttpPut]
-        [Route("updating")]
+        [Route("updating/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateArticle(ArticleDto article)
+        public async Task<IActionResult> UpdateArticle(int id, PutArticleDto article)
         {
-            await _serviceManager.ArticleService.UpdateArticle(article);
+            await _serviceManager.ArticleService.UpdateArticle(id, article);
 
             return Ok(article);
         }
