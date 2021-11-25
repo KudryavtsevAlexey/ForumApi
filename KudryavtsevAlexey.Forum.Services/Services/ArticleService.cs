@@ -37,6 +37,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var articleToAdding = MappingHelper.MapModelToSecondType<ArticleDto, Article>(article, _mapper);
 
+            if (tags is null)
+            {
+                throw new TagsNotFoundException();
+            }
+
+            articleToAdding.Tags = new List<Tag>(tags);
+
             var organization = await _dbContext.Organizations.FirstOrDefaultAsync(o => o.Id == article.OrganizationId);
 
             if (organization is null)
@@ -44,6 +51,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new OrganizationNotFoundException(article.Organization.Name);
             }
 
+            organization.Articles = new List<Article>();
             organization.Articles.Add(articleToAdding);
 
             articleToAdding.Organization = organization;
@@ -55,7 +63,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new UserNotFoundException(articleToAdding.UserId);
             }
 
-
+            user.Articles = new List<Article>();
             user.Articles.Add(articleToAdding);
 
             articleToAdding.User = user;

@@ -457,13 +457,18 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                     }
 				};
 
+				metaUsers[2].Subscribers = new List<Subscriber>();
 				metaUsers[2].Subscribers.Add(subscribers[0]);
+                metaUsers[4].Subscribers = new List<Subscriber>();
 				metaUsers[4].Subscribers.Add(subscribers[1]);
+                amazonUsers[3].Subscribers = new List<Subscriber>();
 				amazonUsers[3].Subscribers.Add(subscribers[2]);
+                googleUsers[5].Subscribers = new List<Subscriber>();
 				googleUsers[5].Subscribers.Add(subscribers[3]);
+				amazonUsers[1].Subscribers = new List<Subscriber>();
 				amazonUsers[1].Subscribers.Add(subscribers[4]);
 
-				await dbContext.Subscribers.AddRangeAsync(subscribers);
+                await dbContext.Subscribers.AddRangeAsync(subscribers);
 
 				var articles = new List<Article>()
 				{
@@ -474,7 +479,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[0],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -484,7 +489,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[1],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromMinutes(30)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[7]},
 					},
 
 					new()
@@ -494,7 +499,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[2],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(2)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -504,7 +509,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[3],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(2)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -514,7 +519,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[4],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -524,7 +529,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[1],
 						User = amazonUsers[0],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(3)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[4], tags[5]},
 					},
 
 					new()
@@ -534,7 +539,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[1],
 						User = amazonUsers[1],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(4)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -544,7 +549,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[1],
 						User = amazonUsers[2],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[5]},
 					},
 
 					new()
@@ -554,7 +559,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[2],
 						User = netflixUsers[0],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromDays(1)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[5]},
 					},
 
 					new()
@@ -564,7 +569,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[2],
 						User = netflixUsers[1],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -574,7 +579,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[2],
 						User = netflixUsers[2],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(15)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -584,7 +589,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[3],
 						User = googleUsers[0],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -594,7 +599,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[3],
 						User = googleUsers[1],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[5]},
 					},
 
 					new()
@@ -604,7 +609,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[3],
 						User = googleUsers[2],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromDays(19)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -614,7 +619,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[3],
 						User = googleUsers[3],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(7)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 
 					new()
@@ -624,7 +629,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[3],
 						User = googleUsers[4],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() { tags[0], tags[4], tags[5], tags[6], tags[7]},
 					},
 
 					new()
@@ -634,7 +639,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[4],
 						User = appleUsers[1],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromDays(10)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[4], tags[5]},
 					},
 
 					new()
@@ -644,7 +649,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[4],
 						User = appleUsers[3],
 						PublishedAt = null,
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[0], tags[5]},
 					},
 
 					new()
@@ -654,7 +659,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[4],
 						User = appleUsers[5],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromDays(14)),
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[4]},
 					},
 				};
 
@@ -665,7 +670,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "MetaListing",
 						ShortDescription = "MetaListingDescription",
 						Category = "meta",
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[1]},
 						User = metaUsers[1],
 						PublishedAt = null,
 						Organization = organizations[0],
@@ -675,7 +680,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "AmazonListing",
 						ShortDescription = "AmazonListingDescription",
 						Category = "amazon",
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[2]},
 						User = amazonUsers[2],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromDays(3)),
 						Organization = organizations[1],
@@ -685,7 +690,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "NetflixListing",
 						ShortDescription = "NetflixListingDescription",
 						Category = "netflix",
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[3]},
 						User = netflixUsers[3],
 						PublishedAt = null,
 						Organization = organizations[2],
@@ -695,7 +700,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "GoogleListing",
 						ShortDescription = "GoogleListingDescription",
 						Category = "google",
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[6]},
 						User = googleUsers[4],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromMinutes(45)),
 						Organization = organizations[3],
@@ -705,7 +710,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "AppleListing",
 						ShortDescription = "AppleListingDescription",
 						Category = "apple",
-						Tags = tags,
+                        Tags = new List<Tag>() {tags[2]},
 						User = appleUsers[5],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(4)),
 						Organization = organizations[3],
@@ -745,8 +750,10 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                             ArticleMainComment = mainComment,
                         };
 
+						mainComment.SubComments = new List<ArticleSubComment>();
                         mainComment.SubComments.Add(subComment);
 
+						articles[i].MainComments = new List<ArticleMainComment>();
                         articles[i].MainComments.Add(mainComment);
 
                         articleMainComments.Add(mainComment);
@@ -772,8 +779,10 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                             ListingMainComment = mainComment,
 						};
 
+						mainComment.SubComments = new List<ListingSubComment>();
 						mainComment.SubComments.Add(subComment);
 
+						listings[i].MainComments = new List<ListingMainComment>();
 						listings[i].MainComments.Add(mainComment);
 
 						listingMainComments.Add(mainComment);

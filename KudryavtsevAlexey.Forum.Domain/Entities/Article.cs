@@ -13,7 +13,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public string ShortDescription { get; set; }
 
-		public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+		public ICollection<Tag> Tags { get; set; }
 
         public int OrganizationId { get; set; }
 
@@ -25,6 +25,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public DateTime? PublishedAt { get; set; }
 
-        public ICollection<ArticleMainComment> MainComments { get; set; } = new List<ArticleMainComment>();
+        public ICollection<ArticleMainComment> MainComments { get; set; }
     }
 }

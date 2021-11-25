@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record UserDto(
+    public record SubscriberDto(
         int Id,
         string UserName,
         string Name,
-        string Summary,
-        string Location,
-        IEnumerable<ArticleDto> Articles,
-        IEnumerable<SubscriberDto> Subscribers,
-        IEnumerable<ListingDto> Listings,
-        DateTime JoinedAt,
         int OrganizationId,
         OrganizationDto Organization,
+        int UserId,
+        UserDto User,
         string ImageUrl);
 }

@@ -7,5 +7,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
             int Id,
             string Title,
             string ShortDescription,
-            List<Tag> Tags);
+            List<TagDto> Tags);
 }

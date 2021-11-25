@@ -25,6 +25,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return await _dbContext.ArticleMainComments
                 .Include(c => c.SubComments)
                 .Where(a => a.Article == article)
+                .Include(a=>a.Article)
                 .ToListAsync();
         }
 
@@ -33,6 +34,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return await _dbContext.ListingMainComments
                 .Include(c => c.SubComments)
                 .Where(a => a.Listing == listing)
+                .Include(l => l.Listing)
                 .ToListAsync();
         }
 
@@ -40,6 +42,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             return await _dbContext.ArticleMainComments
                 .Include(c => c.SubComments)
+                .Include(a => a.Article)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -47,18 +50,21 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             return await _dbContext.ListingMainComments
                 .Include(c => c.SubComments)
+                .Include(l => l.Listing)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<ArticleSubComment> GetArticleSubCommentById(int id)
         {
             return await _dbContext.ArticleSubComments
+                .Include(c=>c.ArticleMainComment)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<ListingSubComment> GetListingSubCommentById(int id)
         {
             return await _dbContext.ListingSubComments
+                .Include(c=>c.ListingMainComment)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
@@ -66,6 +72,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             return await _dbContext.ArticleMainComments
                 .Include(c => c.SubComments)
+                .Include(x=>x.Article)
                 .ToListAsync();
         }
 
@@ -73,6 +80,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             return await _dbContext.ListingMainComments
                 .Include(c => c.SubComments)
+                .Include(x=>x.Listing)
                 .ToListAsync();
         }
     }

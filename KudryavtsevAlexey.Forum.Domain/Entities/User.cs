@@ -18,11 +18,11 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public DateTime JoinedAt { get; set; }
 
-		public ICollection<Article> Articles { get; set; } = new List<Article>();
+		public ICollection<Article> Articles { get; set; }
 
-		public ICollection<Subscriber> Subscribers { get; set; } = new List<Subscriber>();
+		public ICollection<Subscriber> Subscribers { get; set; }
 
-		public ICollection<Listing> Listings { get; set; } = new List<Listing>();
+		public ICollection<Listing> Listings { get; set; }
 
         public int OrganizationId { get; set; }
 

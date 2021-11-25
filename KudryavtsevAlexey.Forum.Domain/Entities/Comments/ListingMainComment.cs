@@ -12,6 +12,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities.Comments
 
         public Listing Listing { get; set; }
 
-        public ICollection<ListingSubComment> SubComments { get; set; } = new List<ListingSubComment>();
+        public ICollection<ListingSubComment> SubComments { get; set; }
     }
 }

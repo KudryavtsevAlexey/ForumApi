@@ -49,6 +49,24 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .WithMany(a => a.Listings)
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<User>()
+                .HasMany(x => x.Subscribers)
+                .WithOne(x => x.User)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasMany(x => x.Articles)
+                .WithOne(x => x.User)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasMany(x => x.Listings)
+                .WithOne(x => x.User)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasKey(x => x.Id);
+
             builder.Entity<Subscriber>()
                 .HasKey(k => k.Id);
 
