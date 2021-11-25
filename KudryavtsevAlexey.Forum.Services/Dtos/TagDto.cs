@@ -8,5 +8,7 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record TagDto(
         int Id,
-        string Name);
+        string Name,
+        IEnumerable<ArticleDto> Articles,
+        IEnumerable<ListingDto> Listings);
 }

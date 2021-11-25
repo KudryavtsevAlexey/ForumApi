@@ -11,5 +11,9 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
     public class Tag : BaseEntity
     {
         public string Name { get; set; }
+
+        public ICollection<Article> Articles { get; set; }
+
+        public ICollection<Listing> Listings { get; set; }
     }
 }

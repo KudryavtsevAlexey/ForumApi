@@ -1,26 +1,22 @@
-﻿using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
-
-using Microsoft.EntityFrameworkCore;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
+using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.MappingHelpers;
-using KudryavtsevAlexey.Forum.Services.Profiles;
-using Microsoft.Extensions.DependencyInjection;
+using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
+using Microsoft.EntityFrameworkCore;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class ArticleService : IArticleService
     {
-        private readonly IMapper _mapper;
         private readonly ForumDbContext _dbContext;
+        private readonly IMapper _mapper;
 
         public ArticleService(ForumDbContext dbContext, IMapper mapper)
         {
@@ -29,27 +25,28 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         }
 
         public async Task AddArticle(ArticleDto article)
-        { 
-            if (article is null)
-            {
-                throw new ArgumentNullException(nameof(article));
-            }
+        {
+            if (article is null) throw new ArgumentNullException(nameof(article));
 
             var articleToAdding = MappingHelper.MapModelToSecondType<ArticleDto, Article>(article, _mapper);
 
-            if (tags is null)
-            {
-                throw new TagsNotFoundException();
-            }
+            var tags = new List<Tag>();
+
+            if (!(article.Tags is null))
+                foreach (var articleTag in article.Tags)
+                {
+                    var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
+
+                    if (tag is null) throw new TagNotFoundException(articleTag.Id);
+
+                    tags.Add(tag);
+                }
 
             articleToAdding.Tags = new List<Tag>(tags);
 
             var organization = await _dbContext.Organizations.FirstOrDefaultAsync(o => o.Id == article.OrganizationId);
 
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(article.Organization.Name);
-            }
+            if (organization is null) throw new OrganizationNotFoundException(article.Organization.Name);
 
             organization.Articles = new List<Article>();
             organization.Articles.Add(articleToAdding);
@@ -58,10 +55,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == articleToAdding.UserId);
 
-            if (user is null)
-            {
-                throw new UserNotFoundException(articleToAdding.UserId);
-            }
+            if (user is null) throw new UserNotFoundException(articleToAdding.UserId);
 
             user.Articles = new List<Article>();
             user.Articles.Add(articleToAdding);
@@ -79,93 +73,85 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
         }
 
-        public async Task<Article> GetArticleById(int id)
+        public async Task<ArticleDto> GetArticleById(int id)
         {
             var article = await _dbContext.Articles
-                .Include(u=>u.User)
-                .Include(o=>o.Organization)
-                .Include(t=>t.Tags)
+                .Include(u => u.User)
+                .Include(o => o.Organization)
+                .Include(t => t.Tags)
                 .Include(c => c.MainComments)
                 .ThenInclude(s => s.SubComments)
-                .FirstOrDefaultAsync(a=>a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (article is null)
-            {
-                throw new ArticleNotFoundException(id);
-            }
+            if (article is null) throw new ArticleNotFoundException(id);
 
-            return article;
+            var articleDto = MappingHelper.MapModelToFirstType<ArticleDto, Article>(article, _mapper);
+
+            return articleDto;
         }
 
-        public async Task<List<ArticleDto>> GetArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetArticlesByUserId(int id)
         {
-            var articles = await _dbContext.Articles
-                .Include(u=>u.User)
-                .Where(a => a.User == user)
+            var userArticles = await _dbContext.Articles
+                .Include(u => u.User)
+                .Where(a => a.UserId == id)
                 .Include(o => o.Organization)
-                .Include(t=>t.Tags)
+                .Include(t => t.Tags)
                 .Include(c => c.MainComments)
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
+            if (userArticles is null) throw new ArticlesNotFoundException();
 
-            var articleDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articles, _mapper);
+            var userArticlesDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userArticles, _mapper);
 
-            return articleDtos;
+            return userArticlesDtos;
         }
 
         public async Task<List<ArticleDto>> GetPublishedArticles()
         {
-            var articles = await _dbContext.Articles
+            var publishedArticles = await _dbContext.Articles
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
                 .Include(o => o.Organization)
-                .Include(t=>t.Tags)
+                .Include(t => t.Tags)
                 .Include(c => c.MainComments)
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
+            if (publishedArticles is null) throw new ArticlesNotFoundException();
 
-            var articleDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articles, _mapper);
+            var publishedArticlesDtos =
+                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(publishedArticles, _mapper);
 
-            return articleDtos;
+            return publishedArticlesDtos;
         }
 
-        public async Task<List<ArticleDto>> GetPublishedArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetPublishedArticlesByUserId(int id)
         {
-            var articles = await _dbContext.Articles
-                .Where(a => a.User == user)
+            var userPublishedArticles = await _dbContext.Articles
+                .Where(a => a.UserId == id)
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
                 .Include(o => o.Organization)
-                .Include(t=>t.Tags)
-                .Include(c=>c.MainComments)
-                .ThenInclude(s=>s.SubComments)
+                .Include(t => t.Tags)
+                .Include(c => c.MainComments)
+                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
+            if (userPublishedArticles is null) throw new ArticlesNotFoundException();
 
-            var articleDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articles, _mapper);
+            var userPublishedArticlesDtos =
+                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userPublishedArticles, _mapper);
 
-            return articleDtos;
+            return userPublishedArticlesDtos;
         }
 
-        public async Task<List<ArticleDto>> GetUnpublishedArticlesByUser(User user)
+        public async Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id)
         {
-            var articles = await _dbContext.Articles
-                .Include(u=>u.User)
-                .Where(a => a.User == user)
+            var userUnpublishedArticles = await _dbContext.Articles
+                .Include(u => u.User)
+                .Where(a => a.UserId == id)
                 .Where(a => a.PublishedAt == null)
                 .Include(o => o.Organization)
                 .Include(t => t.Tags)
@@ -173,54 +159,56 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
+            if (userUnpublishedArticles is null) throw new ArticlesNotFoundException();
 
-            var articleDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articles, _mapper);
+            var userUnpublishedArticlesDtos =
+                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userUnpublishedArticles, _mapper);
 
-            return articleDtos;
+            return userUnpublishedArticlesDtos;
         }
 
         public async Task<List<ArticleDto>> SortArticlesByDate()
         {
-            var articles = await _dbContext.Articles
+            var articlesByDate = await _dbContext.Articles
                 .OrderByDescending(a => a.PublishedAt)
-                .Include(u=>u.User)
-                .Include(o=>o.Organization)
+                .Include(u => u.User)
+                .Include(o => o.Organization)
                 .Include(t => t.Tags)
                 .Include(c => c.MainComments)
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
+            if (articlesByDate is null) throw new ArticlesNotFoundException();
 
-            var articleDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articles, _mapper);
+            var articlesByDateDtos =
+                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articlesByDate, _mapper);
 
-            return articleDtos;
+            return articlesByDateDtos;
         }
 
         public async Task UpdateArticle(int id, PutArticleDto article)
         {
-            if (article is null)
-            {
-                throw new ArgumentNullException(nameof(article));
-            }
+            if (article is null) throw new ArgumentNullException(nameof(article));
 
             var articleToUpdate = await _dbContext.Articles
-                .Include(x=>x.Tags)
+                .Include(x => x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (articleToUpdate is null)
-            {
-                throw new ArticleNotFoundException(id);
-            }
+            if (articleToUpdate is null) throw new ArticleNotFoundException(id);
 
-            articleToUpdate.Tags = article.Tags;
+            var tags = new List<Tag>();
+
+            if (!(article.Tags is null))
+                foreach (var articleTag in article.Tags)
+                {
+                    var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
+
+                    if (tag is null) throw new TagNotFoundException(articleTag.Id);
+
+                    tags.Add(tag);
+                }
+
+            articleToUpdate.Tags = new List<Tag>(tags);
             articleToUpdate.Title = article.Title;
             articleToUpdate.ShortDescription = article.ShortDescription;
 
@@ -237,23 +225,20 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<ArticleDto> GetPublishedArticleById(int id)
         {
-            var article = await _dbContext.Articles
+            var publishedArticle = await _dbContext.Articles
                 .Where(a => a.PublishedAt != null)
-                .Include(u=>u.User)
-                .Include(o=>o.Organization)
+                .Include(u => u.User)
+                .Include(o => o.Organization)
                 .Include(t => t.Tags)
                 .Include(c => c.MainComments)
                 .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (article is null)
-            {
-                throw new ArticleNotFoundException(id);
-            }
+            if (publishedArticle is null) throw new ArticleNotFoundException(id);
 
-            var articleDto = MappingHelper.MapModelToFirstType<ArticleDto, Article>(article, _mapper);
+            var publishedArticleDto = MappingHelper.MapModelToFirstType<ArticleDto, Article>(publishedArticle, _mapper);
 
-            return articleDto;
+            return publishedArticleDto;
         }
 
         private async Task<bool> ArticleExists(int id)

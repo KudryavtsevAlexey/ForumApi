@@ -1,12 +1,8 @@
 ﻿using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -112,11 +108,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticlesByUser(int id)
+        public async Task<IActionResult> GetArticlesByUserId(int id)
         {
-            var user = await _serviceManager.UserService.GetUserById(id);
-
-            var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUser(user);
+            var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
             if (articles is null)
             {
@@ -136,11 +130,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticlesByUser(int id)
+        public async Task<IActionResult> GetPublishedArticlesByUserId(int id)
         {
-            var user = await _serviceManager.UserService.GetUserById(id);
-
-            var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUser(user);
+            var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
             if (articles is null)
             {
@@ -160,11 +152,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedArticlesByUser(int id)
+        public async Task<IActionResult> GetUnpublishedArticlesByUserId(int id)
         {
-            var user = await _serviceManager.UserService.GetUserById(id);
-
-            var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUser(user);
+            var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
 
             if (articles is null)
             {
@@ -184,11 +174,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllArticlesByUser(int id)
+        public async Task<IActionResult> GetAllArticlesByUserId(int id)
         {
-            var user = await _serviceManager.UserService.GetUserById(id);
-
-            var articles = await _serviceManager.ArticleService.GetArticlesByUser(user);
+            var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
             if (articles is null)
             {
@@ -201,6 +189,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds article
         /// </summary>
+        /// <returns>Ok if article added</returns>
         /// <response code="201">Returns ok when article added</response>
         [HttpPost]
         [Route("creating")]
@@ -215,6 +204,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Updates article
         /// </summary>
+        /// <returns>Ok if article updated</returns>
         /// <response code="200">Returns ok when article updated</response>
         [HttpPut]
         [Route("updating/{id}")]

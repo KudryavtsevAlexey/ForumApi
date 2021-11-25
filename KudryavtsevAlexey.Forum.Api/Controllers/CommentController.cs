@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -29,10 +32,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("article/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleComments(int id)
+        public async Task<IActionResult> GetArticleComments(ArticleDto article)
         {
-            var article = await _serviceManager.ArticleService.GetArticleById(id);
-
             var comments = await _serviceManager.CommentService.GetArticleComments(article);
 
             if (comments is null)
@@ -54,10 +55,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("listing/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingComments(int id)
+        public async Task<IActionResult> GetListingComments(ListingDto listing)
         {
-            var listing = await _serviceManager.ListingService.GetListingById(id);
-
             var comments = await _serviceManager.CommentService.GetListingComments(listing);
 
             if (comments is null)

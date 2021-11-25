@@ -1,5 +1,4 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos;
@@ -14,13 +13,13 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ArticleDto>> SortArticlesByDate();
 
-        public Task<Article> GetArticleById(int id);
+        public Task<ArticleDto> GetArticleById(int id);
 
-        public Task<List<ArticleDto>> GetArticlesByUser(User user);
+        public Task<List<ArticleDto>> GetArticlesByUserId(int id);
 
-        public Task<List<ArticleDto>> GetPublishedArticlesByUser(User user);
+        public Task<List<ArticleDto>> GetPublishedArticlesByUserId(int id);
 
-        public Task<List<ArticleDto>> GetUnpublishedArticlesByUser(User user);
+        public Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id);
 
         public Task UpdateArticle(int id, PutArticleDto article);
 

@@ -15,6 +15,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         OrganizationDto Organization,
         int UserId,
         UserDto User,
-        DateTime PublishedAt,
+        DateTime? PublishedAt,
         IEnumerable<ArticleMainCommentDto> MainComments);
 }
