@@ -20,7 +20,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public ICollection<Article> Articles { get; set; }
 
-		public ICollection<Subscriber> Subscribers { get; set; }
+		public ICollection<SubscriberUser> Subscribers { get; set; }
 
 		public ICollection<Listing> Listings { get; set; }
 

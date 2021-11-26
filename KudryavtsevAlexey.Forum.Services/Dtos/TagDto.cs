@@ -10,5 +10,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int Id,
         string Name,
         IEnumerable<ArticleDto> Articles,
-        IEnumerable<ListingDto> Listings);
+        IEnumerable<ListingDto> Listings) : TagFieldsDto(Id, Name);
 }

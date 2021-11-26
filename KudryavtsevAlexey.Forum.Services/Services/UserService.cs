@@ -52,7 +52,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<User> GetUserById(int id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
 
             if (user == null)
             {

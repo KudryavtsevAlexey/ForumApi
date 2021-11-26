@@ -43,9 +43,9 @@ namespace KudryavtsevAlexey.Forum.Api
 				   };
 			   });
 
-			services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(typeof(MappingProfile));
 
-			services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
 			});

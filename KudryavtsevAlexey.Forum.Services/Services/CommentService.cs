@@ -36,7 +36,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleMainCommentsNotFoundException(article.Id);
             }
 
-            var articleMainCommentsDtos = _mapper.Map<List<ArticleMainComment>, List<ArticleMainCommentDto>>(articleMainComments);
+            var articleMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(articleMainComments);
 
             return articleMainCommentsDtos;
         }
@@ -54,7 +54,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ListingMainCommentsNotFoundException(listing.Id);
             }
 
-            var listingMainCommentsDtos = _mapper.Map<List<ListingMainComment>, List<ListingMainCommentDto>>(listingMainComments);
+            var listingMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(listingMainComments);
 
             return listingMainCommentsDtos;
         }
@@ -71,7 +71,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleMainCommentNotFoundException(id);
             }
 
-            var articleMainCommentDto = _mapper.Map<ArticleMainComment, ArticleMainCommentDto>(articleMainComment);
+            var articleMainCommentDto = _mapper.Map<ArticleMainCommentDto>(articleMainComment);
 
             return articleMainCommentDto;
         }
@@ -88,7 +88,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ListingMainCommentNotFoundException(id);
             }
 
-            var listingMainCommentDto = _mapper.Map<ListingMainComment, ListingMainCommentDto>(listingMainComment);
+            var listingMainCommentDto = _mapper.Map<ListingMainCommentDto>(listingMainComment);
 
             return listingMainCommentDto;
         }
@@ -104,7 +104,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleSubCommentNotFoundException(id);
             }
 
-            var articleSubCommentDto = _mapper.Map<ArticleSubComment, ArticleSubCommentDto>(articleSubComment);
+            var articleSubCommentDto = _mapper.Map<ArticleSubCommentDto>(articleSubComment);
 
             return articleSubCommentDto;
         }
@@ -120,7 +120,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ListingSubCommentNotFoundException(id);
             }
 
-            var listingSubCommentDto = _mapper.Map<ListingSubComment, ListingSubCommentDto>(listingSubComment);
+            var listingSubCommentDto = _mapper.Map<ListingSubCommentDto>(listingSubComment);
 
             return listingSubCommentDto;
         }
@@ -137,7 +137,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesCommentsNotFoundException();
             }
 
-            var allArticlesMainCommentsDtos = _mapper.Map<List<ArticleMainComment>, List<ArticleMainCommentDto>>(allArticleMainComments);
+            var allArticlesMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(allArticleMainComments);
 
             return allArticlesMainCommentsDtos;
         }
@@ -154,7 +154,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ListingsCommentsNotFoundException();
             }
 
-            var allListingsMainCommentsDtos = _mapper.Map<List<ListingMainComment>, List<ListingMainCommentDto>>(allListingMainComments);
+            var allListingsMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(allListingMainComments);
 
             return allListingsMainCommentsDtos;
         }

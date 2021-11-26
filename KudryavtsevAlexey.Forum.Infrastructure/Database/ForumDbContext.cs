@@ -1,6 +1,7 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 {
@@ -29,6 +30,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         public DbSet<ListingSubComment> ListingSubComments { get; set; }
 
+        public DbSet<SubscriberUser> SubscriberUsers { get; set; }
+
         public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -50,30 +53,20 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<User>()
-                .HasMany(x => x.Subscribers)
-                .WithOne(x => x.User)
-                .IsRequired().OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<User>()
-                .HasMany(x => x.Articles)
-                .WithOne(x => x.User)
-                .IsRequired().OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<User>()
-                .HasMany(x => x.Listings)
-                .WithOne(x => x.User)
-                .IsRequired().OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<User>()
                 .HasKey(x => x.Id);
 
-            builder.Entity<Subscriber>()
-                .HasKey(k => k.Id);
+            builder.Entity<User>()
+                .HasMany(x => x.Subscribers)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Subscriber>()
-                .HasOne(u => u.User)
-                .WithMany(s => s.Subscribers)
-                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+                .HasMany(x => x.Users)
+                .WithOne(x => x.Subscriber)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<SubscriberUser>()
+                .HasKey(k => new { k.UserId, k.SubscriberId });
 
             builder.Entity<ArticleMainComment>()
                 .HasKey(k => k.Id);

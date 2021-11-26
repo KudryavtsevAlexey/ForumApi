@@ -1,7 +1,4 @@
-﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
@@ -10,7 +7,7 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int Id,
         string Title,
         string ShortDescription,
-        IEnumerable<TagDto> Tags,
+        IEnumerable<TagFieldsDto> Tags,
         int OrganizationId,
         OrganizationDto Organization,
         int UserId,

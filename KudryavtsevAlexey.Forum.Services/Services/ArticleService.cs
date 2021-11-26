@@ -83,11 +83,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ArticleDto> GetArticleById(int id)
         {
             var article = await _dbContext.Articles
-                .Include(u => u.User)
-                .Include(o => o.Organization)
-                .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
+                .Include(x=>x.User)
+                .Include(x=>x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (article is null)
@@ -95,7 +92,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleNotFoundException(id);
             }
 
-            var articleDto = _mapper.Map<Article, ArticleDto>(article);
+            var articleDto = _mapper.Map<ArticleDto>(article);
 
             return articleDto;
         }
@@ -116,7 +113,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesNotFoundException();
             }
 
-            var userArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userArticles);
+            var userArticlesDtos = _mapper.Map<List<ArticleDto>>(userArticles);
 
             return userArticlesDtos;
         }
@@ -137,7 +134,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesNotFoundException();
             }
 
-            var publishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(publishedArticles);
+            var publishedArticlesDtos = _mapper.Map<List<ArticleDto>>(publishedArticles);
 
             return publishedArticlesDtos;
         }
@@ -159,7 +156,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesNotFoundException();
             }
 
-            var userPublishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userPublishedArticles);
+            var userPublishedArticlesDtos = _mapper.Map<List<ArticleDto>>(userPublishedArticles);
 
             return userPublishedArticlesDtos;
         }
@@ -181,7 +178,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesNotFoundException();
             }
 
-            var userUnpublishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userUnpublishedArticles);
+            var userUnpublishedArticlesDtos = _mapper.Map<List<ArticleDto>>(userUnpublishedArticles);
 
             return userUnpublishedArticlesDtos;
         }
@@ -202,7 +199,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticlesNotFoundException();
             }
 
-            var articlesByDateDtos = _mapper.Map<List<Article>, List<ArticleDto>>(articlesByDate);
+            var articlesByDateDtos = _mapper.Map<List<ArticleDto>>(articlesByDate);
 
             return articlesByDateDtos;
         }
@@ -268,7 +265,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleNotFoundException(id);
             }
 
-            var publishedArticleDto = _mapper.Map<Article, ArticleDto>(publishedArticle);
+            var publishedArticleDto = _mapper.Map<ArticleDto>(publishedArticle);
 
             return publishedArticleDto;
         }

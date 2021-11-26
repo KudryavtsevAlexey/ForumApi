@@ -413,14 +413,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 
                 await dbContext.Users.AddRangeAsync(appleUsers);
 
-				var subscribers = new List<Subscriber>()
+                var subscribers = new List<Subscriber>()
 				{
                     new()
                     {
                         UserName = "Anatoly",
                         Name = "Anatoly",
                         Organization = organizations[2],
-						User = metaUsers[2],
                     },
 
 
@@ -429,15 +428,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                         UserName = "Oleg",
                         Name = "Oleg",
                         Organization = organizations[2],
-						User = metaUsers[4],
                     },
 
                     new()
-                    {
-                        UserName = "Paul",
-                        Name = "Paul",
-                        Organization = organizations[2],
-						User = amazonUsers[3]
+					{
+						UserName = "Paul",
+						Name = "Paul",
+						Organization = organizations[2],
                     },
 
                     new()
@@ -445,7 +442,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                         UserName = "Vitaly",
                         Name = "Vitaly",
                         Organization = organizations[2],
-						User = googleUsers[5]
                     },
 
                     new()
@@ -453,20 +449,53 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                         UserName = "Valery",
                         Name = "Valery",
                         Organization = organizations[2],
-						User = amazonUsers[1]
                     }
 				};
 
-				metaUsers[2].Subscribers = new List<Subscriber>();
-				metaUsers[2].Subscribers.Add(subscribers[0]);
-                metaUsers[4].Subscribers = new List<Subscriber>();
-				metaUsers[4].Subscribers.Add(subscribers[1]);
-                amazonUsers[3].Subscribers = new List<Subscriber>();
-				amazonUsers[3].Subscribers.Add(subscribers[2]);
-                googleUsers[5].Subscribers = new List<Subscriber>();
-				googleUsers[5].Subscribers.Add(subscribers[3]);
-				amazonUsers[1].Subscribers = new List<Subscriber>();
-				amazonUsers[1].Subscribers.Add(subscribers[4]);
+                var subscriberUsers = new List<SubscriberUser>()
+                {
+                    new()
+                    {
+                        User = netflixUsers[1],
+						Subscriber = subscribers[0]
+                    },
+
+                    new()
+                    {
+                        User = netflixUsers[2],
+                        Subscriber = subscribers[1]
+                    },
+
+                    new()
+                    {
+                        User = netflixUsers[3],
+                        Subscriber = subscribers[2]
+                    },
+
+                    new()
+                    {
+                        User = netflixUsers[4],
+                        Subscriber = subscribers[3]
+                    },
+
+                    new()
+                    {
+                        User = netflixUsers[5],
+                        Subscriber = subscribers[4]
+                    },
+				};
+
+                for (int i = 0; i < subscribers.Count; i++)
+                {
+					subscribers[i].Users = new List<SubscriberUser>() { subscriberUsers[i] };
+                }
+
+                for (int i = 1; i < netflixUsers.Count; i++)
+                {
+					netflixUsers[i].Subscribers = new List<SubscriberUser>() { subscriberUsers[i-1] };
+                }
+
+				await dbContext.SubscriberUsers.AddRangeAsync(subscriberUsers);
 
                 await dbContext.Subscribers.AddRangeAsync(subscribers);
 
@@ -479,10 +508,10 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Organization = organizations[0],
 						User = metaUsers[0],
 						PublishedAt = null,
-                        Tags = new List<Tag>() {tags[4]},
+						Tags = new List<Tag>() {tags[4]},
 					},
 
-					new()
+                    new()
 					{
 						Title = "Not all test solutions are created equal",
 						ShortDescription = "The problem about the Severomuisky tunnel",
@@ -717,15 +746,62 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 					},
 				};
 
-                await dbContext.Organizations.AddRangeAsync(organizations);
+                tags[0].Articles = new List<Article>()
+                {
+                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
+                };
 
-				await dbContext.Tags.AddRangeAsync(tags);
+				tags[1].Listings = new List<Listing>()
+				{
+					listings[0]
+				};
+
+				tags[2].Listings = new List<Listing>()
+				{
+					listings[1],
+					listings[4]
+				};
+
+				tags[3].Listings = new List<Listing>()
+				{
+					listings[2]
+				};
+
+                tags[4].Articles = new List<Article>()
+                {
+                    articles[0], articles[2], articles[3], articles[4], articles[5], articles[6], articles[9],
+                    articles[10], articles[11], articles[13], articles[14], articles[15], articles[16], articles[18]
+                };
+
+                tags[5].Articles = new List<Article>()
+                {
+                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
+                };
+
+                tags[6].Articles = new List<Article>()
+                {
+                    articles[15]
+                };
+
+				tags[6].Listings = new List<Listing>()
+				{
+					listings[3]
+				};
+
+                tags[7].Articles = new List<Article>()
+                {
+                    articles[1], articles[15]
+                };
+
+				await dbContext.Organizations.AddRangeAsync(organizations);
 
                 await dbContext.Articles.AddRangeAsync(articles);
 
                 await dbContext.Listings.AddRangeAsync(listings);
 
-				var timeToAnswer = 5;
+				await dbContext.Tags.AddRangeAsync(tags);
+
+                var timeToAnswer = 5;
 
                 var articleMainComments = new List<ArticleMainComment>();
                 var listingMainComments = new List<ListingMainComment>();
@@ -750,11 +826,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                             ArticleMainComment = mainComment,
                         };
 
-						mainComment.SubComments = new List<ArticleSubComment>();
-                        mainComment.SubComments.Add(subComment);
+						mainComment.SubComments = new List<ArticleSubComment>() { subComment };
 
-						articles[i].MainComments = new List<ArticleMainComment>();
-                        articles[i].MainComments.Add(mainComment);
+                        articles[i].MainComments = new List<ArticleMainComment>() { mainComment };
 
                         articleMainComments.Add(mainComment);
                         articleSubComments.Add(subComment);
@@ -779,13 +853,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                             ListingMainComment = mainComment,
 						};
 
-						mainComment.SubComments = new List<ListingSubComment>();
-						mainComment.SubComments.Add(subComment);
+						mainComment.SubComments = new List<ListingSubComment>() { subComment };
 
-						listings[i].MainComments = new List<ListingMainComment>();
-						listings[i].MainComments.Add(mainComment);
+                        listings[i].MainComments = new List<ListingMainComment>() { mainComment };
 
-						listingMainComments.Add(mainComment);
+                        listingMainComments.Add(mainComment);
 						listingSubComments.Add(subComment);
 					}
 				}

@@ -6,9 +6,5 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record ArticleMainCommentDto(
-        int Id,
-        int ArticleId,
-        ArticleDto Article,
-        IEnumerable<ArticleSubCommentDto> SubComments);
+    public record TagFieldsDto(int Id, string Name);
 }

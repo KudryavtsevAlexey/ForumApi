@@ -15,16 +15,19 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
             CreateMap<Article, PutArticleDto>()
                 .ReverseMap();
 
-            CreateMap<OrganizationDto, Organization>()
+            CreateMap<Organization, OrganizationDto>()
                 .ReverseMap();
 
-            CreateMap<UserDto, User>()
+            CreateMap<User, UserDto>()
                 .ReverseMap();
 
-            CreateMap<ArticleMainCommentDto, ArticleMainComment>()
+            CreateMap<ArticleMainComment, ArticleMainCommentDto>()
                 .ReverseMap();
 
-            CreateMap<TagDto, Tag>()
+            CreateMap<Tag, TagDto>()
+                .ReverseMap();
+
+            CreateMap<ArticleSubComment, ArticleSubCommentDto>()
                 .ReverseMap();
         }
     }
