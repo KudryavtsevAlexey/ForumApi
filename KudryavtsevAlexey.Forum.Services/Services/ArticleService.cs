@@ -7,7 +7,6 @@ using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,13 +25,17 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task AddArticle(ArticleDto article)
         {
-            if (article is null) throw new ArgumentNullException(nameof(article));
+            if (article is null)
+            {
+                throw new ArgumentNullException(nameof(article));
+            }
 
-            var articleToAdding = MappingHelper.MapModelToSecondType<ArticleDto, Article>(article, _mapper);
+            var articleToAdding = _mapper.Map<ArticleDto, Article>(article);
 
             var tags = new List<Tag>();
 
             if (!(article.Tags is null))
+            {
                 foreach (var articleTag in article.Tags)
                 {
                     var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
@@ -41,12 +44,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
                     tags.Add(tag);
                 }
+            }
 
             articleToAdding.Tags = new List<Tag>(tags);
 
             var organization = await _dbContext.Organizations.FirstOrDefaultAsync(o => o.Id == article.OrganizationId);
 
-            if (organization is null) throw new OrganizationNotFoundException(article.Organization.Name);
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(article.Organization.Name);
+            }
 
             organization.Articles = new List<Article>();
             organization.Articles.Add(articleToAdding);
@@ -83,9 +90,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (article is null) throw new ArticleNotFoundException(id);
+            if (article is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
 
-            var articleDto = MappingHelper.MapModelToFirstType<ArticleDto, Article>(article, _mapper);
+            var articleDto = _mapper.Map<Article, ArticleDto>(article);
 
             return articleDto;
         }
@@ -101,9 +111,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (userArticles is null) throw new ArticlesNotFoundException();
+            if (userArticles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
 
-            var userArticlesDtos = MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userArticles, _mapper);
+            var userArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userArticles);
 
             return userArticlesDtos;
         }
@@ -119,10 +132,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (publishedArticles is null) throw new ArticlesNotFoundException();
+            if (publishedArticles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
 
-            var publishedArticlesDtos =
-                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(publishedArticles, _mapper);
+            var publishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(publishedArticles);
 
             return publishedArticlesDtos;
         }
@@ -139,10 +154,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (userPublishedArticles is null) throw new ArticlesNotFoundException();
+            if (userPublishedArticles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
 
-            var userPublishedArticlesDtos =
-                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userPublishedArticles, _mapper);
+            var userPublishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userPublishedArticles);
 
             return userPublishedArticlesDtos;
         }
@@ -159,10 +176,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (userUnpublishedArticles is null) throw new ArticlesNotFoundException();
+            if (userUnpublishedArticles is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
 
-            var userUnpublishedArticlesDtos =
-                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(userUnpublishedArticles, _mapper);
+            var userUnpublishedArticlesDtos = _mapper.Map<List<Article>, List<ArticleDto>>(userUnpublishedArticles);
 
             return userUnpublishedArticlesDtos;
         }
@@ -178,27 +197,36 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
-            if (articlesByDate is null) throw new ArticlesNotFoundException();
+            if (articlesByDate is null)
+            {
+                throw new ArticlesNotFoundException();
+            }
 
-            var articlesByDateDtos =
-                MappingHelper.MapListModelsToFirstType<ArticleDto, Article>(articlesByDate, _mapper);
+            var articlesByDateDtos = _mapper.Map<List<Article>, List<ArticleDto>>(articlesByDate);
 
             return articlesByDateDtos;
         }
 
         public async Task UpdateArticle(int id, PutArticleDto article)
         {
-            if (article is null) throw new ArgumentNullException(nameof(article));
+            if (article is null)
+            {
+                throw new ArgumentNullException(nameof(article));
+            }
 
             var articleToUpdate = await _dbContext.Articles
                 .Include(x => x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (articleToUpdate is null) throw new ArticleNotFoundException(id);
+            if (articleToUpdate is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
 
             var tags = new List<Tag>();
 
             if (!(article.Tags is null))
+            {
                 foreach (var articleTag in article.Tags)
                 {
                     var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
@@ -207,6 +235,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
                     tags.Add(tag);
                 }
+            }
 
             articleToUpdate.Tags = new List<Tag>(tags);
             articleToUpdate.Title = article.Title;
@@ -234,9 +263,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (publishedArticle is null) throw new ArticleNotFoundException(id);
+            if (publishedArticle is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
 
-            var publishedArticleDto = MappingHelper.MapModelToFirstType<ArticleDto, Article>(publishedArticle, _mapper);
+            var publishedArticleDto = _mapper.Map<Article, ArticleDto>(publishedArticle);
 
             return publishedArticleDto;
         }

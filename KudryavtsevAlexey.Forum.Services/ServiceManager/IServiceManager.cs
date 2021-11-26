@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 using KudryavtsevAlexey.Forum.Services.Services;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 

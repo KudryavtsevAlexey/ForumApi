@@ -7,11 +7,11 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface ICommentService
     {
-        public Task<List<ArticleMainCommentDto>> GetArticleComments(Article article);
+        public Task<List<ArticleMainCommentDto>> GetArticleComments(ArticleDto article);
 
         public Task<ArticleMainCommentDto> GetArticleMainCommentById(int id);
 
-        public Task<List<ListingMainCommentDto>> GetListingComments(Listing listing);
+        public Task<List<ListingMainCommentDto>> GetListingComments(ListingDto listing);
 
         public Task<ListingMainCommentDto> GetListingMainCommentById(int id);
 
@@ -19,8 +19,8 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
         
         public Task<ListingSubCommentDto> GetListingSubCommentById(int id);
 
-        public Task<List<ArticleMainCommentDto>> GetAllArticleComments();
+        public Task<List<ArticleMainCommentDto>> GetAllArticlesComments();
 
-        public Task<List<ListingMainCommentDto>> GetAllListingComments();
+        public Task<List<ListingMainCommentDto>> GetAllListingsComments();
     }
 }

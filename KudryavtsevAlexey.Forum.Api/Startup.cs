@@ -1,6 +1,5 @@
 using System.Text;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;

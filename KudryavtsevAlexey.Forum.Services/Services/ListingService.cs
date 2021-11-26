@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {

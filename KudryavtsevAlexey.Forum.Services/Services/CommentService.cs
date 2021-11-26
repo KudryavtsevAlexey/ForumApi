@@ -3,12 +3,12 @@ using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -27,11 +27,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var articleMainComments = await _dbContext.ArticleMainComments
                 .Include(c => c.SubComments)
-                .Where(a => a.Article == article)
+                .Where(a => a.ArticleId == article.Id)
                 .Include(a=>a.Article)
                 .ToListAsync();
 
-            var articleMainCommentsDtos = MappingHelper.MapListModelsToFirstType<ArticleMainCommentDto, ArticleMainComment>(articleMainComments, _mapper);
+            if (articleMainComments is null)
+            {
+                throw new ArticleMainCommentsNotFoundException(article.Id);
+            }
+
+            var articleMainCommentsDtos = _mapper.Map<List<ArticleMainComment>, List<ArticleMainCommentDto>>(articleMainComments);
 
             return articleMainCommentsDtos;
         }
@@ -40,11 +45,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var listingMainComments = await _dbContext.ListingMainComments
                 .Include(c => c.SubComments)
-                .Where(a => a.Listing == listing)
+                .Where(a => a.ListingId == listing.Id)
                 .Include(l => l.Listing)
                 .ToListAsync();
 
-            var listingMainCommentsDtos = MappingHelper.MapListModelsToFirstType<ListingMainCommentDto, ListingMainComment>(listingMainComments, _mapper);
+            if (listingMainComments is null)
+            {
+                throw new ListingMainCommentsNotFoundException(listing.Id);
+            }
+
+            var listingMainCommentsDtos = _mapper.Map<List<ListingMainComment>, List<ListingMainCommentDto>>(listingMainComments);
 
             return listingMainCommentsDtos;
         }
@@ -56,7 +66,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(a => a.Article)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            var articleMainCommentDto = MappingHelper.MapModelToFirstType<ArticleMainCommentDto, ArticleMainComment>(articleMainComment, _mapper);
+            if (articleMainComment is null)
+            {
+                throw new ArticleMainCommentNotFoundException(id);
+            }
+
+            var articleMainCommentDto = _mapper.Map<ArticleMainComment, ArticleMainCommentDto>(articleMainComment);
 
             return articleMainCommentDto;
         }
@@ -68,7 +83,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(l => l.Listing)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            var listingMainCommentDto = MappingHelper.MapModelToFirstType<ListingMainCommentDto, ListingMainComment>(listingMainComment, _mapper);
+            if (listingMainComment is null)
+            {
+                throw new ListingMainCommentNotFoundException(id);
+            }
+
+            var listingMainCommentDto = _mapper.Map<ListingMainComment, ListingMainCommentDto>(listingMainComment);
 
             return listingMainCommentDto;
         }
@@ -79,7 +99,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(c=>c.ArticleMainComment)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            var articleSubCommentDto = MappingHelper.MapModelToFirstType<ArticleSubCommentDto, ArticleSubComment>(articleSubComment, _mapper);
+            if (articleSubComment is null)
+            {
+                throw new ArticleSubCommentNotFoundException(id);
+            }
+
+            var articleSubCommentDto = _mapper.Map<ArticleSubComment, ArticleSubCommentDto>(articleSubComment);
 
             return articleSubCommentDto;
         }
@@ -90,31 +115,46 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(c=>c.ListingMainComment)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            var listingSubCommentDto = MappingHelper.MapModelToFirstType<ListingSubCommentDto, ListingSubComment>(listingSubComment, _mapper);
+            if (listingSubComment is null)
+            {
+                throw new ListingSubCommentNotFoundException(id);
+            }
+
+            var listingSubCommentDto = _mapper.Map<ListingSubComment, ListingSubCommentDto>(listingSubComment);
 
             return listingSubCommentDto;
         }
 
-        public async Task<List<ArticleMainCommentDto>> GetAllArticleComments()
+        public async Task<List<ArticleMainCommentDto>> GetAllArticlesComments()
         {
             var allArticleMainComments = await _dbContext.ArticleMainComments
                 .Include(c => c.SubComments)
                 .Include(x=>x.Article)
                 .ToListAsync();
 
-            var allArticlesMainCommentsDtos = MappingHelper.MapListModelsToFirstType<ArticleMainCommentDto, ArticleMainComment>(allArticleMainComments, _mapper);
+            if (allArticleMainComments is null)
+            {
+                throw new ArticlesCommentsNotFoundException();
+            }
+
+            var allArticlesMainCommentsDtos = _mapper.Map<List<ArticleMainComment>, List<ArticleMainCommentDto>>(allArticleMainComments);
 
             return allArticlesMainCommentsDtos;
         }
 
-        public async Task<List<ListingMainCommentDto>> GetAllListingComments()
+        public async Task<List<ListingMainCommentDto>> GetAllListingsComments()
         {
             var allListingMainComments = await _dbContext.ListingMainComments
                 .Include(c => c.SubComments)
                 .Include(x=>x.Listing)
                 .ToListAsync();
 
-            var allListingsMainCommentsDtos = MappingHelper.MapListModelsToFirstType<ListingMainCommentDto, ListingMainComment>(allListingMainComments, _mapper);
+            if (allListingMainComments is null)
+            {
+                throw new ListingsCommentsNotFoundException();
+            }
+
+            var allListingsMainCommentsDtos = _mapper.Map<List<ListingMainComment>, List<ListingMainCommentDto>>(allListingMainComments);
 
             return allListingsMainCommentsDtos;
         }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.MappingHelpers;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -171,7 +170,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllArticleComments()
         {
-            var allArticleComments = await _serviceManager.CommentService.GetAllArticleComments();
+            var allArticleComments = await _serviceManager.CommentService.GetAllArticlesComments();
 
             if (allArticleComments is null)
             {
@@ -193,7 +192,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllListingComments()
         {
-            var allListingComments = await _serviceManager.CommentService.GetAllListingComments();
+            var allListingComments = await _serviceManager.CommentService.GetAllListingsComments();
 
             if (allListingComments is null)
             {
