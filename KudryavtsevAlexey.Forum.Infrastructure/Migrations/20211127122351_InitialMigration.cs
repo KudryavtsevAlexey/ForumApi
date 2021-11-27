@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,19 +19,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Organizations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,30 +173,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ArticleTag",
-                columns: table => new
-                {
-                    ArticlesId = table.Column<int>(type: "int", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArticleTag", x => new { x.ArticlesId, x.TagsId });
-                    table.ForeignKey(
-                        name: "FK_ArticleTag_Articles_ArticlesId",
-                        column: x => x.ArticlesId,
-                        principalTable: "Articles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArticleTag_Tags_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tags",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ListingMainComments",
                 columns: table => new
                 {
@@ -231,27 +194,30 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ListingTag",
+                name: "Tags",
                 columns: table => new
                 {
-                    ListingsId = table.Column<int>(type: "int", nullable: false),
-                    TagsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ArticleId = table.Column<int>(type: "int", nullable: true),
+                    ListingId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListingTag", x => new { x.ListingsId, x.TagsId });
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ListingTag_Listings_ListingsId",
-                        column: x => x.ListingsId,
+                        name: "FK_Tags_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tags_Listings_ListingId",
+                        column: x => x.ListingId,
                         principalTable: "Listings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ListingTag_Tags_TagsId",
-                        column: x => x.TagsId,
-                        principalTable: "Tags",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,11 +283,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "ArticleMainCommentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ArticleTag_TagsId",
-                table: "ArticleTag",
-                column: "TagsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ListingMainComments_ListingId",
                 table: "ListingMainComments",
                 column: "ListingId");
@@ -342,11 +303,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "ListingMainCommentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ListingTag_TagsId",
-                table: "ListingTag",
-                column: "TagsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Subscribers_OrganizationId",
                 table: "Subscribers",
                 column: "OrganizationId");
@@ -355,6 +311,16 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_SubscriberUsers_SubscriberId",
                 table: "SubscriberUsers",
                 column: "SubscriberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_ArticleId",
+                table: "Tags",
+                column: "ArticleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_ListingId",
+                table: "Tags",
+                column: "ListingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_OrganizationId",
@@ -368,25 +334,19 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "ArticleSubComments");
 
             migrationBuilder.DropTable(
-                name: "ArticleTag");
-
-            migrationBuilder.DropTable(
                 name: "ListingSubComments");
 
             migrationBuilder.DropTable(
-                name: "ListingTag");
+                name: "SubscriberUsers");
 
             migrationBuilder.DropTable(
-                name: "SubscriberUsers");
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "ArticleMainComments");
 
             migrationBuilder.DropTable(
                 name: "ListingMainComments");
-
-            migrationBuilder.DropTable(
-                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "Subscribers");

@@ -7,13 +7,13 @@ using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
-	public class Article : BaseEntity
+    public class Article : BaseEntity
     {
         public string Title { get; set; }
 
 		public string ShortDescription { get; set; }
 
-		public ICollection<Tag> Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; }
 
         public int OrganizationId { get; set; }
 

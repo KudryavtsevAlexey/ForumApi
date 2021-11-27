@@ -48,45 +48,45 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                 var tags = new List<Tag>()
 				{
 					new()
-					{
-						Name = "front-end"
+                    {
+                        Name = "front-end",
 					},
 
 					new()
-					{
-						Name = "data science"
+                    {
+						Name = "data-science",
 					},
 
-					new()
-					{
-						Name = "mobile"
+                    new()
+                    {
+						Name =  "mobile",
+					},
+                    
+                    new()
+                    {
+						Name = "gamedev",
+					},
+                    
+                    new()
+                    {
+						Name = "backend",
+					},
+                    
+                    new()
+                    {
+						Name = "full-stack",
+					},
+                    
+                    new()
+                    {
+                        Name = "database",
 					},
 
-					new()
-					{
-						Name = "gamedev"
-					},
-
-					new()
-					{
-						Name = "back-end"
-					},
-
-					new()
-					{
-						Name = "full-stack"
-					},
-
-					new()
-					{
-						Name = "database"
-					},
-
-					new ()
-					{
+                    new() 
+                    {
 						Name = "QA",
-					},
-				};
+					}
+                };
 
                 var metaUsers = new List<User>()
 				{
@@ -739,59 +739,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 						Title = "AppleListing",
 						ShortDescription = "AppleListingDescription",
 						Category = "apple",
-                        Tags = new List<Tag>() {tags[2]},
+                        Tags = new List<Tag>() { tags[2]},
 						User = appleUsers[5],
 						PublishedAt = DateTime.Now.Subtract(TimeSpan.FromHours(4)),
 						Organization = organizations[3],
 					},
 				};
-
-                tags[0].Articles = new List<Article>()
-                {
-                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
-                };
-
-				tags[1].Listings = new List<Listing>()
-				{
-					listings[0]
-				};
-
-				tags[2].Listings = new List<Listing>()
-				{
-					listings[1],
-					listings[4]
-				};
-
-				tags[3].Listings = new List<Listing>()
-				{
-					listings[2]
-				};
-
-                tags[4].Articles = new List<Article>()
-                {
-                    articles[0], articles[2], articles[3], articles[4], articles[5], articles[6], articles[9],
-                    articles[10], articles[11], articles[13], articles[14], articles[15], articles[16], articles[18]
-                };
-
-                tags[5].Articles = new List<Article>()
-                {
-                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
-                };
-
-                tags[6].Articles = new List<Article>()
-                {
-                    articles[15]
-                };
-
-				tags[6].Listings = new List<Listing>()
-				{
-					listings[3]
-				};
-
-                tags[7].Articles = new List<Article>()
-                {
-                    articles[1], articles[15]
-                };
 
 				await dbContext.Organizations.AddRangeAsync(organizations);
 
@@ -799,9 +752,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 
                 await dbContext.Listings.AddRangeAsync(listings);
 
-				await dbContext.Tags.AddRangeAsync(tags);
+                await dbContext.Tags.AddRangeAsync(tags);
 
-                var timeToAnswer = 5;
+				var timeToAnswer = 5;
 
                 var articleMainComments = new List<ArticleMainComment>();
                 var listingMainComments = new List<ListingMainComment>();

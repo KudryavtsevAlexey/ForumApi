@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
@@ -12,10 +13,10 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Name,
         string Summary,
         string Location,
-        IEnumerable<ArticleDto> Articles,
-        IEnumerable<SubscriberDto> Subscribers,
-        IEnumerable<ListingDto> Listings,
         DateTime JoinedAt,
+        IEnumerable<ArticleDto> Articles,
+        IEnumerable<SubscriberUserDto> Subscribers,
+        IEnumerable<ListingDto> Listings,
         int OrganizationId,
         OrganizationDto Organization,
         string ImageUrl);

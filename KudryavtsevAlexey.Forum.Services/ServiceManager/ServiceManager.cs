@@ -14,7 +14,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         private readonly Lazy<ICommentService> _lazyCommentService;
         private readonly Lazy<IListingService> _lazyListingService;
         private readonly Lazy<IOrganizationService> _lazyOrganizationService;
-        private readonly Lazy<ITagService> _lazyTagService;
         private readonly Lazy<IUserService> _lazyUserService;
 
         public ServiceManager(ForumDbContext dbContext, IMapper mapper)
@@ -23,7 +22,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
             _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(dbContext, mapper));
             _lazyListingService = new Lazy<IListingService>(() => new ListingService(dbContext));
             _lazyOrganizationService = new Lazy<IOrganizationService>(() => new OrganizationService(dbContext));
-            _lazyTagService = new Lazy<ITagService>(() => new TagService(dbContext));
             _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext));
         }
 
@@ -31,7 +29,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         public ICommentService CommentService => _lazyCommentService.Value;
         public IListingService ListingService => _lazyListingService.Value;
         public IOrganizationService OrganizationService => _lazyOrganizationService.Value;
-        public ITagService TagService => _lazyTagService.Value;
         public IUserService UserService => _lazyUserService.Value;
     }
 }

@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record TagFieldsDto(int Id, string Name);
+    public record SubscriberUserDto(
+        int UserId,
+        int SubscriberId,
+        UserDto User,
+        SubscriberDto Subscriber);
 }

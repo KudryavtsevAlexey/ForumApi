@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Services.Dtos;
@@ -10,25 +11,38 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
         public MappingProfile()
         {
             CreateMap<Article, ArticleDto>()
-                .ReverseMap();
+                .MaxDepth(1);
 
-            CreateMap<Article, PutArticleDto>()
-                .ReverseMap();
+            CreateMap<ArticleDto, Article>();
+
+            CreateMap<Article, PutArticleDto>();
+
+            CreateMap<PutArticleDto, Article>();
 
             CreateMap<Organization, OrganizationDto>()
-                .ReverseMap();
+                .MaxDepth(1);
+
+            CreateMap<OrganizationDto, Organization>();
 
             CreateMap<User, UserDto>()
-                .ReverseMap();
+                .MaxDepth(1);
+
+            CreateMap<UserDto, User>();
 
             CreateMap<ArticleMainComment, ArticleMainCommentDto>()
-                .ReverseMap();
+                .MaxDepth(1);
 
-            CreateMap<Tag, TagDto>()
-                .ReverseMap();
+            CreateMap<ArticleMainCommentDto, ArticleMainComment>();
 
             CreateMap<ArticleSubComment, ArticleSubCommentDto>()
-                .ReverseMap();
+                .MaxDepth(1);
+
+            CreateMap<ArticleSubCommentDto, ArticleSubComment>();
+
+            CreateMap<Tag, TagDto>()
+                .MaxDepth(1);
+
+            CreateMap<TagDto, Tag>();
         }
     }
 }

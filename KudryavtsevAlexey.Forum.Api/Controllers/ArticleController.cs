@@ -110,7 +110,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticlesByUserId(int id)
         {
-            var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
+            var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
             if (articles is null)
             {

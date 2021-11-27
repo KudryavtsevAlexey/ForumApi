@@ -19,8 +19,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
 
         IOrganizationService OrganizationService { get; }
 
-        ITagService TagService { get; }
-
         IUserService UserService { get; }
     }
 }

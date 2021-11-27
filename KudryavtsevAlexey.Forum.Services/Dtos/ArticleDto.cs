@@ -6,8 +6,8 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
     public record ArticleDto(
         int Id,
         string Title,
-        string ShortDescription,
-        IEnumerable<TagFieldsDto> Tags,
+        string ShortDescription, 
+        IEnumerable<TagDto> Tags,
         int OrganizationId,
         OrganizationDto Organization,
         int UserId,

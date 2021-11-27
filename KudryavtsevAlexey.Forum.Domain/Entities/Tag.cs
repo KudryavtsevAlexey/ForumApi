@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +10,5 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
     public class Tag : BaseEntity
     {
         public string Name { get; set; }
-
-        public ICollection<Article> Articles { get; set; }
-
-        public ICollection<Listing> Listings { get; set; }
     }
 }

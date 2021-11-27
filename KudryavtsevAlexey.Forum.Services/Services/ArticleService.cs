@@ -82,7 +82,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<ArticleDto> GetArticleById(int id)
         {
-            var article = await _dbContext.Articles
+            var article = await _dbContext.Articles 
                 .Include(x=>x.User)
                 .Include(x=>x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
@@ -101,11 +101,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var userArticles = await _dbContext.Articles
                 .Include(u => u.User)
+                .ThenInclude(x=>x.Articles)
                 .Where(a => a.UserId == id)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (userArticles is null)
@@ -123,10 +121,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var publishedArticles = await _dbContext.Articles
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (publishedArticles is null)
@@ -145,10 +140,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(a => a.UserId == id)
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (userPublishedArticles is null)
@@ -167,10 +159,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(u => u.User)
                 .Where(a => a.UserId == id)
                 .Where(a => a.PublishedAt == null)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (userUnpublishedArticles is null)
@@ -188,10 +177,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var articlesByDate = await _dbContext.Articles
                 .OrderByDescending(a => a.PublishedAt)
                 .Include(u => u.User)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .ToListAsync();
 
             if (articlesByDate is null)
@@ -215,11 +201,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (articleToUpdate is null)
-            {
-                throw new ArticleNotFoundException(id);
-            }
-
             var tags = new List<Tag>();
 
             if (!(article.Tags is null))
@@ -235,6 +216,12 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             articleToUpdate.Tags = new List<Tag>(tags);
+
+            if (articleToUpdate is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
+
             articleToUpdate.Title = article.Title;
             articleToUpdate.ShortDescription = article.ShortDescription;
 
@@ -254,10 +241,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var publishedArticle = await _dbContext.Articles
                 .Where(a => a.PublishedAt != null)
                 .Include(u => u.User)
-                .Include(o => o.Organization)
                 .Include(t => t.Tags)
-                .Include(c => c.MainComments)
-                .ThenInclude(s => s.SubComments)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (publishedArticle is null)
