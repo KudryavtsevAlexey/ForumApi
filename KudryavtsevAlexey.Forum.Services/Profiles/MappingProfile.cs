@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
@@ -15,9 +16,43 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
 
             CreateMap<ArticleDto, Article>();
 
-            CreateMap<Article, PutArticleDto>();
+            CreateMap<Article, PutArticleDto>()
+                .MaxDepth(1);
+
+            CreateMap<ArticleMainComment, ArticleMainCommentDto>()
+                .ForMember(x=>x.SubComments, opt=>opt.MapFrom(x=>x.SubComments));
+
+            CreateMap<ArticleMainCommentDto, ArticleMainComment>();
+
+            CreateMap<ArticleSubComment, ArticleSubCommentDto>()
+                .ForMember(x=>x.ArticleMainComment, opt=>opt.MapFrom(x=>x.ArticleMainComment));
+
+            CreateMap<ArticleSubCommentDto, ArticleSubComment>();
+
+            CreateMap<Tag, TagDto>()
+                .MaxDepth(1);
+
+            CreateMap<TagDto, Tag>();
 
             CreateMap<PutArticleDto, Article>();
+
+            CreateMap<Listing, ListingDto>()
+                .MaxDepth(1);
+
+            CreateMap<ListingDto, Listing>();
+
+            CreateMap<ListingMainComment, ListingMainCommentDto>();
+
+            CreateMap<ListingMainCommentDto, ListingMainComment>();
+
+            CreateMap<ListingSubComment, ListingSubCommentDto>();
+
+            CreateMap<ListingSubCommentDto, ListingSubComment>();
+
+            CreateMap<Subscriber, SubscriberDto>()
+                .MaxDepth(1);
+
+            CreateMap<SubscriberDto, Subscriber>();
 
             CreateMap<Organization, OrganizationDto>()
                 .MaxDepth(1);
@@ -28,21 +63,6 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .MaxDepth(1);
 
             CreateMap<UserDto, User>();
-
-            CreateMap<ArticleMainComment, ArticleMainCommentDto>()
-                .MaxDepth(1);
-
-            CreateMap<ArticleMainCommentDto, ArticleMainComment>();
-
-            CreateMap<ArticleSubComment, ArticleSubCommentDto>()
-                .MaxDepth(1);
-
-            CreateMap<ArticleSubCommentDto, ArticleSubComment>();
-
-            CreateMap<Tag, TagDto>()
-                .MaxDepth(1);
-
-            CreateMap<TagDto, Tag>();
         }
     }
 }

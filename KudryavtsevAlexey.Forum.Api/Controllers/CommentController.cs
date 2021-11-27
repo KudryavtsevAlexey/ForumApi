@@ -30,9 +30,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("article/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleComments(ArticleDto article)
+        public async Task<IActionResult> GetArticleComments(int id)
         {
-            var comments = await _serviceManager.CommentService.GetArticleComments(article);
+            var comments = await _serviceManager.CommentService.GetArticleComments(id);
 
             if (comments is null)
             {
@@ -53,9 +53,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("listing/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingComments(ListingDto listing)
+        public async Task<IActionResult> GetListingComments(int id)
         {
-            var comments = await _serviceManager.CommentService.GetListingComments(listing);
+            var comments = await _serviceManager.CommentService.GetListingComments(id);
 
             if (comments is null)
             {

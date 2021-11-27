@@ -8,7 +8,9 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record ArticleMainCommentDto(
         int Id,
+        string Name,
+        DateTime CreatedAt,
         int ArticleId,
         ArticleDto Article,
-        IEnumerable<ArticleSubCommentDto> SubComments);
+        List<ArticleSubCommentDto> SubComments);
 }

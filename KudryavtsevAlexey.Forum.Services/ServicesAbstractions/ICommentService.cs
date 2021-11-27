@@ -7,11 +7,11 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface ICommentService
     {
-        public Task<List<ArticleMainCommentDto>> GetArticleComments(ArticleDto article);
+        public Task<List<ArticleMainCommentDto>> GetArticleComments(int id);
 
         public Task<ArticleMainCommentDto> GetArticleMainCommentById(int id);
 
-        public Task<List<ListingMainCommentDto>> GetListingComments(ListingDto listing);
+        public Task<List<ListingMainCommentDto>> GetListingComments(int id);
 
         public Task<ListingMainCommentDto> GetListingMainCommentById(int id);
 

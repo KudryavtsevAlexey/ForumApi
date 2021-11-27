@@ -8,7 +8,8 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record ListingMainCommentDto(
         int Id,
+        string Name,
         int ListingId,
         ListingDto Listing,
-        IEnumerable<ListingSubCommentDto> SubComments);
+        List<ListingSubCommentDto> ListingSubComments);
 }

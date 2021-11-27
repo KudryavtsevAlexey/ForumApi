@@ -23,35 +23,35 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleMainCommentDto>> GetArticleComments(ArticleDto article)
+        public async Task<List<ArticleMainCommentDto>> GetArticleComments(int id)
         {
             var articleMainComments = await _dbContext.ArticleMainComments
-                .Include(c => c.SubComments)
-                .Where(a => a.ArticleId == article.Id)
-                .Include(a=>a.Article)
+                .Where(a => a.ArticleId == id)
+                .Include(a => a.Article)
+                .Include(x => x.SubComments)
                 .ToListAsync();
 
             if (articleMainComments is null)
             {
-                throw new ArticleMainCommentsNotFoundException(article.Id);
+                throw new ArticleMainCommentsNotFoundException(id);
             }
 
-            var articleMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(articleMainComments);
+            List<ArticleMainCommentDto> articleMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(articleMainComments);
 
             return articleMainCommentsDtos;
         }
 
-        public async Task<List<ListingMainCommentDto>> GetListingComments(ListingDto listing)
+        public async Task<List<ListingMainCommentDto>> GetListingComments(int id)
         {
             var listingMainComments = await _dbContext.ListingMainComments
-                .Include(c => c.SubComments)
-                .Where(a => a.ListingId == listing.Id)
+                .Where(a => a.ListingId == id)
                 .Include(l => l.Listing)
+                .Include(c => c.SubComments)
                 .ToListAsync();
 
             if (listingMainComments is null)
             {
-                throw new ListingMainCommentsNotFoundException(listing.Id);
+                throw new ListingMainCommentsNotFoundException(id);
             }
 
             var listingMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(listingMainComments);

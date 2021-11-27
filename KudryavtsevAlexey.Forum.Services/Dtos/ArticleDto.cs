@@ -7,11 +7,11 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int Id,
         string Title,
         string ShortDescription, 
-        IEnumerable<TagDto> Tags,
+        List<TagDto> Tags,
         int OrganizationId,
         OrganizationDto Organization,
         int UserId,
         UserDto User,
         DateTime? PublishedAt,
-        IEnumerable<ArticleMainCommentDto> MainComments);
+        List<ArticleMainCommentDto> MainComments);
 }

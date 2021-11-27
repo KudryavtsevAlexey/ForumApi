@@ -12,6 +12,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Name,
         int OrganizationId,
         OrganizationDto Organization,
-        IEnumerable<UserDto> User,
+        List<SubscriberDto> User,
         string ImageUrl);
 }

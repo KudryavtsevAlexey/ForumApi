@@ -746,6 +746,53 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 					},
 				};
 
+                tags[0].Articles = new List<Article>()
+                {
+                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
+                };
+
+                tags[1].Listings = new List<Listing>()
+                {
+                    listings[0]
+                };
+
+                tags[2].Listings = new List<Listing>()
+                {
+                    listings[1],
+                    listings[4]
+                };
+
+                tags[3].Listings = new List<Listing>()
+                {
+                    listings[2]
+                };
+
+                tags[4].Articles = new List<Article>()
+                {
+                    articles[0], articles[2], articles[3], articles[4], articles[5], articles[6], articles[9],
+                    articles[10], articles[11], articles[13], articles[14], articles[15], articles[16], articles[18]
+                };
+
+                tags[5].Articles = new List<Article>()
+                {
+                    articles[5], articles[7], articles[8], articles[12], articles[15], articles[16], articles[17]
+                };
+
+                tags[6].Articles = new List<Article>()
+                {
+                    articles[15]
+                };
+
+                tags[6].Listings = new List<Listing>()
+                {
+                    listings[3]
+                };
+
+                tags[7].Articles = new List<Article>()
+                {
+                    articles[1], articles[15]
+                };
+
 				await dbContext.Organizations.AddRangeAsync(organizations);
 
                 await dbContext.Articles.AddRangeAsync(articles);

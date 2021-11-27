@@ -14,9 +14,9 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Summary,
         string Location,
         DateTime JoinedAt,
-        IEnumerable<ArticleDto> Articles,
-        IEnumerable<SubscriberUserDto> Subscribers,
-        IEnumerable<ListingDto> Listings,
+        List<ArticleDto> Articles,
+        List<SubscriberUserDto> Subscribers,
+        List<ListingDto> Listings,
         int OrganizationId,
         OrganizationDto Organization,
         string ImageUrl);

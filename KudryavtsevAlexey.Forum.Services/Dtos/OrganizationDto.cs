@@ -9,8 +9,8 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
     public record OrganizationDto(
         int Id,
         string Name,
-        IEnumerable<ListingDto> Listings,
-        IEnumerable<UserDto> Users,
-        IEnumerable<ArticleDto> Articles,
+        List<ListingDto> Listings,
+        List<UserDto> Users,
+        List<ArticleDto> Articles,
         string ImageUrl);
 }

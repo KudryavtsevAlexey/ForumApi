@@ -9,8 +9,10 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record ArticleSubCommentDto(
         int Id,
+        string Name,
+        DateTime CreatedAt,
         int ArticleId,
         ArticleDto Article,
-        int MainCommentId,
-        ArticleMainCommentDto MainComment);
+        int ArticleMainCommentId,
+        ArticleMainCommentDto ArticleMainComment);
 }
