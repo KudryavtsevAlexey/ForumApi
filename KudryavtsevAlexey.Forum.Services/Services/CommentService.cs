@@ -54,7 +54,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ListingMainCommentsNotFoundException(id);
             }
 
-            var listingMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(listingMainComments);
+            List<ListingMainCommentDto> listingMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(listingMainComments);
 
             return listingMainCommentsDtos;
         }

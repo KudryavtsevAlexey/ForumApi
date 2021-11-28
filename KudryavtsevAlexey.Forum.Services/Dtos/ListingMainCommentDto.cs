@@ -9,7 +9,8 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
     public record ListingMainCommentDto(
         int Id,
         string Name,
+        DateTime CreatedAt,
         int ListingId,
         ListingDto Listing,
-        List<ListingSubCommentDto> ListingSubComments) : BaseDto(Id);
+        List<ListingSubCommentDto> SubComments) : BaseDto(Id);
 }

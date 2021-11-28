@@ -452,7 +452,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                     }
 				};
 
-                var subscriberUsers = new List<SubscriberUser>()
+                var subscriberUsers = new List<UserSubscriber>()
                 {
                     new()
                     {
@@ -487,15 +487,15 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 
                 for (int i = 0; i < subscribers.Count; i++)
                 {
-					subscribers[i].Users = new List<SubscriberUser>() { subscriberUsers[i] };
+					subscribers[i].Users = new List<UserSubscriber>() { subscriberUsers[i] };
                 }
 
                 for (int i = 1; i < netflixUsers.Count; i++)
                 {
-					netflixUsers[i].Subscribers = new List<SubscriberUser>() { subscriberUsers[i-1] };
+					netflixUsers[i].Subscribers = new List<UserSubscriber>() { subscriberUsers[i-1] };
                 }
 
-				await dbContext.SubscriberUsers.AddRangeAsync(subscriberUsers);
+				await dbContext.UserSubscribers.AddRangeAsync(subscriberUsers);
 
                 await dbContext.Subscribers.AddRangeAsync(subscribers);
 

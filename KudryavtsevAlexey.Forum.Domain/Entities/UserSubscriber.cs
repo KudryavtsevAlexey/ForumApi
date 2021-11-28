@@ -7,7 +7,7 @@ using KudryavtsevAlexey.Forum.Domain.BaseEntities;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
-    public class SubscriberUser
+    public class UserSubscriber
     {
         public int SubscriberId { get; set; }
 

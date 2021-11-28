@@ -30,7 +30,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         public DbSet<ListingSubComment> ListingSubComments { get; set; }
 
-        public DbSet<SubscriberUser> SubscriberUsers { get; set; }
+        public DbSet<UserSubscriber> UserSubscribers { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
 
@@ -65,7 +65,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .WithOne(x => x.Subscriber)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<SubscriberUser>()
+            builder.Entity<UserSubscriber>()
                 .HasKey(k => new { k.UserId, k.SubscriberId });
 
             builder.Entity<ArticleMainComment>()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Name,
         int OrganizationId,
         OrganizationDto Organization,
-        List<SubscriberDto> User,
+        List<UserSubscriber> UserSubscribers,
         string ImageUrl) : BaseDto(Id);
 }

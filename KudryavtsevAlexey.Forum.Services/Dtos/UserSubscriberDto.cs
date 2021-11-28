@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record SubscriberUserDto(
+    public record UserSubscriberDto(
         int UserId,
         int SubscriberId,
         UserDto User,
