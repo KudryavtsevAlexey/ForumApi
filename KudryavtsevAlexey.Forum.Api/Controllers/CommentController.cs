@@ -198,7 +198,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(allListingComments);
         }
     }
 }

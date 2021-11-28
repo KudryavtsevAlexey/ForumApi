@@ -97,6 +97,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var articleSubComment = await _dbContext.ArticleSubComments
                 .Include(c=>c.ArticleMainComment)
+                .Include(x=>x.Article)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (articleSubComment is null)
@@ -113,6 +114,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var listingSubComment = await _dbContext.ListingSubComments
                 .Include(c=>c.ListingMainComment)
+                .Include(x=>x.Listing)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (listingSubComment is null)
