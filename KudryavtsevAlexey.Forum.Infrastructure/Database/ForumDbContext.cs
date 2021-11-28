@@ -1,4 +1,5 @@
-﻿using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using System.Linq;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -30,8 +31,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         public DbSet<ListingSubComment> ListingSubComments { get; set; }
 
-        public DbSet<UserSubscriber> UserSubscribers { get; set; }
-
         public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -56,17 +55,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .HasKey(x => x.Id);
 
             builder.Entity<User>()
-                .HasMany(x => x.Subscribers)
-                .WithOne(x => x.User)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasAlternateKey(x => x.Id);
 
             builder.Entity<Subscriber>()
-                .HasMany(x => x.Users)
-                .WithOne(x => x.Subscriber)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasKey(x => x.Id);
 
-            builder.Entity<UserSubscriber>()
-                .HasKey(k => new { k.UserId, k.SubscriberId });
+            builder.Entity<Subscriber>()
+                .HasAlternateKey(x => x.Id);
 
             builder.Entity<ArticleMainComment>()
                 .HasKey(k => k.Id);
@@ -89,6 +84,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
             builder.Entity<ListingSubComment>()
                 .HasKey(k => k.Id);
+
+            foreach (var relationShip in builder.Model.GetEntityTypes().SelectMany(x => x.GetForeignKeys()))
+            {
+                relationShip.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
             base.OnModelCreating(builder);
         }

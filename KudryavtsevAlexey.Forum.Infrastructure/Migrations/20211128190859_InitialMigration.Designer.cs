@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20211128110421_InitialMigration")]
+    [Migration("20211128190859_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -247,21 +247,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.ToTable("Subscribers");
                 });
 
-            modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.SubscriberUser", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubscriberId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "SubscriberId");
-
-                    b.HasIndex("SubscriberId");
-
-                    b.ToTable("SubscriberUsers");
-                });
-
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -327,18 +312,33 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.ToTable("ListingTag");
                 });
 
+            modelBuilder.Entity("SubscriberUser", b =>
+                {
+                    b.Property<int>("SubscribersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubscribersId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("SubscriberUser");
+                });
+
             modelBuilder.Entity("ArticleTag", b =>
                 {
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", null)
                         .WithMany()
                         .HasForeignKey("ArticlesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -347,7 +347,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Articles")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", "User")
@@ -366,7 +366,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", "Article")
                         .WithMany("MainComments")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Article");
@@ -377,7 +377,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", "Article")
                         .WithMany()
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ArticleMainComment", "ArticleMainComment")
@@ -396,7 +396,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", "Listing")
                         .WithMany("MainComments")
                         .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Listing");
@@ -407,7 +407,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", "Listing")
                         .WithMany()
                         .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ListingMainComment", "ListingMainComment")
@@ -426,7 +426,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Listings")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", "User")
@@ -445,29 +445,10 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Organization");
-                });
-
-            modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.SubscriberUser", b =>
-                {
-                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", "Subscriber")
-                        .WithMany("Users")
-                        .HasForeignKey("SubscriberId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", "User")
-                        .WithMany("Subscribers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Subscriber");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.User", b =>
@@ -475,7 +456,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Users")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Organization");
@@ -486,13 +467,28 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", null)
                         .WithMany()
                         .HasForeignKey("ListingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SubscriberUser", b =>
+                {
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", null)
+                        .WithMany()
+                        .HasForeignKey("SubscribersId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -525,18 +521,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.User", b =>
                 {
                     b.Navigation("Articles");
 
                     b.Navigation("Listings");
-
-                    b.Navigation("Subscribers");
                 });
 #pragma warning restore 612, 618
         }

@@ -403,6 +403,55 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 					}
 				};
 
+                var subscribers = new List<Subscriber>()
+				{
+                    new()
+                    {
+                        UserName = "Anatoly",
+                        Name = "Anatoly",
+                        Organization = organizations[2],
+						Users = new List<User>() {netflixUsers[1]}
+                    },
+
+
+                    new()
+                    {
+                        UserName = "Oleg",
+                        Name = "Oleg",
+                        Organization = organizations[2],
+                        Users = new List<User>() {netflixUsers[2]}
+					},
+
+                    new()
+					{
+						UserName = "Paul",
+						Name = "Paul",
+						Organization = organizations[2],
+                        Users = new List<User>() {netflixUsers[3]}
+					},
+
+                    new()
+                    {
+                        UserName = "Vitaly",
+                        Name = "Vitaly",
+                        Organization = organizations[2],
+                        Users = new List<User>() {netflixUsers[4]}
+					},
+
+                    new()
+                    {
+                        UserName = "Valery",
+                        Name = "Valery",
+                        Organization = organizations[2],
+                        Users = new List<User>() {netflixUsers[5]}
+					}
+				};
+
+                for (int i = 1; i < netflixUsers.Count; i++)
+                {
+					netflixUsers[i].Subscribers = new List<Subscriber>() { subscribers[i - 1] };
+                }
+
                 await dbContext.Users.AddRangeAsync(metaUsers);
 
                 await dbContext.Users.AddRangeAsync(amazonUsers);
@@ -413,91 +462,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 
                 await dbContext.Users.AddRangeAsync(appleUsers);
 
-                var subscribers = new List<Subscriber>()
-				{
-                    new()
-                    {
-                        UserName = "Anatoly",
-                        Name = "Anatoly",
-                        Organization = organizations[2],
-                    },
-
-
-                    new()
-                    {
-                        UserName = "Oleg",
-                        Name = "Oleg",
-                        Organization = organizations[2],
-                    },
-
-                    new()
-					{
-						UserName = "Paul",
-						Name = "Paul",
-						Organization = organizations[2],
-                    },
-
-                    new()
-                    {
-                        UserName = "Vitaly",
-                        Name = "Vitaly",
-                        Organization = organizations[2],
-                    },
-
-                    new()
-                    {
-                        UserName = "Valery",
-                        Name = "Valery",
-                        Organization = organizations[2],
-                    }
-				};
-
-                var subscriberUsers = new List<UserSubscriber>()
-                {
-                    new()
-                    {
-                        User = netflixUsers[1],
-						Subscriber = subscribers[0]
-                    },
-
-                    new()
-                    {
-                        User = netflixUsers[2],
-                        Subscriber = subscribers[1]
-                    },
-
-                    new()
-                    {
-                        User = netflixUsers[3],
-                        Subscriber = subscribers[2]
-                    },
-
-                    new()
-                    {
-                        User = netflixUsers[4],
-                        Subscriber = subscribers[3]
-                    },
-
-                    new()
-                    {
-                        User = netflixUsers[5],
-                        Subscriber = subscribers[4]
-                    },
-				};
-
-                for (int i = 0; i < subscribers.Count; i++)
-                {
-					subscribers[i].Users = new List<UserSubscriber>() { subscriberUsers[i] };
-                }
-
-                for (int i = 1; i < netflixUsers.Count; i++)
-                {
-					netflixUsers[i].Subscribers = new List<UserSubscriber>() { subscriberUsers[i-1] };
-                }
-
-				await dbContext.UserSubscribers.AddRangeAsync(subscriberUsers);
-
-                await dbContext.Subscribers.AddRangeAsync(subscribers);
+				await dbContext.Subscribers.AddRangeAsync(subscribers);
 
 				var articles = new List<Article>()
 				{

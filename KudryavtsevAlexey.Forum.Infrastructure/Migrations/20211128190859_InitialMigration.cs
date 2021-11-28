@@ -53,7 +53,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,7 +78,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +101,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Articles_Users_UserId",
                         column: x => x.UserId,
@@ -131,7 +131,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Listings_Users_UserId",
                         column: x => x.UserId,
@@ -141,24 +141,24 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubscriberUsers",
+                name: "SubscriberUser",
                 columns: table => new
                 {
-                    SubscriberId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    SubscribersId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubscriberUsers", x => new { x.UserId, x.SubscriberId });
+                    table.PrimaryKey("PK_SubscriberUser", x => new { x.SubscribersId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_SubscriberUsers_Subscribers_SubscriberId",
-                        column: x => x.SubscriberId,
+                        name: "FK_SubscriberUser_Subscribers_SubscribersId",
+                        column: x => x.SubscribersId,
                         principalTable: "Subscribers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SubscriberUsers_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_SubscriberUser_Users_UsersId",
+                        column: x => x.UsersId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -182,7 +182,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ArticleId,
                         principalTable: "Articles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,13 +200,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ArticlesId,
                         principalTable: "Articles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ArticleTag_Tags_TagsId",
                         column: x => x.TagsId,
                         principalTable: "Tags",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +227,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ListingId,
                         principalTable: "Listings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,13 +245,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ListingsId,
                         principalTable: "Listings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ListingTag_Tags_TagsId",
                         column: x => x.TagsId,
                         principalTable: "Tags",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,7 +279,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ArticleId,
                         principalTable: "Articles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,7 +307,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ListingId,
                         principalTable: "Listings",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -376,9 +376,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubscriberUsers_SubscriberId",
-                table: "SubscriberUsers",
-                column: "SubscriberId");
+                name: "IX_SubscriberUser_UsersId",
+                table: "SubscriberUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_OrganizationId",
@@ -401,7 +401,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "ListingTag");
 
             migrationBuilder.DropTable(
-                name: "SubscriberUsers");
+                name: "SubscriberUser");
 
             migrationBuilder.DropTable(
                 name: "ArticleMainComments");
