@@ -11,5 +11,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Name,
         int ListingId,
         ListingDto Listing,
-        List<ListingSubCommentDto> ListingSubComments);
+        List<ListingSubCommentDto> ListingSubComments) : BaseDto(Id);
 }

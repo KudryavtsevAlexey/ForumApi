@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -260,6 +260,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ArticleId = table.Column<int>(type: "int", nullable: false),
                     ArticleMainCommentId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -272,6 +273,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.ArticleMainCommentId,
                         principalTable: "ArticleMainComments",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ArticleSubComments_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -281,6 +288,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ListingId = table.Column<int>(type: "int", nullable: false),
                     ListingMainCommentId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -292,6 +300,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         name: "FK_ListingSubComments_ListingMainComments_ListingMainCommentId",
                         column: x => x.ListingMainCommentId,
                         principalTable: "ListingMainComments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ListingSubComments_Listings_ListingId",
+                        column: x => x.ListingId,
+                        principalTable: "Listings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -310,6 +324,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_Articles_UserId",
                 table: "Articles",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArticleSubComments_ArticleId",
+                table: "ArticleSubComments",
+                column: "ArticleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleSubComments_ArticleMainCommentId",
@@ -335,6 +354,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_Listings_UserId",
                 table: "Listings",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ListingSubComments_ListingId",
+                table: "ListingSubComments",
+                column: "ListingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListingSubComments_ListingMainCommentId",

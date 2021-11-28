@@ -6,5 +6,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int Id,
         string Name,
         List<ArticleDto> Articles,
-        List<ListingDto> Listings);
+        List<ListingDto> Listings) : BaseDto(Id);
 }

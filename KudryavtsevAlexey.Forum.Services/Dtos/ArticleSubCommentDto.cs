@@ -14,5 +14,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int ArticleId,
         ArticleDto Article,
         int ArticleMainCommentId,
-        ArticleMainCommentDto ArticleMainComment);
+        ArticleMainCommentDto ArticleMainComment) : BaseDto(Id);
 }

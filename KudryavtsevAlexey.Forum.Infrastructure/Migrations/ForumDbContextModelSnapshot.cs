@@ -95,6 +95,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ArticleMainCommentId")
                         .HasColumnType("int");
 
@@ -105,6 +108,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("ArticleMainCommentId");
 
@@ -144,6 +149,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ListingMainCommentId")
                         .HasColumnType("int");
 
@@ -151,6 +159,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ListingId");
 
                     b.HasIndex("ListingMainCommentId");
 
@@ -362,11 +372,19 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ArticleSubComment", b =>
                 {
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ArticleMainComment", "ArticleMainComment")
                         .WithMany("SubComments")
                         .HasForeignKey("ArticleMainCommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Article");
 
                     b.Navigation("ArticleMainComment");
                 });
@@ -384,11 +402,19 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ListingSubComment", b =>
                 {
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", "Listing")
+                        .WithMany()
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ListingMainComment", "ListingMainComment")
                         .WithMany("SubComments")
                         .HasForeignKey("ListingMainCommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Listing");
 
                     b.Navigation("ListingMainComment");
                 });

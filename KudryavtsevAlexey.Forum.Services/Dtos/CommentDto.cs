@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record OrganizationDto(
+    public record CommentDto(
         int Id,
         string Name,
-        List<ListingDto> Listings,
-        List<UserDto> Users,
-        List<ArticleDto> Articles,
-        string ImageUrl) : BaseDto(Id);
+        DateTime CreatedAt) : BaseDto(Id);
 }

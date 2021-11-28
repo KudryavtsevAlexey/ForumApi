@@ -824,6 +824,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
                             Name = $"Subcomment to {articles[i].Title} article",
                             CreatedAt = DateTime.Now.Subtract(TimeSpan.FromDays(i + 10 - timeToAnswer)),
                             ArticleMainComment = mainComment,
+							Article = articles[i]
                         };
 
 						mainComment.SubComments = new List<ArticleSubComment>() { subComment };
@@ -851,6 +852,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Helpers
 							Name = $"Subcomment to {listings[i].Title} listing",
 							CreatedAt = DateTime.Now.Subtract(TimeSpan.FromDays(i + 10 - timeToAnswer)),
                             ListingMainComment = mainComment,
+							Listing = listings[i]
 						};
 
 						mainComment.SubComments = new List<ListingSubComment>() { subComment };

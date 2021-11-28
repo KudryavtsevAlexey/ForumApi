@@ -12,5 +12,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         DateTime CreatedAt,
         int ArticleId,
         ArticleDto Article,
-        List<ArticleSubCommentDto> SubComments);
+        List<ArticleSubCommentDto> SubComments) : BaseDto(Id);
 }

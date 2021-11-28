@@ -75,6 +75,16 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .HasKey(k => k.Id);
 
             builder.Entity<ArticleSubComment>()
+                .HasOne(x => x.ArticleMainComment)
+                .WithMany(x => x.SubComments)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ListingSubComment>()
+                .HasOne(x => x.ListingMainComment)
+                .WithMany(x => x.SubComments)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ArticleSubComment>()
                 .HasKey(k => k.Id);
 
             builder.Entity<ListingSubComment>()

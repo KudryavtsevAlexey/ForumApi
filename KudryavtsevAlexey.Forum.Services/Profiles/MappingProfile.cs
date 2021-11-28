@@ -16,25 +16,25 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
 
             CreateMap<ArticleDto, Article>();
 
-            CreateMap<Article, PutArticleDto>()
-                .MaxDepth(1);
-
             CreateMap<ArticleMainComment, ArticleMainCommentDto>()
-                .ForMember(x=>x.SubComments, opt=>opt.MapFrom(x=>x.SubComments));
+                .MaxDepth(1);
 
             CreateMap<ArticleMainCommentDto, ArticleMainComment>();
 
             CreateMap<ArticleSubComment, ArticleSubCommentDto>()
-                .ForMember(x=>x.ArticleMainComment, opt=>opt.MapFrom(x=>x.ArticleMainComment));
+                .MaxDepth(1);
 
             CreateMap<ArticleSubCommentDto, ArticleSubComment>();
 
             CreateMap<Tag, TagDto>()
                 .MaxDepth(1);
 
-            CreateMap<TagDto, Tag>();
+            CreateMap<Article, PutArticleDto>()
+                .MaxDepth(1);
 
             CreateMap<PutArticleDto, Article>();
+
+            CreateMap<TagDto, Tag>();
 
             CreateMap<Listing, ListingDto>()
                 .MaxDepth(1);
