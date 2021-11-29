@@ -330,13 +330,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", null)
                         .WithMany()
                         .HasForeignKey("ArticlesId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -345,7 +345,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Articles")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", "User")
@@ -364,7 +364,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", "Article")
                         .WithMany("MainComments")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Article");
@@ -375,7 +375,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", "Article")
                         .WithMany()
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ArticleMainComment", "ArticleMainComment")
@@ -394,7 +394,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", "Listing")
                         .WithMany("MainComments")
                         .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Listing");
@@ -405,7 +405,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", "Listing")
                         .WithMany()
                         .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Comments.ListingMainComment", "ListingMainComment")
@@ -424,7 +424,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Listings")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", "User")
@@ -443,7 +443,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Organization");
@@ -454,7 +454,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
                         .WithMany("Users")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Organization");
@@ -465,13 +465,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", null)
                         .WithMany()
                         .HasForeignKey("ListingsId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -480,7 +480,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", null)
                         .WithMany()
                         .HasForeignKey("SubscribersId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.User", null)

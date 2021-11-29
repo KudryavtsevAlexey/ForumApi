@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
@@ -8,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -26,8 +24,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleMainCommentDto>> GetArticleComments(int id)
         {
             var articleMainComments = await _dbContext.ArticleMainComments
-                .Where(a => a.ArticleId == id)
-                .Include(a => a.Article)
+                .Where(x => x.ArticleId == id)
+                .Include(x => x.Article)
                 .Include(x => x.SubComments)
                 .ToListAsync();
 
@@ -44,9 +42,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ListingMainCommentDto>> GetListingComments(int id)
         {
             var listingMainComments = await _dbContext.ListingMainComments
-                .Where(a => a.ListingId == id)
-                .Include(l => l.Listing)
-                .Include(c => c.SubComments)
+                .Where(x => x.ListingId == id)
+                .Include(x => x.Listing)
+                .Include(x => x.SubComments)
                 .ToListAsync();
 
             if (listingMainComments is null)
@@ -62,9 +60,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ArticleMainCommentDto> GetArticleMainCommentById(int id)
         {
             var articleMainComment = await _dbContext.ArticleMainComments
-                .Include(c => c.SubComments)
-                .Include(a => a.Article)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Include(x => x.Article)
+                .Include(x => x.SubComments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (articleMainComment is null)
             {
@@ -79,9 +77,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ListingMainCommentDto> GetListingMainCommentById(int id)
         {
             var listingMainComment = await _dbContext.ListingMainComments
-                .Include(c => c.SubComments)
-                .Include(l => l.Listing)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Include(x => x.Listing)
+                .Include(x => x.SubComments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (listingMainComment is null)
             {
@@ -96,9 +94,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ArticleSubCommentDto> GetArticleSubCommentById(int id)
         {
             var articleSubComment = await _dbContext.ArticleSubComments
-                .Include(c=>c.ArticleMainComment)
-                .Include(x=>x.Article)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Include(x => x.Article)
+                .Include(x => x.ArticleMainComment)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (articleSubComment is null)
             {
@@ -113,9 +111,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ListingSubCommentDto> GetListingSubCommentById(int id)
         {
             var listingSubComment = await _dbContext.ListingSubComments
-                .Include(c=>c.ListingMainComment)
-                .Include(x=>x.Listing)
-                .FirstOrDefaultAsync(c => c.Id == id);
+                .Include(x => x.Listing)
+                .Include(x => x.ListingMainComment)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (listingSubComment is null)
             {
@@ -130,8 +128,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleMainCommentDto>> GetAllArticlesComments()
         {
             var allArticleMainComments = await _dbContext.ArticleMainComments
-                .Include(c => c.SubComments)
-                .Include(x=>x.Article)
+                .Include(x => x.Article)
+                .Include(x => x.SubComments)
                 .ToListAsync();
 
             if (allArticleMainComments is null)
@@ -147,8 +145,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ListingMainCommentDto>> GetAllListingsComments()
         {
             var allListingMainComments = await _dbContext.ListingMainComments
-                .Include(c => c.SubComments)
-                .Include(x=>x.Listing)
+                .Include(x => x.Listing)
+                .Include(x => x.SubComments)
                 .ToListAsync();
 
             if (allListingMainComments is null)

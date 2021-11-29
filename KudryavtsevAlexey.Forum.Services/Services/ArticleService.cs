@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Azure;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
@@ -30,35 +31,58 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(article));
             }
 
-            var articleToAdding = _mapper.Map<ArticleDto, Article>(article);
+            var articleToAdding = new Article();
 
-            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(o => o.Id == article.OrganizationId);
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(article.Tags is null))
+            {
+                articleToAdding.Tags = new List<Tag>();
+                for (int i = 0; i < article.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(article.Tags[i].Id))
+                    {
+                        int tagId = article.Tags[i].Id;
+                        tags[tagId-1].Articles = new List<Article>() { articleToAdding };
+                        articleToAdding.Tags.Add(tags[tagId-1]);
+                    }
+                }
+            }
+
+            var organization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(x => x.Id == article.OrganizationId);
 
             if (organization is null)
             {
                 throw new OrganizationNotFoundException(article.Organization.Name);
             }
 
-            organization.Articles = new List<Article>();
-            organization.Articles.Add(articleToAdding);
+            organization.Articles = new List<Article>() { articleToAdding };
 
             articleToAdding.Organization = organization;
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == articleToAdding.UserId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == article.UserId);
 
-            if (user is null) throw new UserNotFoundException(articleToAdding.UserId);
+            if (user is null)
+            {
+                throw new UserNotFoundException(article.UserId);
+            }
 
-            user.Articles = new List<Article>();
-            user.Articles.Add(articleToAdding);
+            user.Articles = new List<Article>() { articleToAdding };
 
             articleToAdding.User = user;
+
+            articleToAdding.Title = article.Title;
+            articleToAdding.ShortDescription = article.ShortDescription;
 
             try
             {
                 await _dbContext.Articles.AddAsync(articleToAdding);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleToAdding.Id).GetAwaiter().GetResult())
+
+            catch (DbUpdateConcurrencyException) when (!ArticleExists(article.Id).GetAwaiter().GetResult())
             {
                 // TODO: ILogger
             }
@@ -66,10 +90,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<ArticleDto> GetArticleById(int id)
         {
-            var article = await _dbContext.Articles 
-                .Include(x=>x.User)
-                .Include(x=>x.Tags)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var article = await _dbContext.Articles
+                .Include(x => x.User)
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (article is null)
             {
@@ -84,8 +108,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetArticlesByUserId(int id)
         {
             var userArticles = await _dbContext.Articles
-                .Where(a => a.UserId == id)
-                .Include(t => t.Tags)
+                .Where(x => x.UserId == id)
+                .Include(x => x.Tags)
                 .ToListAsync();
 
             if (userArticles is null)
@@ -101,9 +125,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetPublishedArticles()
         {
             var publishedArticles = await _dbContext.Articles
-                .Where(a => a.PublishedAt != null)
-                .Include(u => u.User)
-                .Include(t => t.Tags)
+                .Where(x => x.PublishedAt != null)
+                .Include(x => x.User)
+                .Include(x => x.Tags)
                 .ToListAsync();
 
             if (publishedArticles is null)
@@ -119,10 +143,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetPublishedArticlesByUserId(int id)
         {
             var userPublishedArticles = await _dbContext.Articles
-                .Where(a => a.UserId == id)
-                .Where(a => a.PublishedAt != null)
-                .Include(u => u.User)
-                .Include(t => t.Tags)
+                .Where(x => x.UserId == id)
+                .Where(x => x.PublishedAt != null)
+                .Include(x => x.User)
+                .Include(x => x.Tags)
                 .ToListAsync();
 
             if (userPublishedArticles is null)
@@ -138,10 +162,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id)
         {
             var userUnpublishedArticles = await _dbContext.Articles
-                .Where(a => a.UserId == id)
-                .Where(a => a.PublishedAt == null)
+                .Where(x => x.UserId == id)
+                .Where(x => x.PublishedAt == null)
                 .Include(x => x.User)
-                .Include(t => t.Tags)
+                .Include(x => x.Tags)
                 .ToListAsync();
 
             if (userUnpublishedArticles is null)
@@ -157,9 +181,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> SortArticlesByDate()
         {
             var articlesByDate = await _dbContext.Articles
-                .OrderByDescending(a => a.PublishedAt)
-                .Include(u => u.User)
-                .Include(t => t.Tags)
+                .OrderByDescending(x => x.PublishedAt)
+                .Include(x => x.User)
+                .Include(x => x.Tags)
                 .ToListAsync();
 
             if (articlesByDate is null)
@@ -181,14 +205,32 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var articleToUpdating = await _dbContext.Articles
                 .Include(x => x.Tags)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (articleToUpdating is null)
             {
                 throw new ArticleNotFoundException(id);
             }
 
-            articleToUpdating = _mapper.Map<Article>(article);
+            articleToUpdating.Title = article.Title;
+            articleToUpdating.ShortDescription = article.ShortDescription;
+
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(article.Tags is null))
+            {
+                articleToUpdating.Tags = new List<Tag>();
+                for (int i = 0; i < article.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(article.Tags[i].Id))
+                    {
+                        int tagId = article.Tags[i].Id;
+                        tags[tagId-1].Articles = new List<Article>() { articleToUpdating };
+                        articleToUpdating.Tags.Add(tags[tagId-1]);
+                    }
+                }
+            }
 
             try
             {
@@ -204,10 +246,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ArticleDto> GetPublishedArticleById(int id)
         {
             var publishedArticle = await _dbContext.Articles
-                .Where(a => a.PublishedAt != null)
-                .Include(u => u.User)
-                .Include(t => t.Tags)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .Where(x => x.PublishedAt != null)
+                .Include(x => x.User)
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (publishedArticle is null)
             {
@@ -221,7 +263,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         private async Task<bool> ArticleExists(int id)
         {
-            return await _dbContext.Articles.AnyAsync(a => a.Id == id);
+            return await _dbContext.Articles.AnyAsync(x => x.Id == id);
         }
     }
 }

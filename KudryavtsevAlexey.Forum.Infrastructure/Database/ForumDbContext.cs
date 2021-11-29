@@ -36,38 +36,39 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Article>()
-                .HasKey(k => k.Id);
+                .HasKey(x => x.Id);
 
             builder.Entity<Article>()
-                .HasOne(u => u.User)
-                .WithMany(a => a.Articles)
+                .HasOne(x => x.User)
+                .WithMany(x => x.Articles)
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Listing>()
-                .HasKey(k => k.Id);
+                .HasKey(x => x.Id);
 
             builder.Entity<Listing>()
-                .HasOne(u => u.User)
-                .WithMany(a => a.Listings)
+                .HasOne(x => x.User)
+                .WithMany(x => x.Listings)
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<User>()
                 .HasKey(x => x.Id);
 
+            builder.Entity<User>();
+
             builder.Entity<User>()
-                .HasAlternateKey(x => x.Id);
+                .HasMany(x => x.Subscribers)
+                .WithMany(x => x.Users)
+                .LeftNavigation.ForeignKey.DeleteBehavior = DeleteBehavior.Restrict;
 
             builder.Entity<Subscriber>()
                 .HasKey(x => x.Id);
-
-            builder.Entity<Subscriber>()
-                .HasAlternateKey(x => x.Id);
 
             builder.Entity<ArticleMainComment>()
-                .HasKey(k => k.Id);
+                .HasKey(x => x.Id);
 
             builder.Entity<ListingMainComment>()
-                .HasKey(k => k.Id);
+                .HasKey(x => x.Id);
 
             builder.Entity<ArticleSubComment>()
                 .HasOne(x => x.ArticleMainComment)
@@ -80,15 +81,10 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ArticleSubComment>()
-                .HasKey(k => k.Id);
+                .HasKey(x => x.Id);
 
             builder.Entity<ListingSubComment>()
-                .HasKey(k => k.Id);
-
-            foreach (var relationShip in builder.Model.GetEntityTypes().SelectMany(x => x.GetForeignKeys()))
-            {
-                relationShip.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+                .HasKey(x => x.Id);
 
             base.OnModelCreating(builder);
         }

@@ -58,7 +58,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.ArticleId, opt => opt.MapFrom(x => x.ArticleId))
                 .ForMember(x => x.Article, opt => opt.MapFrom(x => x.Article))
                 .ForMember(x => x.ArticleMainCommentId, opt => opt.MapFrom(x => x.ArticleMainCommentId))
-                .ForMember(x=>x.ArticleMainComment, opt=>opt.MapFrom(x=>x.ArticleMainComment))
+                .ForMember(x => x.ArticleMainComment, opt => opt.MapFrom(x => x.ArticleMainComment))
                 .MaxDepth(1);
 
             CreateMap<ArticleSubCommentDto, ArticleSubComment>()
@@ -151,29 +151,63 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .MaxDepth(1);
 
             CreateMap<ListingSubCommentDto, ListingSubComment>()
-            .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
-            .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
-            .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
-            .ForMember(x => x.ListingId, opt => opt.MapFrom(x => x.ListingId))
-            .ForMember(x => x.Listing, opt => opt.MapFrom(x => x.Listing))
-            .ForMember(x => x.ListingMainCommentId, opt => opt.MapFrom(x => x.ListingMainCommentId))
-            .ForMember(x => x.ListingMainComment, opt => opt.MapFrom(x => x.ListingMainComment));
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
+                .ForMember(x => x.ListingId, opt => opt.MapFrom(x => x.ListingId))
+                .ForMember(x => x.Listing, opt => opt.MapFrom(x => x.Listing))
+                .ForMember(x => x.ListingMainCommentId, opt => opt.MapFrom(x => x.ListingMainCommentId))
+                .ForMember(x => x.ListingMainComment, opt => opt.MapFrom(x => x.ListingMainComment));
 
             CreateMap<Subscriber, SubscriberDto>()
-                .ForMember(x=>x.Id, opt=>opt.MapFrom(x=>x.Id))
-                .ForMember(x=>x.Name, opt=>opt.MapFrom(x=>x.Name))
-                .ForMember(x=>x.UserName, opt=>opt.MapFrom(x=>x.UserName))
-                .ForMember(x=>x.ImageUrl, opt=>opt.MapFrom(x=>x.ImageUrl))
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
+                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .ForMember(x => x.Users, opt => opt.MapFrom(x => x.Users))
+                .ForMember(x => x.ImageUrl, opt => opt.MapFrom(x => x.ImageUrl))
                 .MaxDepth(1);
 
-            CreateMap<SubscriberDto, Subscriber>();
+
+            CreateMap<SubscriberDto, Subscriber>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
+                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .ForMember(x => x.Users, opt => opt.MapFrom(x => x.Users))
+                .ForMember(x => x.ImageUrl, opt => opt.MapFrom(x => x.ImageUrl));
 
             CreateMap<Organization, OrganizationDto>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Users, opt => opt.MapFrom(x => x.Users))
+                .ForMember(x => x.Articles, opt => opt.MapFrom(x => x.Articles))
+                .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings))
+                .ForMember(x => x.ImageUrl, opt => opt.MapFrom(x => x.ImageUrl))
                 .MaxDepth(1);
 
-            CreateMap<OrganizationDto, Organization>();
+            CreateMap<OrganizationDto, Organization>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Users, opt => opt.MapFrom(x => x.Users))
+                .ForMember(x => x.Articles, opt => opt.MapFrom(x => x.Articles))
+                .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings))
+                .ForMember(x => x.ImageUrl, opt => opt.MapFrom(x => x.ImageUrl));
 
             CreateMap<User, UserDto>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.Location, opt => opt.MapFrom(x => x.Location))
+                .ForMember(x => x.Summary, opt => opt.MapFrom(x => x.Summary))
+                .ForMember(x => x.JoinedAt, opt => opt.MapFrom(x => x.JoinedAt))
+                .ForMember(x => x.Articles, opt => opt.MapFrom(x => x.Articles))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
+                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings))
+                .ForMember(x => x.Subscribers, opt => opt.MapFrom(x => x.Subscribers))
                 .MaxDepth(1);
 
             CreateMap<UserDto, User>();
