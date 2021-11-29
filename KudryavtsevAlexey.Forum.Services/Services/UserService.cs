@@ -14,16 +14,20 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class UserService : IUserService
     {
         private readonly ForumDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserService(ForumDbContext dbContext)
+        public UserService(ForumDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public void AuthenticateUser(User user)
@@ -50,16 +54,35 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             //var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<UserDto> GetUserById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
 
-            if (user == null)
+            if (user is null)
             {
                 throw new UserNotFoundException(id);
             }
 
-            return user;
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return userDto;
         }
+
+        public async Task<List<SubscriberDto>> GetUserSubscribers(int id)
+        {
+            var user = await _dbContext.Users
+                .Include(x=>x.Subscribers)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            var subscribers = _mapper.Map<List<SubscriberDto>>(user.Subscribers);
+
+            return subscribers;
+        }
+
     }
 }

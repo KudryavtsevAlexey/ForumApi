@@ -20,9 +20,9 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         {
             _lazyArticleService = new Lazy<IArticleService>(() => new ArticleService(dbContext, mapper));
             _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(dbContext, mapper));
-            _lazyListingService = new Lazy<IListingService>(() => new ListingService(dbContext));
+            _lazyListingService = new Lazy<IListingService>(() => new ListingService(dbContext, mapper));
             _lazyOrganizationService = new Lazy<IOrganizationService>(() => new OrganizationService(dbContext));
-            _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext));
+            _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext, mapper));
         }
 
         public IArticleService ArticleService => _lazyArticleService.Value;

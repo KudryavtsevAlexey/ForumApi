@@ -32,22 +32,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var articleToAdding = _mapper.Map<ArticleDto, Article>(article);
 
-            var tags = new List<Tag>();
-
-            if (!(article.Tags is null))
-            {
-                foreach (var articleTag in article.Tags)
-                {
-                    var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
-
-                    if (tag is null) throw new TagNotFoundException(articleTag.Id);
-
-                    tags.Add(tag);
-                }
-            }
-
-            articleToAdding.Tags = new List<Tag>(tags);
-
             var organization = await _dbContext.Organizations.FirstOrDefaultAsync(o => o.Id == article.OrganizationId);
 
             if (organization is null)
@@ -100,8 +84,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetArticlesByUserId(int id)
         {
             var userArticles = await _dbContext.Articles
-                .Include(u => u.User)
-                .ThenInclude(x=>x.Articles)
                 .Where(a => a.UserId == id)
                 .Include(t => t.Tags)
                 .ToListAsync();
@@ -156,9 +138,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id)
         {
             var userUnpublishedArticles = await _dbContext.Articles
-                .Include(u => u.User)
                 .Where(a => a.UserId == id)
                 .Where(a => a.PublishedAt == null)
+                .Include(x => x.User)
                 .Include(t => t.Tags)
                 .ToListAsync();
 
@@ -197,40 +179,23 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(article));
             }
 
-            var articleToUpdate = await _dbContext.Articles
+            var articleToUpdating = await _dbContext.Articles
                 .Include(x => x.Tags)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            var tags = new List<Tag>();
-
-            if (!(article.Tags is null))
-            {
-                foreach (var articleTag in article.Tags)
-                {
-                    var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == articleTag.Id);
-
-                    if (tag is null) throw new TagNotFoundException(articleTag.Id);
-
-                    tags.Add(tag);
-                }
-            }
-
-            articleToUpdate.Tags = new List<Tag>(tags);
-
-            if (articleToUpdate is null)
+            if (articleToUpdating is null)
             {
                 throw new ArticleNotFoundException(id);
             }
 
-            articleToUpdate.Title = article.Title;
-            articleToUpdate.ShortDescription = article.ShortDescription;
+            articleToUpdating = _mapper.Map<Article>(article);
 
             try
             {
-                _dbContext.Update(articleToUpdate);
+                _dbContext.Articles.Update(articleToUpdating);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleToUpdate.Id).GetAwaiter().GetResult())
+            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleToUpdating.Id).GetAwaiter().GetResult())
             {
                 // TODO: ILogger
             }

@@ -1,8 +1,6 @@
 ﻿using System;
 
-using KudryavtsevAlexey.Forum.Domain.BaseEntities;
-
-namespace KudryavtsevAlexey.Forum.Domain.Entities.Comments
+namespace KudryavtsevAlexey.Forum.Domain.BaseEntities
 {
     public class Comment : BaseEntity
     {

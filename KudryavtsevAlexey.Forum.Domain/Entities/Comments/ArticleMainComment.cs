@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KudryavtsevAlexey.Forum.Domain.BaseEntities;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities.Comments
 {
