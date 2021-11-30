@@ -22,7 +22,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id);
 
-        public Task UpdateListing(int id, ListingDto listing);
+        public Task UpdateListing(int id, PutListingDto listing);
 
         public Task<ListingDto> GetPublishedListingById(int id);
     }

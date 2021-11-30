@@ -219,7 +219,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing(int id, ListingDto listing)
+        public async Task<IActionResult> UpdateListing(int id, PutListingDto listing)
         {
             await _serviceManager.ListingService.UpdateListing(id, listing);
 

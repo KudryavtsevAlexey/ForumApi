@@ -209,7 +209,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task UpdateListing(int id, ListingDto listing)
+        public async Task UpdateListing(int id, PutListingDto listing)
         {
             if (listing is null)
             {
