@@ -1,12 +1,6 @@
-﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-
-using System;
+﻿using KudryavtsevAlexey.Forum.Services.Dtos;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
@@ -28,7 +22,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id);
 
-        public Task UpdateListing(ListingDto listing);
+        public Task UpdateListing(int id, ListingDto listing);
 
         public Task<ListingDto> GetPublishedListingById(int id);
     }

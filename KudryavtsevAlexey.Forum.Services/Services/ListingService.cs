@@ -34,7 +34,51 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(listing));
             }
 
-            var listingToAdding = _mapper.Map<Listing>(listing);
+            var listingToAdding = new Listing();
+
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(listing.Tags is null))
+            {
+                listingToAdding.Tags = new List<Tag>();
+                for (int i = 0; i < listing.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(listing.Tags[i].Id))
+                    {
+                        int tagId = listing.Tags[i].Id;
+                        tags[tagId - 1].Listings = new List<Listing>() { listingToAdding };
+                        listingToAdding.Tags.Add(tags[tagId - 1]);
+                    }
+                }
+            }
+
+            var organization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(x => x.Id == listing.OrganizationId);
+
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(listing.Organization.Name);
+            }
+
+            organization.Listings = new List<Listing>() { listingToAdding };
+
+            listingToAdding.Organization = organization;
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listing.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(listing.UserId);
+            }
+
+            user.Listings = new List<Listing>() { listingToAdding };
+
+            listingToAdding.User = user;
+
+            listingToAdding.Title = listing.Title;
+            listingToAdding.ShortDescription = listing.ShortDescription;
+            listingToAdding.Category = listing.Category;
 
             try
             {
@@ -49,7 +93,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task<ListingDto> GetListingById(int id)
         {
-            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x=>x.Id == id);
+            var listing = await _dbContext.Listings
+                .Include(x=>x.Tags)
+                .FirstOrDefaultAsync(x=>x.Id == id);
 
             if (listing is null)
             {
@@ -65,6 +111,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var userListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
+                .Include(x=>x.Tags)
                 .ToListAsync();
 
             if (userListings is null)
@@ -162,14 +209,41 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task UpdateListing(ListingDto listing)
+        public async Task UpdateListing(int id, ListingDto listing)
         {
             if (listing is null)
             {
                 throw new ArgumentNullException(nameof(listing));
             }
 
-            var listingToUpdating = _mapper.Map<Listing>(listing);
+            var listingToUpdating = await _dbContext.Listings
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listingToUpdating is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
+
+            listingToUpdating.Title = listing.Title;
+            listingToUpdating.ShortDescription = listing.ShortDescription;
+
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(listingToUpdating.Tags is null))
+            {
+                listingToUpdating.Tags = new List<Tag>();
+                for (int i = 0; i < listing.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(listing.Tags[i].Id))
+                    {
+                        int tagId = listing.Tags[i].Id;
+                        tags[tagId - 1].Listings = new List<Listing>() { listingToUpdating };
+                        listingToUpdating.Tags.Add(tags[tagId - 1]);
+                    }
+                }
+            }
 
             try
             {

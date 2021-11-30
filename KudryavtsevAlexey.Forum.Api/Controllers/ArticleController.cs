@@ -190,7 +190,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Adds article
         /// </summary>
         /// <returns>Ok if article added</returns>
-        /// <response code="201">Returns ok when article added</response>
+        /// <response code="201">Returns ok if article added</response>
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -205,7 +205,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Updates article
         /// </summary>
         /// <returns>Ok if article updated</returns>
-        /// <response code="200">Returns ok when article updated</response>
+        /// <response code="200">Returns ok if article updated</response>
         [HttpPut]
         [Route("updating/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
