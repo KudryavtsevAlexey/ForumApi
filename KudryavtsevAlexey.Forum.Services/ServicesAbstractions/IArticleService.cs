@@ -9,7 +9,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
     {
         public Task<List<ArticleDto>> GetPublishedArticles();
 
-        public Task AddArticle(ArticleDto article);
+        public Task AddArticle(ArticleDto articleDto);
 
         public Task<List<ArticleDto>> SortArticlesByDate();
 
@@ -21,7 +21,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id);
 
-        public Task UpdateArticle(int id, PutArticleDto article);
+        public Task UpdateArticle(int id, PutArticleDto articleDto);
 
         public Task<ArticleDto> GetPublishedArticleById(int id);
     }

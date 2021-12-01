@@ -25,7 +25,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetArticleById(int id)
+        public async Task<IActionResult> GetArticleById([FromQuery] int id)
         {
             var article = await _serviceManager.ArticleService.GetArticleById(id);
 
@@ -86,7 +86,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticleById(int id)
+        public async Task<IActionResult> GetPublishedArticleById([FromQuery] int id)
         {
             var article = await _serviceManager.ArticleService.GetPublishedArticleById(id);
 
@@ -108,7 +108,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticlesByUserId(int id)
+        public async Task<IActionResult> GetArticlesByUserId([FromQuery] int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -130,7 +130,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticlesByUserId(int id)
+        public async Task<IActionResult> GetPublishedArticlesByUserId([FromQuery] int id)
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
@@ -152,7 +152,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedArticlesByUserId(int id)
+        public async Task<IActionResult> GetUnpublishedArticlesByUserId([FromQuery] int id)
         {
             var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
 
@@ -174,7 +174,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllArticlesByUserId(int id)
+        public async Task<IActionResult> GetAllArticlesByUserId([FromQuery] int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -194,11 +194,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateArticle(ArticleDto article)
+        public async Task<IActionResult> CreateArticle([FromQuery] ArticleDto articleDto)
         {
-            await _serviceManager.ArticleService.AddArticle(article);
+            await _serviceManager.ArticleService.AddArticle(articleDto);
 
-            return Ok(article);
+            return Ok(articleDto);
         }
 
         /// <summary>
@@ -209,11 +209,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPut]
         [Route("updating/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateArticle(int id, PutArticleDto article)
+        public async Task<IActionResult> UpdateArticle([FromQuery] int id, [FromQuery] PutArticleDto articleDto)
         {
-            await _serviceManager.ArticleService.UpdateArticle(id, article);
+            await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 
-            return Ok(article);
+            return Ok(articleDto);
         }
     }
 }

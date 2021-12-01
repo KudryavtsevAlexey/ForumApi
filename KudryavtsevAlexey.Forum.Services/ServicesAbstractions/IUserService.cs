@@ -13,8 +13,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
     {
         public Task<UserDto> GetUserById(int id);
 
-        public void AuthenticateUser(User user);
-
         public Task<List<SubscriberDto>> GetUserSubscribers(int id);
     }
 }

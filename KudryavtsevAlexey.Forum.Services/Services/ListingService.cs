@@ -27,11 +27,11 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task AddListing(ListingDto listing)
+        public async Task AddListing(ListingDto listingDto)
         {
-            if (listing is null)
+            if (listingDto is null)
             {
-                throw new ArgumentNullException(nameof(listing));
+                throw new ArgumentNullException(nameof(listingDto));
             }
 
             var listingToAdding = new Listing();
@@ -39,14 +39,14 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var tags = await _dbContext.Tags.ToListAsync();
             int[] identifiers = tags.Select(x => x.Id).ToArray();
 
-            if (!(listing.Tags is null))
+            if (!(listingDto.Tags is null))
             {
                 listingToAdding.Tags = new List<Tag>();
-                for (int i = 0; i < listing.Tags.Count; i++)
+                for (int i = 0; i < listingDto.Tags.Count; i++)
                 {
-                    if (identifiers.Contains(listing.Tags[i].Id))
+                    if (identifiers.Contains(listingDto.Tags[i].Id))
                     {
-                        int tagId = listing.Tags[i].Id;
+                        int tagId = listingDto.Tags[i].Id;
                         tags[tagId - 1].Listings = new List<Listing>() { listingToAdding };
                         listingToAdding.Tags.Add(tags[tagId - 1]);
                     }
@@ -54,31 +54,31 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Id == listing.OrganizationId);
+                .FirstOrDefaultAsync(x => x.Id == listingDto.OrganizationId);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(listing.Organization.Name);
+                throw new OrganizationNotFoundException(listingDto.Organization.Name);
             }
 
             organization.Listings = new List<Listing>() { listingToAdding };
 
             listingToAdding.Organization = organization;
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listing.UserId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingDto.UserId);
 
             if (user is null)
             {
-                throw new UserNotFoundException(listing.UserId);
+                throw new UserNotFoundException(listingDto.UserId);
             }
 
             user.Listings = new List<Listing>() { listingToAdding };
 
             listingToAdding.User = user;
 
-            listingToAdding.Title = listing.Title;
-            listingToAdding.ShortDescription = listing.ShortDescription;
-            listingToAdding.Category = listing.Category;
+            listingToAdding.Title = listingDto.Title;
+            listingToAdding.ShortDescription = listingDto.ShortDescription;
+            listingToAdding.Category = listingDto.Category;
 
             try
             {
@@ -94,8 +94,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         public async Task<ListingDto> GetListingById(int id)
         {
             var listing = await _dbContext.Listings
-                .Include(x=>x.Tags)
-                .FirstOrDefaultAsync(x=>x.Id == id);
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (listing is null)
             {
@@ -136,7 +136,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArgumentNullException(nameof(category));    
             }
 
-            var listingsByCategory = await _dbContext.Listings.Where(l => l.Category == category)
+            var listingsByCategory = await _dbContext.Listings.Where(l => l.Category.ToLower() == category.ToLower())
                 .Where(l => l.PublishedAt != null)
                 .ToListAsync();
 
@@ -179,11 +179,11 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task UpdateListing(int id, PutListingDto listing)
+        public async Task UpdateListing(int id, PutListingDto listingDto)
         {
-            if (listing is null)
+            if (listingDto is null)
             {
-                throw new ArgumentNullException(nameof(listing));
+                throw new ArgumentNullException(nameof(listingDto));
             }
 
             var listingToUpdating = await _dbContext.Listings
@@ -195,8 +195,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleNotFoundException(id);
             }
 
-            listingToUpdating.Title = listing.Title;
-            listingToUpdating.ShortDescription = listing.ShortDescription;
+            listingToUpdating.Title = listingDto.Title;
+            listingToUpdating.ShortDescription = listingDto.ShortDescription;
 
             var tags = await _dbContext.Tags.ToListAsync();
             int[] identifiers = tags.Select(x => x.Id).ToArray();
@@ -204,11 +204,11 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             if (!(listingToUpdating.Tags is null))
             {
                 listingToUpdating.Tags = new List<Tag>();
-                for (int i = 0; i < listing.Tags.Count; i++)
+                for (int i = 0; i < listingDto.Tags.Count; i++)
                 {
-                    if (identifiers.Contains(listing.Tags[i].Id))
+                    if (identifiers.Contains(listingDto.Tags[i].Id))
                     {
-                        int tagId = listing.Tags[i].Id;
+                        int tagId = listingDto.Tags[i].Id;
                         tags[tagId - 1].Listings = new List<Listing>() { listingToUpdating };
                         listingToUpdating.Tags.Add(tags[tagId - 1]);
                     }

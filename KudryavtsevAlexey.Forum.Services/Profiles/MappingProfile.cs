@@ -84,14 +84,12 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings));
 
             CreateMap<Article, PutArticleDto>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
                 .ForMember(x => x.ShortDescription, opt => opt.MapFrom(x => x.ShortDescription))
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags))
                 .MaxDepth(1);
 
             CreateMap<PutArticleDto, Article>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
                 .ForMember(x => x.ShortDescription, opt => opt.MapFrom(x => x.ShortDescription))
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags));

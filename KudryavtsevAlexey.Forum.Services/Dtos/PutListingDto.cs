@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
     public record PutListingDto(
-        int Id,
         string Title,
         string ShortDescription,
         string Category,
