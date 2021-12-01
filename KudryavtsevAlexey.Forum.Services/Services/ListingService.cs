@@ -114,11 +114,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x=>x.Tags)
                 .ToListAsync();
 
-            if (userListings is null)
-            {
-                throw new ListingsNotFoundException();
-            }
-
             var userListingsDtos = _mapper.Map<List<ListingDto>>(userListings);
 
             return userListingsDtos;
@@ -128,11 +123,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var publishedListings =  await _dbContext.Listings.Where(l => l.PublishedAt != null)
                 .ToListAsync();
-
-            if (publishedListings is null)
-            {
-                throw new ListingsNotFoundException();
-            }
 
             var publishedListingsDtos = _mapper.Map<List<ListingDto>>(publishedListings);
 
@@ -150,11 +140,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(l => l.PublishedAt != null)
                 .ToListAsync();
 
-            if (listingsByCategory is null)
-            {
-                throw new ListingsNotFoundException();
-            }
-
             var listingsByCategoryDtos = _mapper.Map<List<ListingDto>>(listingsByCategory);
 
             return listingsByCategoryDtos;
@@ -166,11 +151,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(x => x.UserId == id)
                 .Where(x => x.PublishedAt != null)
                 .ToListAsync();
-
-            if (userPublishedListings is null)
-            {
-                throw new ListingsNotFoundException();
-            }
 
             var userPublishedListingsDtos = _mapper.Map<List<ListingDto>>(userPublishedListings);
 
@@ -184,11 +164,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Where(x => x.PublishedAt == null)
                 .ToListAsync();
 
-            if (userPublishedListings is null)
-            {
-                throw new ListingsNotFoundException();
-            }
-
             var userPublishedListingsDtos = _mapper.Map<List<ListingDto>>(userPublishedListings);
 
             return userPublishedListingsDtos;
@@ -198,11 +173,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var listingsByDate =  await _dbContext.Listings.OrderByDescending(l => l.PublishedAt)
                 .ToListAsync();
-
-            if (listingsByDate is null)
-            {
-                throw new ListingsNotFoundException();
-            }
 
             var listingsByDateDtos = _mapper.Map<List<ListingDto>>(listingsByDate);
 

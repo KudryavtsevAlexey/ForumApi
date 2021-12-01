@@ -29,11 +29,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.SubComments)
                 .ToListAsync();
 
-            if (articleMainComments is null)
-            {
-                throw new ArticleMainCommentsNotFoundException(id);
-            }
-
             List<ArticleMainCommentDto> articleMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(articleMainComments);
 
             return articleMainCommentsDtos;
@@ -46,11 +41,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Listing)
                 .Include(x => x.SubComments)
                 .ToListAsync();
-
-            if (listingMainComments is null)
-            {
-                throw new ListingMainCommentsNotFoundException(id);
-            }
 
             List<ListingMainCommentDto> listingMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(listingMainComments);
 
@@ -132,11 +122,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.SubComments)
                 .ToListAsync();
 
-            if (allArticleMainComments is null)
-            {
-                throw new ArticlesCommentsNotFoundException();
-            }
-
             var allArticlesMainCommentsDtos = _mapper.Map<List<ArticleMainCommentDto>>(allArticleMainComments);
 
             return allArticlesMainCommentsDtos;
@@ -148,11 +133,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Listing)
                 .Include(x => x.SubComments)
                 .ToListAsync();
-
-            if (allListingMainComments is null)
-            {
-                throw new ListingsCommentsNotFoundException();
-            }
 
             var allListingsMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(allListingMainComments);
 

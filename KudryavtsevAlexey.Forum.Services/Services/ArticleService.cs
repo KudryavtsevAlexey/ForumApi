@@ -111,11 +111,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Tags)
                 .ToListAsync();
 
-            if (userArticles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
-
             var userArticlesDtos = _mapper.Map<List<ArticleDto>>(userArticles);
 
             return userArticlesDtos;
@@ -128,11 +123,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.User)
                 .Include(x => x.Tags)
                 .ToListAsync();
-
-            if (publishedArticles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
 
             var publishedArticlesDtos = _mapper.Map<List<ArticleDto>>(publishedArticles);
 
@@ -148,11 +138,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Tags)
                 .ToListAsync();
 
-            if (userPublishedArticles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
-
             var userPublishedArticlesDtos = _mapper.Map<List<ArticleDto>>(userPublishedArticles);
 
             return userPublishedArticlesDtos;
@@ -167,11 +152,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.Tags)
                 .ToListAsync();
 
-            if (userUnpublishedArticles is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
-
             var userUnpublishedArticlesDtos = _mapper.Map<List<ArticleDto>>(userUnpublishedArticles);
 
             return userUnpublishedArticlesDtos;
@@ -184,11 +164,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 .Include(x => x.User)
                 .Include(x => x.Tags)
                 .ToListAsync();
-
-            if (articlesByDate is null)
-            {
-                throw new ArticlesNotFoundException();
-            }
 
             var articlesByDateDtos = _mapper.Map<List<ArticleDto>>(articlesByDate);
 
