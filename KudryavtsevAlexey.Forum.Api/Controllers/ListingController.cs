@@ -113,7 +113,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns listings</response>
         /// <responde code="404">if listings not found</responde>
         [HttpGet]
-        [Route("{user{id}")]
+        [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetListingsByUserId(int id)
