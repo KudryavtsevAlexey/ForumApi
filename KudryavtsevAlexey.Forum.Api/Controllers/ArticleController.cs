@@ -194,7 +194,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateArticle([FromQuery] ArticleDto articleDto)
+        public async Task<IActionResult> CreateArticle([FromForm] ArticleDto articleDto)
         {
             await _serviceManager.ArticleService.AddArticle(articleDto);
 
@@ -209,7 +209,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPut]
         [Route("updating/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateArticle([FromQuery] int id, [FromQuery] PutArticleDto articleDto)
+        public async Task<IActionResult> UpdateArticle([FromQuery] int id, [FromForm] PutArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 

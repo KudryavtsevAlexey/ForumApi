@@ -10,6 +10,6 @@ namespace KudryavtsevAlexey.Forum.Services
     {
         public const string Issuer = "https://localhost:5001";
         public const string Audience = Issuer;
-        public const string SecretKey = "secret_key_for_jwt_token_generation"; //TODO: Memory cached
+        public const string SecretKey = "secret_key_for_jwt_token_generation"; //TODO: Memory caching
     }
 }

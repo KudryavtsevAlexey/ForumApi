@@ -24,7 +24,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById([FromQuery] int id)
         {
             var user = await _serviceManager.UserService.GetUserById(id);
 
@@ -46,7 +46,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/subscribers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserSubscribers(int id)
+        public async Task<IActionResult> GetUserSubscribers([FromQuery] int id)
         {
             var subscribers = await _serviceManager.UserService.GetUserSubscribers(id);
 

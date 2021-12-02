@@ -22,7 +22,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns comments to article
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Comments to article</returns>
         /// <response code="200">Returns comments</response>
         /// <response code="404">If comments not found</response>
@@ -30,7 +29,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("article/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleComments(int id)
+        public async Task<IActionResult> GetArticleComments([FromQuery] int id)
         {
             var comments = await _serviceManager.CommentService.GetArticleComments(id);
 
@@ -45,7 +44,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns comments to listing
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Comments to listing</returns>
         /// <response code="200">Returns comments</response>
         /// <response code="404">If comments not found</response>
@@ -53,7 +51,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("listing/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingComments(int id)
+        public async Task<IActionResult> GetListingComments([FromQuery] int id)
         {
             var comments = await _serviceManager.CommentService.GetListingComments(id);
 
@@ -68,7 +66,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns comment to article by id
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Comment to article by id</returns>
         /// <response code="200">Returns comment</response>
         /// <response code="404">If comment not found</response>
@@ -76,7 +73,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("article-comment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleMainCommentById(int id)
+        public async Task<IActionResult> GetArticleMainCommentById([FromQuery] int id)
         {
             var articleMainComment = await _serviceManager.CommentService.GetArticleMainCommentById(id);
 
@@ -91,7 +88,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns comment to listing by id
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Comment to listing by id</returns>
         /// <response code="200">Returns comment</response>
         /// <response code="404">If comment not found</response>
@@ -99,7 +95,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("listing-comment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingMainCommentById(int id)
+        public async Task<IActionResult> GetListingMainCommentById([FromQuery] int id)
         {
             var listingMainComment = await _serviceManager.CommentService.GetListingMainCommentById(id);
 
@@ -114,7 +110,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns subcomment to article by id
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Subcomment to article by id</returns>
         /// <response code="200">Returns subcomment</response>
         /// <response code="404">If subcomment not found</response>
@@ -122,7 +117,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("article-subcomment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleSubCommentById(int id)
+        public async Task<IActionResult> GetArticleSubCommentById([FromQuery] int id)
         {
             var articleSubComment = await _serviceManager.CommentService.GetArticleSubCommentById(id);
 
@@ -137,7 +132,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Returns subcomment to listing by id
         /// </summary>
-        /// <param name="id"></param>
         /// <returns>Subcomment to listing by id</returns>
         /// <response code="200">Returns subcomment</response>
         /// <response code="404">If subcomment not found</response>
@@ -145,7 +139,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("listing-subcomment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingSubCommentById(int id)
+        public async Task<IActionResult> GetListingSubCommentById([FromQuery] int id)
         {
             var listingSubComment = await _serviceManager.CommentService.GetListingSubCommentById(id);
 

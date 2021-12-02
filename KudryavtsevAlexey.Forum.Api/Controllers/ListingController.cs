@@ -50,7 +50,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("published/{category}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingsByCategory(string category)
+        public async Task<IActionResult> GetPublishedListingsByCategory([FromQuery] string category)
         {
             var publishedListingsByCategory = await _serviceManager.ListingService.GetPublishedListingsByCategory(category);
 
@@ -72,7 +72,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingById(int id)
+        public async Task<IActionResult> GetListingById([FromQuery] int id)
         {
             var listing = await _serviceManager.ListingService.GetListingById(id);
 
@@ -116,7 +116,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingsByUserId(int id)
+        public async Task<IActionResult> GetListingsByUserId([FromQuery] int id)
         {
             var listings = await _serviceManager.ListingService.GetListingsByUserId(id);
 
@@ -138,7 +138,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingsByUserId(int id)
+        public async Task<IActionResult> GetPublishedListingsByUserId([FromQuery] int id)
         {
             var listings = await _serviceManager.ListingService.GetPublishedListingById(id);
 
@@ -160,7 +160,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedListingsByUserId(int id)
+        public async Task<IActionResult> GetUnpublishedListingsByUserId([FromQuery] int id)
         {
             var listings = await _serviceManager.ListingService.GetUnpublishedListingsByUserId(id);
 
@@ -182,7 +182,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingById(int id)
+        public async Task<IActionResult> GetPublishedListingById([FromQuery] int id)
         {
             var listing = await _serviceManager.ListingService.GetPublishedListingById(id);
 
@@ -202,7 +202,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Createlisting(ListingDto listing)
+        public async Task<IActionResult> Createlisting([FromForm] ListingDto listing)
         {
             await _serviceManager.ListingService.AddListing(listing);
 
@@ -219,7 +219,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing(int id, PutListingDto listing)
+        public async Task<IActionResult> UpdateListing([FromQuery] int id, [FromForm] PutListingDto listing)
         {
             await _serviceManager.ListingService.UpdateListing(id, listing);
 
