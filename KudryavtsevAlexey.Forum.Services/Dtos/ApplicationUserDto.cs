@@ -7,7 +7,7 @@ using KudryavtsevAlexey.Forum.Domain.Entities;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record UserDto(
+    public record ApplicationUserDto(
         int Id,
         string UserName,
         string Name,

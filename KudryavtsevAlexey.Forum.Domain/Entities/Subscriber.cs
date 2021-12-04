@@ -18,7 +18,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public Organization Organization { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
 
         public string ImageUrl { get; set; } = "ProfileImages\\ProfileImage.png";
     }

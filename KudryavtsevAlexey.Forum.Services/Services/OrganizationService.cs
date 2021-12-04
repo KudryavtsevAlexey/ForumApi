@@ -73,7 +73,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationListingsDtos;
         }
 
-        public async Task<List<UserDto>> GetOrganizationUsers(string organizationName)
+        public async Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName)
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Users)
@@ -84,7 +84,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new OrganizationNotFoundException(organizationName);
             }
 
-            var organizationUsersDtos = _mapper.Map<List<UserDto>>(organization.Users);
+            var organizationUsersDtos = _mapper.Map<List<ApplicationUserDto>>(organization.Users);
 
             return organizationUsersDtos;
         }

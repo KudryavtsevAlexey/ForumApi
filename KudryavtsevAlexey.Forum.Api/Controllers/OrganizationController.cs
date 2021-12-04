@@ -30,7 +30,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{organizationName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationByName([FromQuery] string organizationName)
+        public async Task<IActionResult> GetOrganizationByName(string organizationName)
         {
             var organization = await _serviceManager.OrganizationService.GetOrganizationByName(organizationName);
 
@@ -52,7 +52,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{organizationName}/users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationUsers([FromQuery] string organizationName)
+        public async Task<IActionResult> GetOrganizationUsers(string organizationName)
         {
             var organizationUsers = await _serviceManager.OrganizationService.GetOrganizationUsers(organizationName);
 
@@ -74,7 +74,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{organizationName}/articles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationArticles([FromQuery] string organizationName)
+        public async Task<IActionResult> GetOrganizationArticles(string organizationName)
         {
             var organizationArticles = await _serviceManager.OrganizationService.GetOrganizationArticles(organizationName);
 
@@ -96,7 +96,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{organizationName}/listings")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationListings([FromQuery] string organizationName)
+        public async Task<IActionResult> GetOrganizationListings(string organizationName)
         {
             var organizationListings = await _serviceManager.OrganizationService.GetOrganizationListings(organizationName);
 

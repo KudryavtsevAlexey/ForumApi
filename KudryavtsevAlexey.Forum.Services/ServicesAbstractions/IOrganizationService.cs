@@ -12,7 +12,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
     {
         public Task<OrganizationDto> GetOrganizationByName(string organizationName);
 
-        public Task<List<UserDto>> GetOrganizationUsers(string organizationName);
+        public Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName);
 
         public Task<List<ListingDto>> GetOrganizationListings(string organizationName);
 

@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 {
-    public class ForumDbContext : DbContext
+    public class ForumDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public ForumDbContext(DbContextOptions<ForumDbContext> dbContextOptions) : base(dbContextOptions)
         {
@@ -14,8 +16,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 		}
 
         public DbSet<Organization> Organizations { get; set; }
-
-        public DbSet<User> Users { get; set; }
 
         public DbSet<Article> Articles { get; set; }
 
@@ -51,12 +51,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .WithMany(x => x.Listings)
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<User>()
+            builder.Entity<ApplicationUser>()
                 .HasKey(x => x.Id);
 
-            builder.Entity<User>();
+            builder.Entity<ApplicationUser>();
 
-            builder.Entity<User>()
+            builder.Entity<ApplicationUser>()
                 .HasMany(x => x.Subscribers)
                 .WithMany(x => x.Users)
                 .LeftNavigation.ForeignKey.DeleteBehavior = DeleteBehavior.Restrict;

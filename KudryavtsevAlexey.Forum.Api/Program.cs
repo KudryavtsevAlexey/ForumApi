@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
-
+using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Helpers;
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,7 +17,7 @@ namespace KudryavtsevAlexey.Forum.Api
 
 			using (var scope = host.Services.CreateScope())
 			{
-				await scope.ServiceProvider.DatabaseMigrate();
+                await scope.ServiceProvider.DatabaseMigrate();
 			}
 
 			host.Run();

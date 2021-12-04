@@ -3,6 +3,7 @@ using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -23,9 +24,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <returns>Article</returns>
         /// <response code="200">Returns article</response>
         [HttpGet]
+        [Authorize]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetArticleById([FromQuery] int id)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetArticleById(int id)
         {
             var article = await _serviceManager.ArticleService.GetArticleById(id);
 
@@ -86,7 +89,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticleById([FromQuery] int id)
+        public async Task<IActionResult> GetPublishedArticleById(int id)
         {
             var article = await _serviceManager.ArticleService.GetPublishedArticleById(id);
 
@@ -108,7 +111,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticlesByUserId([FromQuery] int id)
+        public async Task<IActionResult> GetArticlesByUserId(int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -130,7 +133,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticlesByUserId([FromQuery] int id)
+        public async Task<IActionResult> GetPublishedArticlesByUserId(int id)
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
@@ -152,7 +155,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/unpublished")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedArticlesByUserId([FromQuery] int id)
+        public async Task<IActionResult> GetUnpublishedArticlesByUserId(int id)
         {
             var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
 
@@ -174,7 +177,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllArticlesByUserId([FromQuery] int id)
+        public async Task<IActionResult> GetAllArticlesByUserId(int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -191,10 +194,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if article added</returns>
         /// <response code="201">Returns ok if article added</response>
+        [Authorize]
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateArticle([FromForm] ArticleDto articleDto)
+        public async Task<IActionResult> CreateArticle(ArticleDto articleDto)
         {
             await _serviceManager.ArticleService.AddArticle(articleDto);
 
@@ -206,10 +210,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if article updated</returns>
         /// <response code="200">Returns ok if article updated</response>
+        [Authorize]
         [HttpPut]
         [Route("updating/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateArticle([FromQuery] int id, [FromForm] PutArticleDto articleDto)
+        public async Task<IActionResult> UpdateArticle(int id, PutArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 

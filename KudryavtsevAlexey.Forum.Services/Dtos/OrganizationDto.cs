@@ -10,7 +10,7 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         int Id,
         string Name,
         List<ListingDto> Listings,
-        List<UserDto> Users,
+        List<ApplicationUserDto> Users,
         List<ArticleDto> Articles,
         string ImageUrl) : BaseDto(Id);
 }

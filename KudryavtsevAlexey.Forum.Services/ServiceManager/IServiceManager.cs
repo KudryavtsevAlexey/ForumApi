@@ -20,5 +20,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         IOrganizationService OrganizationService { get; }
 
         IUserService UserService { get; }
+
+        IAccountService AccountService { get; }
     }
 }

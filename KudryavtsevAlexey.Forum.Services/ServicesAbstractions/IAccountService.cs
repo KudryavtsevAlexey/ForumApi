@@ -1,5 +1,4 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +8,10 @@ using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
-    public interface IUserService
+    public interface IAccountService
     {
-        public Task<ApplicationUserDto> GetUserById(int id);
+        public Task<string> Register(RegisterUserDto userDto);
 
-        public Task<List<SubscriberDto>> GetUserSubscribers(int id);
+        public Task<string> SignIn(SignInUserDto userDto);
     }
 }

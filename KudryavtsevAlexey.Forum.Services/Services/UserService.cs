@@ -30,31 +30,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        //public void AuthenticateUser(User user)
-        //{
-            //var claims = new List<Claim>()
-            //{
-            //    new Claim(JwtRegisteredClaimNames.Sub, user.Name)
-            //};
-
-            //byte[] bytes = Encoding.UTF8.GetBytes(Constants.SecretKey);
-
-            //var key = new SymmetricSecurityKey(bytes);
-
-            //var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            //var token = new JwtSecurityToken(Constants.Issuer,
-            //    Constants.Audience,
-            //    claims,
-            //    notBefore:
-            //    DateTime.Now,
-            //    DateTime.Now.AddMinutes(60),
-            //    signingCredentials);
-
-            //var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-        //}
-
-        public async Task<UserDto> GetUserById(int id)
+        public async Task<ApplicationUserDto> GetUserById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -63,7 +39,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new UserNotFoundException(id);
             }
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<ApplicationUserDto>(user);
 
             return userDto;
         }
@@ -83,6 +59,5 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             return userSubscribersDtos;
         }
-
     }
 }

@@ -14,5 +14,11 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
         {
 
         }
+
+        public UserNotFoundException(string email) 
+            : base($"User with the email {email} was not found")
+        {
+            
+        }
     }
 }

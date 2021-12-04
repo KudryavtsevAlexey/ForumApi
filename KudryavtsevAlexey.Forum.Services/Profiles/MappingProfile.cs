@@ -194,7 +194,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings))
                 .ForMember(x => x.ImageUrl, opt => opt.MapFrom(x => x.ImageUrl));
 
-            CreateMap<User, UserDto>()
+            CreateMap<ApplicationUser, ApplicationUserDto>()
                 .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
                 .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
@@ -208,7 +208,29 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Subscribers, opt => opt.MapFrom(x => x.Subscribers))
                 .MaxDepth(1);
 
-            CreateMap<UserDto, User>();
+            CreateMap<ApplicationUserDto, ApplicationUser>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.Location, opt => opt.MapFrom(x => x.Location))
+                .ForMember(x => x.Summary, opt => opt.MapFrom(x => x.Summary))
+                .ForMember(x => x.JoinedAt, opt => opt.MapFrom(x => x.JoinedAt))
+                .ForMember(x => x.Articles, opt => opt.MapFrom(x => x.Articles))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
+                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .ForMember(x => x.Listings, opt => opt.MapFrom(x => x.Listings))
+                .ForMember(x => x.Subscribers, opt => opt.MapFrom(x => x.Subscribers));
+
+            CreateMap<RegisterUserDto, ApplicationUser>()
+                .ForMember(x=>x.UserName, opt=>opt.MapFrom(x=>x.UserName))
+                .ForMember(x=>x.Email, opt=>opt.MapFrom(x=>x.Email))
+                .ForMember(x=>x.Name, opt=>opt.MapFrom(x=>x.Name))
+                .ForMember(x=>x.Location, opt=>opt.MapFrom(x=>x.Location))
+                .ForAllOtherMembers(opt=>opt.Ignore());
+
+            CreateMap<SignInUserDto, ApplicationUser>()
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Email))
+                .ForAllOtherMembers(opt=>opt.Ignore());
         }
     }
 }

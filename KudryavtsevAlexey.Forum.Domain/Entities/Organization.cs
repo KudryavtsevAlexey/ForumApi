@@ -9,7 +9,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public ICollection<Listing> Listings { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
 
         public ICollection<Article> Articles { get; set; }
 

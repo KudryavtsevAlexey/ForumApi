@@ -1,10 +1,13 @@
 using System.Text;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,20 +31,32 @@ namespace KudryavtsevAlexey.Forum.Api
 			services.AddDbContext<ForumDbContext>(config =>
                 config.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
 
-            services.AddAuthentication("OAuth2.0")
-				.AddJwtBearer("OAuth2.0", config =>
-			   {
-				   byte[] bytes = Encoding.UTF8.GetBytes(Constants.SecretKey);
+            services.AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer("OAuthJwt", config =>
+            {
+                config.SaveToken = true;
+                config.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
+                    ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtBearer:SecretKey"])),
+                };
+            });
 
-				   var key = new SymmetricSecurityKey(bytes);
-
-				   config.TokenValidationParameters = new TokenValidationParameters()
-				   {
-					   ValidIssuer = Constants.Issuer,
-					   ValidAudience = Constants.Audience,
-					   IssuerSigningKey = key,
-				   };
-			   });
+			services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+			{
+				config.Password.RequireDigit = true;
+				config.Password.RequireLowercase = true;
+				config.Password.RequireNonAlphanumeric = false;
+				config.Password.RequireUppercase = true;
+				config.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<ForumDbContext>();
 
             services.AddAutoMapper(typeof(MappingProfile));
 

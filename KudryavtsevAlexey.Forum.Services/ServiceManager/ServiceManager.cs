@@ -5,6 +5,9 @@ using KudryavtsevAlexey.Forum.Services.Services;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 
 using System;
+using KudryavtsevAlexey.Forum.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace KudryavtsevAlexey.Forum.Services.ServiceManager
 {
@@ -15,14 +18,16 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         private readonly Lazy<IListingService> _lazyListingService;
         private readonly Lazy<IOrganizationService> _lazyOrganizationService;
         private readonly Lazy<IUserService> _lazyUserService;
+        private readonly Lazy<IAccountService> _lazyAccountService;
 
-        public ServiceManager(ForumDbContext dbContext, IMapper mapper)
+        public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, IConfiguration configuration)
         {
             _lazyArticleService = new Lazy<IArticleService>(() => new ArticleService(dbContext, mapper));
             _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(dbContext, mapper));
             _lazyListingService = new Lazy<IListingService>(() => new ListingService(dbContext, mapper));
             _lazyOrganizationService = new Lazy<IOrganizationService>(() => new OrganizationService(dbContext, mapper));
             _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext, mapper));
+            _lazyAccountService = new Lazy<IAccountService>(() => new AccountService(dbContext, userManager, signInManager, mapper, configuration));
         }
 
         public IArticleService ArticleService => _lazyArticleService.Value;
@@ -30,5 +35,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         public IListingService ListingService => _lazyListingService.Value;
         public IOrganizationService OrganizationService => _lazyOrganizationService.Value;
         public IUserService UserService => _lazyUserService.Value;
+        public IAccountService AccountService => _lazyAccountService.Value;
     }
 }

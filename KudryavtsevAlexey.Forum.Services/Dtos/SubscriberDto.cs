@@ -13,6 +13,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos
         string Name,
         int OrganizationId,
         OrganizationDto Organization,
-        List<UserDto> Users,
+        List<ApplicationUserDto> Users,
         string ImageUrl) : BaseDto(Id);
 }

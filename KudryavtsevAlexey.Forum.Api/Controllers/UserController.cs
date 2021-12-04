@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.ServiceManager;
+﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -24,7 +20,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserById([FromQuery] int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             var user = await _serviceManager.UserService.GetUserById(id);
 
@@ -46,7 +42,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("user/{id}/subscribers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserSubscribers([FromQuery] int id)
+        public async Task<IActionResult> GetUserSubscribers(int id)
         {
             var subscribers = await _serviceManager.UserService.GetUserSubscribers(id);
 
@@ -57,6 +53,5 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 
             return Ok(subscribers);
         }
-
     }
 }
