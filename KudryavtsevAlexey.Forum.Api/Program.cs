@@ -1,30 +1,47 @@
-using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Infrastructure.Helpers;
-
+using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Infrastructure.Helpers;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog.Events;
 
 namespace KudryavtsevAlexey.Forum.Api
 {
-	public class Program
+    public class Program
 	{
 		public static async Task Main(string[] args)
 		{
-			var host = CreateHostBuilder(args).Build();
+			var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+				.Build();
 
-			using (var scope = host.Services.CreateScope())
-			{
+			Log.Logger = new LoggerConfiguration()
+				.ReadFrom.Configuration(configuration)
+                .MinimumLevel.Verbose()
+                .MinimumLevel.Override("System", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.File("Logs.txt")
+				.CreateLogger();
+
+			Log.Information("Application starting up");
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
                 await scope.ServiceProvider.DatabaseMigrate();
-			}
+            }
 
-			host.Run();
-		}
+            host.Run();
+        }
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+                .UseSerilog()
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
 					webBuilder.UseStartup<Startup>();

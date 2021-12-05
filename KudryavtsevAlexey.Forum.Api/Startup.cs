@@ -1,4 +1,5 @@
 using System.Text;
+using KudryavtsevAlexey.Forum.Api.Middlewares;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Profiles;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace KudryavtsevAlexey.Forum.Api
 {
@@ -73,6 +75,8 @@ namespace KudryavtsevAlexey.Forum.Api
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddScoped<IServiceManager, ServiceManager>();
+
+			services.AddTransient<ExceptionHandlingMiddleware>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -86,11 +90,15 @@ namespace KudryavtsevAlexey.Forum.Api
 
             app.UseHttpsRedirection();
 
+            app.UseSerilogRequestLogging();
+
 			app.UseRouting();
 
-			app.UseAuthentication();
+            app.UseAuthentication();
 
 			app.UseAuthorization();
+
+			app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 			//TODO: ExceptionHandlingMiddleware
 
