@@ -24,10 +24,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <returns>Article</returns>
         /// <response code="200">Returns article</response>
         [HttpGet]
-        [Authorize]
         [Route("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticleById(int id)
         {
             var article = await _serviceManager.ArticleService.GetArticleById(id);
@@ -43,7 +44,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("published")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPublishedArticles()
         {
@@ -65,7 +68,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("by-date")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetSortedArticlesByDate()
         {
@@ -87,7 +92,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If article not found</response>
         [HttpGet]
         [Route("published/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPublishedArticleById(int id)
         {
@@ -109,7 +116,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticlesByUserId(int id)
         {
@@ -131,7 +140,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/published")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPublishedArticlesByUserId(int id)
         {
@@ -153,7 +164,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/unpublished")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUnpublishedArticlesByUserId(int id)
         {
@@ -175,7 +188,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/all")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllArticlesByUserId(int id)
         {
@@ -194,10 +209,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if article added</returns>
         /// <response code="201">Returns ok if article added</response>
-        [Authorize]
         [HttpPost]
         [Route("creating")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticle(ArticleDto articleDto)
         {
             await _serviceManager.ArticleService.AddArticle(articleDto);
@@ -210,10 +226,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if article updated</returns>
         /// <response code="200">Returns ok if article updated</response>
-        [Authorize]
         [HttpPut]
         [Route("updating/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateArticle(int id, PutArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);

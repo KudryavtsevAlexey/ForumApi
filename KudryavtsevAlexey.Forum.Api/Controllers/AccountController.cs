@@ -25,20 +25,20 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             _serviceManager = serviceManager;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("registration")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register(RegisterUserDto userDto)
         {
-            var token = await _serviceManager.AccountService.Register(userDto);
+            await _serviceManager.AccountService.Register(userDto);
 
-            return Ok(token);
+            return Ok();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [Route("sign-in")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> SignIn(SignInUserDto userDto)
         {

@@ -40,15 +40,17 @@ namespace KudryavtsevAlexey.Forum.Api
             .AddJwtBearer("OAuthJwt", config =>
             {
                 config.SaveToken = true;
-                config.TokenValidationParameters = new TokenValidationParameters()
-                {
+				config.TokenValidationParameters = new TokenValidationParameters()
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
                     ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
                     ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtBearer:SecretKey"])),
                 };
             });
 
-			services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
 			{
 				config.Password.RequireDigit = true;
 				config.Password.RequireLowercase = true;
@@ -56,14 +58,15 @@ namespace KudryavtsevAlexey.Forum.Api
 				config.Password.RequireUppercase = true;
 				config.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<ForumDbContext>();
+			.AddEntityFrameworkStores<ForumDbContext>()
+			.AddDefaultTokenProviders();
 
             services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(config =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
-			});
+				config.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
+            });
 
 			services.AddControllers()
                 .AddNewtonsoftJson(options=>

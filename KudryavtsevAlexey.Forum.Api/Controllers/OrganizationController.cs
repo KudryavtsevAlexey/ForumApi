@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If organization not found</response>
         [HttpGet]
         [Route("{organizationName}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrganizationByName(string organizationName)
         {
@@ -50,7 +53,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If organization users not found</response>
         [HttpGet]
         [Route("{organizationName}/users")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrganizationUsers(string organizationName)
         {
@@ -72,7 +77,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If organization articles not found</response>
         [HttpGet]
         [Route("{organizationName}/articles")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrganizationArticles(string organizationName)
         {
@@ -94,7 +101,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If organization listings not found</response>
         [HttpGet]
         [Route("{organizationName}/listings")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetOrganizationListings(string organizationName)
         {

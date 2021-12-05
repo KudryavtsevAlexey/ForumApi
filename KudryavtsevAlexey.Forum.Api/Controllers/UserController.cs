@@ -1,4 +1,5 @@
 ﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -18,7 +19,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -40,7 +43,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If subscribers not found</response>
         [HttpGet]
         [Route("user/{id}/subscribers")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserSubscribers(int id)
         {

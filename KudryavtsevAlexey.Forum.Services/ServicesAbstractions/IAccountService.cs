@@ -10,7 +10,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface IAccountService
     {
-        public Task<string> Register(RegisterUserDto userDto);
+        public Task Register(RegisterUserDto userDto);
 
         public Task<string> SignIn(SignInUserDto userDto);
     }

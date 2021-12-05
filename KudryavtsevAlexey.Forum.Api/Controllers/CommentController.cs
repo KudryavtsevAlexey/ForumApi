@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -27,7 +28,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comments not found</response>
         [HttpGet]
         [Route("article/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticleComments(int id)
         {
@@ -49,7 +52,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comments not found</response>
         [HttpGet]
         [Route("listing/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetListingComments(int id)
         {
@@ -71,7 +76,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comment not found</response>
         [HttpGet]
         [Route("article-comment/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticleMainCommentById(int id)
         {
@@ -93,7 +100,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comment not found</response>
         [HttpGet]
         [Route("listing-comment/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetListingMainCommentById(int id)
         {
@@ -115,7 +124,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If subcomment not found</response>
         [HttpGet]
         [Route("article-subcomment/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetArticleSubCommentById(int id)
         {
@@ -137,7 +148,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If subcomment not found</response>
         [HttpGet]
         [Route("listing-subcomment/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetListingSubCommentById(int id)
         {
@@ -159,7 +172,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comments not found</response>
         [HttpGet]
         [Route("articles/all")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllArticleComments()
         {
@@ -181,7 +196,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If comments not found</response>
         [HttpGet]
         [Route("listings/all")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllListingComments()
         {

@@ -77,7 +77,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return token;
         }
 
-        public async Task<string> Register(RegisterUserDto userDto)
+        public async Task Register(RegisterUserDto userDto)
         {
             var user = _mapper.Map<ApplicationUser>(userDto);
 
@@ -91,17 +91,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             user.Organization = organization;
 
             var result = await _userManager.CreateAsync(user, userDto.Password);
-
-            var token = string.Empty;
-
-            if (result.Succeeded)
-            {
-                token = GenerateToken(user.UserName, user.Email);
-
-                await _signInManager.SignInAsync(user, false);
-            }
-
-            return token;
         }
 
         public async Task<string> SignIn(SignInUserDto userDto)
