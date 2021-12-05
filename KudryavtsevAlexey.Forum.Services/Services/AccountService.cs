@@ -115,5 +115,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             return token;
         }
+
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

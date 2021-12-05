@@ -13,5 +13,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
         public Task Register(RegisterUserDto userDto);
 
         public Task<string> SignIn(SignInUserDto userDto);
+
+        public Task SignOut();
     }
 }

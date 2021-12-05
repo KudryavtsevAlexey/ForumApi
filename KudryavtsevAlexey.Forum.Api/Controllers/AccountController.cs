@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Services.Dtos;
+﻿using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -25,6 +18,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             _serviceManager = serviceManager;
         }
 
+        /// <summary>
+        /// Returns ok if user registered
+        /// </summary>
+        /// <returns>Ok if user registered</returns>
+        /// <response code="201">Returns ok</response>
         [HttpPost]
         [Route("registration")]
         [AllowAnonymous]
@@ -36,15 +34,37 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Returns ok if user signed in
+        /// </summary>
+        /// <returns>Ok if user signed in</returns>
+        /// <response code="200">Returns ok</response>
         [HttpPost]
         [Route("sign-in")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> SignIn(SignInUserDto userDto)
         {
             var token = await _serviceManager.AccountService.SignIn(userDto);
 
             return Ok(token);
         }
+
+        /// <summary>
+        /// Returns ok if user signed out
+        /// </summary>
+        /// <returns>Ok if user signed out</returns>
+        /// <response code="200"></response>
+        [HttpPost]
+        [Route("sign-out")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Logout()
+        {
+            await _serviceManager.AccountService.SignOut();
+
+            return Ok();
+        }
+        
     }
 }
