@@ -215,9 +215,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateArticle(ArticleDto articleDto)
+        public async Task<IActionResult> CreateArticle(ArticleToCreateDto articleDto)
         {
-            await _serviceManager.ArticleService.AddArticle(articleDto);
+            await _serviceManager.ArticleService.CreateArticle(articleDto);
 
             return Ok(articleDto);
         }
@@ -232,7 +232,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateArticle(int id, PutArticleDto articleDto)
+        public async Task<IActionResult> UpdateArticle(int id, ArticleToUpdateDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 

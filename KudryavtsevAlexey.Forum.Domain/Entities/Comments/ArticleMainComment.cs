@@ -10,5 +10,10 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities.Comments
         public Article Article { get; set; }
 
         public ICollection<ArticleSubComment> SubComments { get; set; }
+
+        public ArticleMainComment()
+        {
+            SubComments = new List<ArticleSubComment>();
+        }
     }
 }

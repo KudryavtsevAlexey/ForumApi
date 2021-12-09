@@ -95,6 +95,24 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userUnpublishedArticlesDtos;
         }
 
+        public async Task<ArticleDto> GetPublishedArticleById(int id)
+        {
+            var publishedArticle = await _dbContext.Articles
+                .Where(x => x.PublishedAt != null)
+                .Include(x => x.User)
+                .Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (publishedArticle is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
+
+            var publishedArticleDto = _mapper.Map<ArticleDto>(publishedArticle);
+
+            return publishedArticleDto;
+        }
+
         public async Task<List<ArticleDto>> SortArticlesByDate()
         {
             var articlesByDate = await _dbContext.Articles
@@ -108,7 +126,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articlesByDateDtos;
         }
 
-        public async Task AddArticle(ArticleDto articleDto)
+        public async Task CreateArticle(ArticleToCreateDto articleDto)
         {
             if (articleDto is null)
             {
@@ -139,7 +157,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(articleDto.Organization.Name);
+                throw new OrganizationNotFoundException(articleDto.OrganizationId);
             }
 
             organization.Articles = new List<Article>() { articleToAdding };
@@ -160,19 +178,11 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             articleToAdding.Title = articleDto.Title;
             articleToAdding.ShortDescription = articleDto.ShortDescription;
 
-            try
-            {
-                await _dbContext.Articles.AddAsync(articleToAdding);
-                await _dbContext.SaveChangesAsync();
-            }
-
-            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleDto.Id).GetAwaiter().GetResult())
-            {
-                
-            }
+            await _dbContext.Articles.AddAsync(articleToAdding);
+            await _dbContext.SaveChangesAsync();
         }
-
-        public async Task UpdateArticle(int id, PutArticleDto articleDto)
+   
+        public async Task UpdateArticle(int id, ArticleToUpdateDto articleDto)
         {
             if (articleDto is null)
             {
@@ -208,38 +218,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 }
             }
 
-            try
-            {
-                _dbContext.Articles.Update(articleToUpdating);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleToUpdating.Id).GetAwaiter().GetResult())
-            {
-                // TODO: ILogger
-            }
-        }
-
-        public async Task<ArticleDto> GetPublishedArticleById(int id)
-        {
-            var publishedArticle = await _dbContext.Articles
-                .Where(x => x.PublishedAt != null)
-                .Include(x => x.User)
-                .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (publishedArticle is null)
-            {
-                throw new ArticleNotFoundException(id);
-            }
-
-            var publishedArticleDto = _mapper.Map<ArticleDto>(publishedArticle);
-
-            return publishedArticleDto;
-        }
-
-        private async Task<bool> ArticleExists(int id)
-        {
-            return await _dbContext.Articles.AnyAsync(x => x.Id == id);
+            _dbContext.Articles.Update(articleToUpdating);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

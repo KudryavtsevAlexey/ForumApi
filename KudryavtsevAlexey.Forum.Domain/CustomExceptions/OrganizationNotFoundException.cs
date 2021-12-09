@@ -14,5 +14,11 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
         {
 
         }
+
+        public OrganizationNotFoundException(int id)
+            :base($"Organization with the identifier {id} was not found")
+        {
+            
+        }
     }
 }

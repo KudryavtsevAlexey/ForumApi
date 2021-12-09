@@ -24,70 +24,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task AddListing(ListingDto listingDto)
-        {
-            if (listingDto is null)
-            {
-                throw new ArgumentNullException(nameof(listingDto));
-            }
-
-            var listingToAdding = new Listing();
-
-            var tags = await _dbContext.Tags.ToListAsync();
-            int[] identifiers = tags.Select(x => x.Id).ToArray();
-
-            if (!(listingDto.Tags is null))
-            {
-                listingToAdding.Tags = new List<Tag>();
-                for (int i = 0; i < listingDto.Tags.Count; i++)
-                {
-                    if (identifiers.Contains(listingDto.Tags[i].Id))
-                    {
-                        int tagId = listingDto.Tags[i].Id;
-                        tags[tagId - 1].Listings = new List<Listing>() { listingToAdding };
-                        listingToAdding.Tags.Add(tags[tagId - 1]);
-                    }
-                }
-            }
-
-            var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Id == listingDto.OrganizationId);
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(listingDto.Organization.Name);
-            }
-
-            organization.Listings = new List<Listing>() { listingToAdding };
-
-            listingToAdding.Organization = organization;
-
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingDto.UserId);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException(listingDto.UserId);
-            }
-
-            user.Listings = new List<Listing>() { listingToAdding };
-
-            listingToAdding.User = user;
-
-            listingToAdding.Title = listingDto.Title;
-            listingToAdding.ShortDescription = listingDto.ShortDescription;
-            listingToAdding.Category = listingDto.Category;
-
-            try
-            {
-                await _dbContext.Listings.AddAsync(listingToAdding);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!ListingExists(listingToAdding.Id).GetAwaiter().GetResult())
-            {
-                // TODO: ILogger
-            }
-        }
-
         public async Task<ListingDto> GetListingById(int id)
         {
             var listing = await _dbContext.Listings
@@ -176,7 +112,78 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task UpdateListing(int id, PutListingDto listingDto)
+        public async Task<ListingDto> GetPublishedListingById(int id)
+        {
+            var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (publishedListing is null)
+            {
+                throw new ListingNotFoundException(id);
+            }
+
+            var publishedListingDto = _mapper.Map<ListingDto>(publishedListing);
+
+            return publishedListingDto;
+        }
+
+        public async Task CreateListing(ListingToCreateDto listingDto)
+        {
+            if (listingDto is null)
+            {
+                throw new ArgumentNullException(nameof(listingDto));
+            }
+
+            var listingToAdding = new Listing();
+
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(listingDto.Tags is null))
+            {
+                listingToAdding.Tags = new List<Tag>();
+                for (int i = 0; i < listingDto.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(listingDto.Tags[i].Id))
+                    {
+                        int tagId = listingDto.Tags[i].Id;
+                        tags[tagId - 1].Listings = new List<Listing>() { listingToAdding };
+                        listingToAdding.Tags.Add(tags[tagId - 1]);
+                    }
+                }
+            }
+
+            var organization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(x => x.Id == listingDto.OrganizationId);
+
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(listingDto.OrganizationId);
+            }
+
+            organization.Listings = new List<Listing>() { listingToAdding };
+
+            listingToAdding.Organization = organization;
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(listingDto.UserId);
+            }
+
+            user.Listings = new List<Listing>() { listingToAdding };
+
+            listingToAdding.User = user;
+
+            listingToAdding.Title = listingDto.Title;
+            listingToAdding.ShortDescription = listingDto.ShortDescription;
+            listingToAdding.Category = listingDto.Category;
+
+            await _dbContext.Listings.AddAsync(listingToAdding);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateListing(int id, ListingToUpdateDto listingDto)
         {
             if (listingDto is null)
             {
@@ -212,34 +219,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 }
             }
 
-            try
-            {
-                _dbContext.Listings.Update(listingToUpdating);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!ListingExists(listingToUpdating.Id).GetAwaiter().GetResult())
-            {
-                // TODO: ILogger
-            }
-        }
-
-        public async Task<ListingDto> GetPublishedListingById(int id)
-        {
-            var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (publishedListing is null)
-            {
-                throw new ListingNotFoundException(id);
-            }
-
-            var publishedListingDto = _mapper.Map<ListingDto>(publishedListing);
-
-            return publishedListingDto;
-        }
-
-        private async Task<bool> ListingExists(int id)
-        {
-            return await _dbContext.Listings.AnyAsync(a => a.Id == id);
+            _dbContext.Listings.Update(listingToUpdating);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

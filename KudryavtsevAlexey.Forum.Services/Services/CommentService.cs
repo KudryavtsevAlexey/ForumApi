@@ -142,7 +142,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return allListingsMainCommentsDtos;
         }
 
-        public async Task CreateArticleMainComment(ArticleMainCommentDto articleMainCommentDto)
+        public async Task CreateArticleMainComment(ArticleMainCommentToCreateDto articleMainCommentDto)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleMainCommentDto.UserId);
 
@@ -153,7 +153,146 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
 
-            await _dbContext.AddAsync(articleMainComment);
+            articleMainComment.User = user;
+            user.ArticleMainComments.Add(articleMainComment);
+
+            await _dbContext.ArticleMainComments.AddAsync(articleMainComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateListingMainComment(ListingMainCommentToCreateDto listingMainCommentDto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingMainCommentDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(listingMainCommentDto.UserId);
+            }
+
+            var listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
+
+            listingMainComment.User = user;
+            user.ListingMainComments.Add(listingMainComment);
+
+            await _dbContext.ListingMainComments.AddAsync(listingMainComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateArticleSubComment(ArticleSubCommentToCreateDto articleSubCommentDto)
+        {
+            var article = await _dbContext.Articles.FirstOrDefaultAsync(x => x.Id == articleSubCommentDto.ArticleId);
+            
+            if (article is null)
+            {
+                throw new ArticleNotFoundException(articleSubCommentDto.ArticleId);
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleSubCommentDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(articleSubCommentDto.UserId);
+            }
+
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == articleSubCommentDto.ArticleMainCommentId);
+
+            if (articleMainComment is null)
+            {
+                throw new ArticleMainCommentNotFoundException(articleSubCommentDto.ArticleMainCommentId);
+            }
+
+            var articleSubComment = _mapper.Map<ArticleSubComment>(articleSubCommentDto);
+
+            articleSubComment.Article = article;
+            articleSubComment.User = user;
+            articleSubComment.ArticleMainComment = articleMainComment;
+
+            await _dbContext.ArticleSubComments.AddAsync(articleSubComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task CreateListingSubComment(ListingSubCommentToCreateDto listingSubCommentDto)
+        {
+            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == listingSubCommentDto.ListingId);
+
+            if (listing is null)
+            {
+                throw new ListingNotFoundException(listingSubCommentDto.ListingId);
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingSubCommentDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(listingSubCommentDto.UserId);
+            }
+
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == listingSubCommentDto.ListingMainCommentId);
+
+            if (listingMainComment is null)
+            {
+                throw new ListingMainCommentNotFoundException(listingSubCommentDto.ListingMainCommentId);
+            }
+
+            var listingSubComment = _mapper.Map<ListingSubComment>(listingSubCommentDto);
+
+            listingSubComment.Listing = listing;
+            listingSubComment.User = user;
+            listingSubComment.ListingMainComment = listingMainComment;
+
+            await _dbContext.ListingSubComments.AddAsync(listingSubComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteArticleMainComment(int id)
+        {
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (articleMainComment is null)
+            {
+                throw new ArticleMainCommentNotFoundException(id);
+            }
+
+            _dbContext.ArticleMainComments.Remove(articleMainComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteListingMainComment(int id)
+        {
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listingMainComment is null)
+            {
+                throw new ListingMainCommentNotFoundException(id);
+            }
+
+            _dbContext.ListingMainComments.Remove(listingMainComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteArticleSubComment(int id)
+        {
+            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (articleSubComment is null)
+            {
+                throw new ArticleSubCommentNotFoundException(id);
+            }
+
+            _dbContext.ArticleSubComments.Remove(articleSubComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteListingSubComment(int id)
+        {
+            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listingSubComment is null)
+            {
+                throw new ListingSubCommentNotFoundException(id);
+            }
+
+            _dbContext.ListingSubComments.Remove(listingSubComment);
             await _dbContext.SaveChangesAsync();
         }
     }

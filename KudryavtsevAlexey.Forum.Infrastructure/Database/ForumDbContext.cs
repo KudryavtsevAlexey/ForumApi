@@ -35,9 +35,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUser>()
-                .Property("Id").HasColumnType("int");
-
             builder.Entity<Article>()
                 .HasKey(x => x.Id);
 
@@ -57,7 +54,28 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
             builder.Entity<ApplicationUser>()
                 .HasKey(x => x.Id);
 
-            builder.Entity<ApplicationUser>();
+            builder.Entity<ApplicationUser>()
+                .Property("Id").HasColumnType("int");
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(x => x.ArticleMainComments)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(x => x.ListingMainComments)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(x => x.ArticleSubComments)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(x => x.ListingSubComments)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
                 .HasMany(x => x.Subscribers)

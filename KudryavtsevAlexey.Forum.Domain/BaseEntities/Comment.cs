@@ -1,11 +1,11 @@
-﻿using System;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities;
+using System;
 
 namespace KudryavtsevAlexey.Forum.Domain.BaseEntities
 {
     public class Comment : BaseEntity
     {
-	    public string Name { get; set; }
+        public string Content { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

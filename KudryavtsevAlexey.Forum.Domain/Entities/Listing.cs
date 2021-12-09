@@ -28,5 +28,11 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
         public DateTime? PublishedAt { get; set; }
 
         public ICollection<ListingMainComment> MainComments { get; set; }
+
+        public Listing()
+        {
+            Tags = new List<Tag>();
+            MainComments = new List<ListingMainComment>();
+        }
     }
 }

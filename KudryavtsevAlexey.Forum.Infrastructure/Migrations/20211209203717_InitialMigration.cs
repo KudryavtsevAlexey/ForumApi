@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -305,8 +305,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ArticleId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -317,6 +318,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         principalTable: "Articles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArticleMainComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -350,12 +357,19 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ListingId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ListingMainComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ListingMainComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ListingMainComments_Listings_ListingId",
                         column: x => x.ListingId,
@@ -396,8 +410,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ArticleId = table.Column<int>(type: "int", nullable: false),
                     ArticleMainCommentId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -414,6 +429,12 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         principalTable: "Articles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ArticleSubComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -424,12 +445,19 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ListingId = table.Column<int>(type: "int", nullable: false),
                     ListingMainCommentId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ListingSubComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ListingSubComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ListingSubComments_ListingMainComments_ListingMainCommentId",
                         column: x => x.ListingMainCommentId,
@@ -455,6 +483,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "ArticleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ArticleMainComments_UserId",
+                table: "ArticleMainComments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Articles_OrganizationId",
                 table: "Articles",
                 column: "OrganizationId");
@@ -473,6 +506,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_ArticleSubComments_ArticleMainCommentId",
                 table: "ArticleSubComments",
                 column: "ArticleMainCommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ArticleSubComments_UserId",
+                table: "ArticleSubComments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleTag_TagsId",
@@ -529,6 +567,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "ListingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ListingMainComments_UserId",
+                table: "ListingMainComments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Listings_OrganizationId",
                 table: "Listings",
                 column: "OrganizationId");
@@ -547,6 +590,11 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_ListingSubComments_ListingMainCommentId",
                 table: "ListingSubComments",
                 column: "ListingMainCommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ListingSubComments_UserId",
+                table: "ListingSubComments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListingTag_TagsId",

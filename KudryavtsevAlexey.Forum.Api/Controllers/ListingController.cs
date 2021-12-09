@@ -223,9 +223,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Createlisting(ListingDto listing)
+        public async Task<IActionResult> Createlisting(ListingToCreateDto listing)
         {
-            await _serviceManager.ListingService.AddListing(listing);
+            await _serviceManager.ListingService.CreateListing(listing);
 
             return Ok(listing);
         }
@@ -242,7 +242,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing(int id, PutListingDto listing)
+        public async Task<IActionResult> UpdateListing(int id, ListingToUpdateDto listing)
         {
             await _serviceManager.ListingService.UpdateListing(id, listing);
 

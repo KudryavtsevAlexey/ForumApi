@@ -9,6 +9,7 @@ using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -85,6 +86,17 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var organizationUsersDtos = _mapper.Map<List<ApplicationUserDto>>(organization.Users);
 
             return organizationUsersDtos;
+        }
+
+        public async Task CreateOrganization(string organizationName)
+        {
+            var organization = new Organization()
+            {
+                Name = organizationName
+            };
+
+            await _dbContext.Organizations.AddAsync(organization);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

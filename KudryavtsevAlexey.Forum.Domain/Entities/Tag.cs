@@ -14,5 +14,11 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
         public ICollection<Article> Articles { get; set; }
 
         public ICollection<Listing> Listings { get; set; }
+
+        public Tag()
+        {
+            Articles = new List<Article>();
+            Listings = new List<Listing>();
+        }
     }
 }
