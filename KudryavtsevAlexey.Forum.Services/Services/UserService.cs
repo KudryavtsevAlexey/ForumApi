@@ -1,27 +1,18 @@
-﻿using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using AutoMapper;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.Dtos.User;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
-
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class UserService : IUserService
     {
         private readonly ForumDbContext _dbContext;
+
         private readonly IMapper _mapper;
 
         public UserService(ForumDbContext dbContext, IMapper mapper)

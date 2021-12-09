@@ -1,1 +1,164 @@
-﻿
+﻿2021-12-09 17:19:42.957 +03:00 [INF] Application starting up
+2021-12-09 17:21:26.545 +03:00 [WRN] User validation failed: DuplicateUserName.
+2021-12-09 17:21:26.575 +03:00 [INF] HTTP POST /api/account/registration responded 200 in 1175.1455 ms
+2021-12-09 17:21:41.280 +03:00 [INF] HTTP GET /api/users/1 responded 302 in 25.9555 ms
+2021-12-09 17:21:41.290 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F1 responded 404 in 1.4037 ms
+2021-12-09 17:21:45.460 +03:00 [INF] HTTP GET /api/users/2 responded 302 in 1.0217 ms
+2021-12-09 17:21:45.466 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F2 responded 404 in 1.0708 ms
+2021-12-09 17:21:49.183 +03:00 [INF] HTTP GET /api/users/3 responded 302 in 1.2158 ms
+2021-12-09 17:21:49.190 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F3 responded 404 in 0.0867 ms
+2021-12-09 17:21:52.445 +03:00 [INF] HTTP GET /api/users/4 responded 302 in 0.2029 ms
+2021-12-09 17:21:52.455 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F4 responded 404 in 0.0841 ms
+2021-12-09 17:21:57.175 +03:00 [INF] HTTP GET /api/users/5 responded 302 in 0.1695 ms
+2021-12-09 17:21:57.180 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F5 responded 404 in 0.0846 ms
+2021-12-09 17:22:00.726 +03:00 [INF] HTTP GET /api/users/6 responded 302 in 0.3016 ms
+2021-12-09 17:22:00.731 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F6 responded 404 in 0.1077 ms
+2021-12-09 17:22:03.157 +03:00 [INF] HTTP GET /api/users/7 responded 302 in 0.1507 ms
+2021-12-09 17:22:03.162 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F7 responded 404 in 0.0837 ms
+2021-12-09 17:22:05.391 +03:00 [INF] HTTP GET /api/users/8 responded 302 in 0.1895 ms
+2021-12-09 17:22:05.396 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F8 responded 404 in 0.0809 ms
+2021-12-09 17:22:06.753 +03:00 [INF] HTTP GET /api/users/9 responded 302 in 0.2203 ms
+2021-12-09 17:22:06.758 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F9 responded 404 in 0.1116 ms
+2021-12-09 17:22:07.956 +03:00 [INF] HTTP GET /api/users/10 responded 302 in 0.1792 ms
+2021-12-09 17:22:07.961 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F10 responded 404 in 0.0922 ms
+2021-12-09 17:22:09.232 +03:00 [INF] HTTP GET /api/users/11 responded 302 in 0.4808 ms
+2021-12-09 17:22:09.260 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F11 responded 404 in 0.0954 ms
+2021-12-09 17:22:10.559 +03:00 [INF] HTTP GET /api/users/12 responded 302 in 0.2726 ms
+2021-12-09 17:22:10.570 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F12 responded 404 in 0.0877 ms
+2021-12-09 17:22:12.178 +03:00 [INF] HTTP GET /api/users/13 responded 302 in 0.2138 ms
+2021-12-09 17:22:12.182 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F13 responded 404 in 0.0701 ms
+2021-12-09 17:22:13.075 +03:00 [INF] HTTP GET /api/users/14 responded 302 in 0.1888 ms
+2021-12-09 17:22:13.081 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F14 responded 404 in 0.0961 ms
+2021-12-09 17:22:14.190 +03:00 [INF] HTTP GET /api/users/15 responded 302 in 0.1909 ms
+2021-12-09 17:22:14.195 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F15 responded 404 in 0.1521 ms
+2021-12-09 17:22:15.267 +03:00 [INF] HTTP GET /api/users/16 responded 302 in 0.2717 ms
+2021-12-09 17:22:15.273 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F16 responded 404 in 0.0646 ms
+2021-12-09 17:22:16.331 +03:00 [INF] HTTP GET /api/users/17 responded 302 in 0.1614 ms
+2021-12-09 17:22:16.340 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F17 responded 404 in 0.0809 ms
+2021-12-09 17:22:17.368 +03:00 [INF] HTTP GET /api/users/18 responded 302 in 0.2147 ms
+2021-12-09 17:22:17.373 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F18 responded 404 in 0.0419 ms
+2021-12-09 17:22:18.758 +03:00 [INF] HTTP GET /api/users/19 responded 302 in 0.1305 ms
+2021-12-09 17:22:18.762 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F19 responded 404 in 0.0492 ms
+2021-12-09 17:22:21.176 +03:00 [INF] HTTP GET /api/users/20 responded 302 in 0.1603 ms
+2021-12-09 17:22:21.181 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F20 responded 404 in 0.0667 ms
+2021-12-09 17:22:22.151 +03:00 [INF] HTTP GET /api/users/21 responded 302 in 0.1279 ms
+2021-12-09 17:22:22.156 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F21 responded 404 in 0.0601 ms
+2021-12-09 17:22:23.127 +03:00 [INF] HTTP GET /api/users/22 responded 302 in 0.1472 ms
+2021-12-09 17:22:23.132 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F22 responded 404 in 0.0575 ms
+2021-12-09 17:22:25.043 +03:00 [INF] HTTP GET /api/users/23 responded 302 in 0.1526 ms
+2021-12-09 17:22:25.048 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F23 responded 404 in 0.0452 ms
+2021-12-09 17:22:25.860 +03:00 [INF] HTTP GET /api/users/24 responded 302 in 0.1471 ms
+2021-12-09 17:22:25.865 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F24 responded 404 in 0.0545 ms
+2021-12-09 17:22:27.383 +03:00 [INF] HTTP GET /api/users/25 responded 302 in 0.1781 ms
+2021-12-09 17:22:27.389 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F25 responded 404 in 0.0460 ms
+2021-12-09 17:22:28.425 +03:00 [INF] HTTP GET /api/users/26 responded 302 in 0.1497 ms
+2021-12-09 17:22:28.430 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F26 responded 404 in 0.0597 ms
+2021-12-09 17:22:29.335 +03:00 [INF] HTTP GET /api/users/27 responded 302 in 0.1405 ms
+2021-12-09 17:22:29.360 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F27 responded 404 in 0.0824 ms
+2021-12-09 17:22:30.242 +03:00 [INF] HTTP GET /api/users/28 responded 302 in 0.1182 ms
+2021-12-09 17:22:30.247 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F28 responded 404 in 0.0792 ms
+2021-12-09 17:22:31.345 +03:00 [INF] HTTP GET /api/users/29 responded 302 in 0.1215 ms
+2021-12-09 17:22:31.350 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F29 responded 404 in 0.0418 ms
+2021-12-09 17:22:32.495 +03:00 [INF] HTTP GET /api/users/230 responded 302 in 0.2400 ms
+2021-12-09 17:22:32.501 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F230 responded 404 in 0.0619 ms
+2021-12-09 17:22:35.008 +03:00 [INF] HTTP GET /api/users/30 responded 302 in 0.2083 ms
+2021-12-09 17:22:35.013 +03:00 [INF] HTTP GET /Account/Login?ReturnUrl=%2Fapi%2Fusers%2F30 responded 404 in 0.0559 ms
+2021-12-09 17:22:46.343 +03:00 [ERR] User with the email UserEmail2@mail.ru was not found
+KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with the email UserEmail2@mail.ru was not found
+   at KudryavtsevAlexey.Forum.Services.Services.AccountService.SignIn(SignInUserDto userDto) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Services\AccountService.cs:line 102
+   at KudryavtsevAlexey.Forum.Api.Controllers.AccountController.SignIn(SignInUserDto userDto) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Controllers\AccountController.cs:line 48
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2021-12-09 17:22:46.436 +03:00 [INF] HTTP POST /api/account/sign-in responded 404 in 153.6893 ms
+2021-12-09 17:23:35.250 +03:00 [ERR] User with the email UserEmail2@mail.ru was not found
+KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with the email UserEmail2@mail.ru was not found
+   at KudryavtsevAlexey.Forum.Services.Services.AccountService.SignIn(SignInUserDto userDto) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Services\AccountService.cs:line 102
+   at KudryavtsevAlexey.Forum.Api.Controllers.AccountController.SignIn(SignInUserDto userDto) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Controllers\AccountController.cs:line 48
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2021-12-09 17:23:35.269 +03:00 [INF] HTTP POST /api/account/sign-in responded 404 in 35.6312 ms
+2021-12-09 17:24:28.329 +03:00 [WRN] Invalid password for user.
+2021-12-09 17:24:28.334 +03:00 [WRN] User failed to provide the correct password.
+2021-12-09 17:24:28.341 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 40.4060 ms
+2021-12-09 17:25:13.970 +03:00 [WRN] Invalid password for user.
+2021-12-09 17:25:13.972 +03:00 [WRN] User failed to provide the correct password.
+2021-12-09 17:25:13.974 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 14.5823 ms
+2021-12-09 17:26:17.495 +03:00 [INF] HTTP POST /api/account/registration responded 200 in 338.8530 ms
+2021-12-09 17:27:07.097 +03:00 [INF] HTTP POST /api/account/sing-in responded 404 in 0.0918 ms
+2021-12-09 17:27:44.610 +03:00 [INF] HTTP POST /api/account/sing-in responded 404 in 0.0643 ms
+2021-12-09 17:29:39.177 +03:00 [INF] HTTP POST /api/account/registration responded 200 in 16.5229 ms
+2021-12-09 17:31:11.055 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 362.1699 ms
+2021-12-09 17:31:28.328 +03:00 [ERR] User with the identifier 1 was not found
+KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with the identifier 1 was not found
+   at KudryavtsevAlexey.Forum.Services.Services.UserService.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Services\UserService.cs:line 39
+   at KudryavtsevAlexey.Forum.Api.Controllers.UserController.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Controllers\UserController.cs:line 28
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2021-12-09 17:31:28.347 +03:00 [INF] HTTP GET /api/users/1 responded 404 in 38.3836 ms
+2021-12-09 17:31:31.760 +03:00 [ERR] User with the identifier 2 was not found
+KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with the identifier 2 was not found
+   at KudryavtsevAlexey.Forum.Services.Services.UserService.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Services\UserService.cs:line 39
+   at KudryavtsevAlexey.Forum.Api.Controllers.UserController.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Controllers\UserController.cs:line 28
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2021-12-09 17:31:31.775 +03:00 [INF] HTTP GET /api/users/2 responded 404 in 17.3065 ms
+2021-12-09 17:31:32.961 +03:00 [ERR] User with the identifier 3 was not found
+KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with the identifier 3 was not found
+   at KudryavtsevAlexey.Forum.Services.Services.UserService.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Services\UserService.cs:line 39
+   at KudryavtsevAlexey.Forum.Api.Controllers.UserController.GetUserById(Int32 id) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Controllers\UserController.cs:line 28
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2021-12-09 17:31:32.986 +03:00 [INF] HTTP GET /api/users/3 responded 404 in 29.2464 ms
+2021-12-09 17:31:34.194 +03:00 [INF] HTTP GET /api/users/4 responded 200 in 148.3198 ms
+2021-12-09 17:32:32.991 +03:00 [INF] HTTP GET /api/users/ responded 404 in 0.3828 ms
+2021-12-09 17:32:44.930 +03:00 [INF] HTTP GET /api/accout/sign-in responded 404 in 0.2716 ms
+2021-12-09 17:32:56.058 +03:00 [INF] HTTP GET /api/accout/sign-in responded 404 in 0.3378 ms
+2021-12-09 17:33:05.272 +03:00 [INF] HTTP GET /api/accout/sign-out responded 404 in 0.5246 ms
+2021-12-09 17:33:13.266 +03:00 [INF] HTTP GET /api/accout/sign-out responded 404 in 0.2754 ms
+2021-12-09 17:33:22.338 +03:00 [INF] HTTP GET /api/accout/sign-out responded 404 in 0.4073 ms
+2021-12-09 17:33:45.049 +03:00 [INF] HTTP GET /api/accout/sign-in responded 404 in 0.2504 ms
+2021-12-09 17:34:19.739 +03:00 [INF] HTTP POST /api/accout/sign-in responded 404 in 0.3150 ms
+2021-12-09 17:34:59.387 +03:00 [INF] HTTP POST /api/accout/sign-out responded 404 in 0.3117 ms
+2021-12-09 17:35:39.425 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 88.2474 ms
+2021-12-09 17:36:02.245 +03:00 [INF] HTTP GET /api/users/5 responded 200 in 3.2046 ms
+2021-12-09 17:36:40.127 +03:00 [INF] HTTP GET /api/users/5 responded 200 in 1.9846 ms

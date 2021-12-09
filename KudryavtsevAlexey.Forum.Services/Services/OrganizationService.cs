@@ -1,23 +1,21 @@
-﻿using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using AutoMapper;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.Dtos.Article;
+using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
+using KudryavtsevAlexey.Forum.Services.Dtos.Organization;
+using KudryavtsevAlexey.Forum.Services.Dtos.User;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
-
 using Microsoft.EntityFrameworkCore;
-
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class OrganizationService : IOrganizationService
     {
         private readonly ForumDbContext _dbContext;
+
         private readonly IMapper _mapper;
 
         public OrganizationService(ForumDbContext dbContext, IMapper mapper)

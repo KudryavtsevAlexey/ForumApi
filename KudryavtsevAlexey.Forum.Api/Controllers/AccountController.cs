@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -54,7 +55,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Returns ok if user signed out
         /// </summary>
         /// <returns>Ok if user signed out</returns>
-        /// <response code="200"></response>
+        /// <response code="200">Returns ok</response>
         [HttpPost]
         [Route("sign-out")]
         [Authorize]
@@ -65,6 +66,23 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 
             return Ok();
         }
-        
+
+        /// <summary>
+        /// Returns ok if user deleted
+        /// </summary>
+        /// <returns>Ok if user deleted</returns>
+        /// <response code="200">Returns ok</response>
+        /// <response code="404">If user not found</response>
+        [HttpDelete]
+        [Route("delete")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _serviceManager.AccountService.DeleteUser(id);
+
+            return Ok();
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace KudryavtsevAlexey.Forum.Api
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
 			{
-				config.Password.RequireDigit = true;
+                config.Password.RequireDigit = true;
 				config.Password.RequireLowercase = true;
 				config.Password.RequireNonAlphanumeric = false;
 				config.Password.RequireUppercase = true;

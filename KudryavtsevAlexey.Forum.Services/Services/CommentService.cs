@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
+using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
     internal sealed class CommentService : ICommentService
     {
         private readonly ForumDbContext _dbContext;
+
         private readonly IMapper _mapper;
 
         public CommentService(ForumDbContext dbContext, IMapper mapper)
@@ -137,6 +140,21 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var allListingsMainCommentsDtos = _mapper.Map<List<ListingMainCommentDto>>(allListingMainComments);
 
             return allListingsMainCommentsDtos;
+        }
+
+        public async Task CreateArticleMainComment(ArticleMainCommentDto articleMainCommentDto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleMainCommentDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(articleMainCommentDto.UserId);
+            }
+
+            var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
+
+            await _dbContext.AddAsync(articleMainComment);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

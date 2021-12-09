@@ -20,7 +20,8 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         private readonly Lazy<IUserService> _lazyUserService;
         private readonly Lazy<IAccountService> _lazyAccountService;
 
-        public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, IConfiguration configuration)
+        public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+                            IMapper mapper, IConfiguration configuration)
         {
             _lazyArticleService = new Lazy<IArticleService>(() => new ArticleService(dbContext, mapper));
             _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(dbContext, mapper));

@@ -1,20 +1,19 @@
-﻿using System;
+﻿using AutoMapper;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.Dtos.User;
+using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
-using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
@@ -37,7 +36,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         private readonly string SecretKey = string.Empty;
 
-        public AccountService(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, IConfiguration configuration)
+        public AccountService(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+                            IMapper mapper, IConfiguration configuration)
         {
             
             _dbContext = dbContext;
@@ -45,7 +45,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _signInManager = signInManager;
             _mapper = mapper;
             _configuration = configuration;
-            Issuer = _configuration["Authetication:JwtBearer:Issuer"];
+            Issuer = _configuration["Authentication:JwtBearer:Issuer"];
             Audience = _configuration["Authentication:JwtBearer:Audience"];
             SecretKey = _configuration["Authentication:JwtBearer:SecretKey"];
         }
@@ -114,6 +114,18 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             return token;
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(id);
+            }
+
+            await _userManager.DeleteAsync(user);
         }
 
         public async Task SignOut()

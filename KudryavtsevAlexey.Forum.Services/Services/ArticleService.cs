@@ -1,90 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class ArticleService : IArticleService
     {
         private readonly ForumDbContext _dbContext;
+
         private readonly IMapper _mapper;
 
         public ArticleService(ForumDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-        }
-
-        public async Task AddArticle(ArticleDto articleDto)
-        {
-            if (articleDto is null)
-            {
-                throw new ArgumentNullException(nameof(articleDto));
-            }
-
-            var articleToAdding = new Article();
-
-            var tags = await _dbContext.Tags.ToListAsync();
-            int[] identifiers = tags.Select(x => x.Id).ToArray();
-
-            if (!(articleDto.Tags is null))
-            {
-                articleToAdding.Tags = new List<Tag>();
-                for (int i = 0; i < articleDto.Tags.Count; i++)
-                {
-                    if (identifiers.Contains(articleDto.Tags[i].Id))
-                    {
-                        int tagId = articleDto.Tags[i].Id;
-                        tags[tagId-1].Articles = new List<Article>() { articleToAdding };
-                        articleToAdding.Tags.Add(tags[tagId-1]);
-                    }
-                }
-            }
-
-            var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Id == articleDto.OrganizationId);
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(articleDto.Organization.Name);
-            }
-
-            organization.Articles = new List<Article>() { articleToAdding };
-
-            articleToAdding.Organization = organization;
-
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleDto.UserId);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException(articleDto.UserId);
-            }
-
-            user.Articles = new List<Article>() { articleToAdding };
-
-            articleToAdding.User = user;
-
-            articleToAdding.Title = articleDto.Title;
-            articleToAdding.ShortDescription = articleDto.ShortDescription;
-
-            try
-            {
-                await _dbContext.Articles.AddAsync(articleToAdding);
-                await _dbContext.SaveChangesAsync();
-            }
-
-            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleDto.Id).GetAwaiter().GetResult())
-            {
-                // TODO: ILogger
-            }
         }
 
         public async Task<ArticleDto> GetArticleById(int id)
@@ -170,6 +108,70 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articlesByDateDtos;
         }
 
+        public async Task AddArticle(ArticleDto articleDto)
+        {
+            if (articleDto is null)
+            {
+                throw new ArgumentNullException(nameof(articleDto));
+            }
+
+            var articleToAdding = new Article();
+
+            var tags = await _dbContext.Tags.ToListAsync();
+            int[] identifiers = tags.Select(x => x.Id).ToArray();
+
+            if (!(articleDto.Tags is null))
+            {
+                articleToAdding.Tags = new List<Tag>();
+                for (int i = 0; i < articleDto.Tags.Count; i++)
+                {
+                    if (identifiers.Contains(articleDto.Tags[i].Id))
+                    {
+                        int tagId = articleDto.Tags[i].Id;
+                        tags[tagId - 1].Articles = new List<Article>() { articleToAdding };
+                        articleToAdding.Tags.Add(tags[tagId - 1]);
+                    }
+                }
+            }
+
+            var organization = await _dbContext.Organizations
+                .FirstOrDefaultAsync(x => x.Id == articleDto.OrganizationId);
+
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(articleDto.Organization.Name);
+            }
+
+            organization.Articles = new List<Article>() { articleToAdding };
+
+            articleToAdding.Organization = organization;
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleDto.UserId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(articleDto.UserId);
+            }
+
+            user.Articles = new List<Article>() { articleToAdding };
+
+            articleToAdding.User = user;
+
+            articleToAdding.Title = articleDto.Title;
+            articleToAdding.ShortDescription = articleDto.ShortDescription;
+
+            try
+            {
+                await _dbContext.Articles.AddAsync(articleToAdding);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException) when (!ArticleExists(articleDto.Id).GetAwaiter().GetResult())
+            {
+                
+            }
+        }
+
         public async Task UpdateArticle(int id, PutArticleDto articleDto)
         {
             if (articleDto is null)
@@ -200,8 +202,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                     if (identifiers.Contains(articleDto.Tags[i].Id))
                     {
                         int tagId = articleDto.Tags[i].Id;
-                        tags[tagId-1].Articles = new List<Article>() { articleToUpdating };
-                        articleToUpdating.Tags.Add(tags[tagId-1]);
+                        tags[tagId - 1].Articles = new List<Article>() { articleToUpdating };
+                        articleToUpdating.Tags.Add(tags[tagId - 1]);
                     }
                 }
             }

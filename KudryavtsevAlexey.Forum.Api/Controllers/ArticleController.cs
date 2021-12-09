@@ -3,6 +3,7 @@ using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 using Microsoft.AspNetCore.Authorization;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers

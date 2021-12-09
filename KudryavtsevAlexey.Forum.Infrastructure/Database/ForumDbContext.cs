@@ -35,6 +35,9 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>()
+                .Property("Id").HasColumnType("int");
+
             builder.Entity<Article>()
                 .HasKey(x => x.Id);
 

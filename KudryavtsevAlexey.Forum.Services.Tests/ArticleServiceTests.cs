@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Dtos
+namespace KudryavtsevAlexey.Forum.Services.Tests
 {
-    public record BaseDto(
-        int Id);
+    public class ArticleServiceTests
+    {
+        
+    }
 }

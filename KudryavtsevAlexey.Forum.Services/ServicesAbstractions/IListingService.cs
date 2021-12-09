@@ -1,6 +1,7 @@
 ﻿using KudryavtsevAlexey.Forum.Services.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {

@@ -15,7 +15,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public string Location { get; set; }
 
-		public DateTime JoinedAt { get; set; }
+		public DateTime JoinedAt { get; set; } = DateTime.UtcNow.Date;
 
 		public ICollection<Article> Articles { get; set; }
 

@@ -1,24 +1,21 @@
-﻿using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
+﻿using AutoMapper;
+using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
-
 using Microsoft.EntityFrameworkCore;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
     internal sealed class ListingService : IListingService
     {
         private readonly ForumDbContext _dbContext;
+
         private readonly IMapper _mapper;
 
         public ListingService(ForumDbContext dbContext, IMapper mapper)

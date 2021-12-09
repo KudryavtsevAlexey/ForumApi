@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
