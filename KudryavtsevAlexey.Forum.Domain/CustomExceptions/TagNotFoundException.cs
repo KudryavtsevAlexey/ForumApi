@@ -9,7 +9,7 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class TagNotFoundException : NotFoundException
     {
-        public TagNotFoundException(int id)
+        public TagNotFoundException(int? id)
             :base($"$Tag with the identifier {id} was not found")
         {
             

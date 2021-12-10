@@ -7,8 +7,5 @@ using System.Threading.Tasks;
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
     public record ArticleSubCommentToUpdateDto(
-        string Content,
-        int UserId,
-        int ArticleId,
-        int ArticleMainCommentId);
+        string Content);
 }

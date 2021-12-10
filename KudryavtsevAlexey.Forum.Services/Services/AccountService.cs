@@ -50,7 +50,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             SecretKey = _configuration["Authentication:JwtBearer:SecretKey"];
         }
 
-        private string GenerateToken(string userName, string userEmail)
+        private string GenerateToken(string? userName, string? userEmail)
         {
             var claims = new List<Claim>()
             {
@@ -116,7 +116,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return token;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUser(int? id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
 

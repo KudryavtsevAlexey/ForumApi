@@ -9,7 +9,7 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class ArticleNotFoundException : NotFoundException
     {
-        public ArticleNotFoundException(int id)
+        public ArticleNotFoundException(int? id)
             : base($"Article with the identifier {id} was not found")
         {
         }

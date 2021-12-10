@@ -15,6 +15,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Organization
         string Name,
         List<ListingDto> Listings,
         List<ApplicationUserDto> Users,
-        List<ArticleDto> Articles,
-        string ImageUrl) : BaseDto(Id);
+        List<ArticleDto> Articles) : BaseDto(Id);
 }

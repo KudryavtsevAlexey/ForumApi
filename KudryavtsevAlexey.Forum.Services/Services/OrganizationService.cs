@@ -25,7 +25,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<OrganizationDto> GetOrganizationByName(string organizationName)
+        public async Task<OrganizationDto> GetOrganizationByName(string? organizationName)
         {
             var organization = await _dbContext.Organizations
                 .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
@@ -40,7 +40,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationDto;
         }
 
-        public async Task<List<ArticleDto>> GetOrganizationArticles(string organizationName)
+        public async Task<List<ArticleDto>> GetOrganizationArticles(string? organizationName)
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Articles)
@@ -56,7 +56,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationArticlesDtos;
         }
 
-        public async Task<List<ListingDto>> GetOrganizationListings(string organizationName)
+        public async Task<List<ListingDto>> GetOrganizationListings(string? organizationName)
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Listings)
@@ -72,7 +72,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationListingsDtos;
         }
 
-        public async Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName)
+        public async Task<List<ApplicationUserDto>> GetOrganizationUsers(string? organizationName)
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Users)
@@ -88,14 +88,39 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationUsersDtos;
         }
 
-        public async Task CreateOrganization(string organizationName)
+        public async Task CreateOrganization(OrganizationToCreateDto organizationDto)
         {
-            var organization = new Organization()
-            {
-                Name = organizationName
-            };
+            var organization = _mapper.Map<Organization>(organizationDto);
 
             await _dbContext.Organizations.AddAsync(organization);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrganization(int? id, OrganizationToUpdateDto organizationDto)
+        {
+            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(id);
+            }
+
+            organization.Name = organizationDto.Name;
+
+            _dbContext.Organizations.Update(organization);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrganization(int? id)
+        {
+            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (organization is null)
+            {
+                throw new OrganizationNotFoundException(id);
+            }
+
+            _dbContext.Organizations.Remove(organization);
             await _dbContext.SaveChangesAsync();
         }
     }

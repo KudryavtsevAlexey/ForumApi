@@ -25,7 +25,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ArticleDto> GetArticleById(int id)
+        public async Task<ArticleDto> GetArticleById(int? id)
         {
             var article = await _dbContext.Articles
                 .Include(x => x.User)
@@ -42,7 +42,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleDto;
         }
 
-        public async Task<List<ArticleDto>> GetArticlesByUserId(int id)
+        public async Task<List<ArticleDto>> GetArticlesByUserId(int? id)
         {
             var userArticles = await _dbContext.Articles
                 .Where(x => x.UserId == id)
@@ -67,7 +67,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return publishedArticlesDtos;
         }
 
-        public async Task<List<ArticleDto>> GetPublishedArticlesByUserId(int id)
+        public async Task<List<ArticleDto>> GetPublishedArticlesByUserId(int? id)
         {
             var userPublishedArticles = await _dbContext.Articles
                 .Where(x => x.UserId == id)
@@ -81,7 +81,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userPublishedArticlesDtos;
         }
 
-        public async Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id)
+        public async Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int? id)
         {
             var userUnpublishedArticles = await _dbContext.Articles
                 .Where(x => x.UserId == id)
@@ -95,7 +95,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userUnpublishedArticlesDtos;
         }
 
-        public async Task<ArticleDto> GetPublishedArticleById(int id)
+        public async Task<ArticleDto> GetPublishedArticleById(int? id)
         {
             var publishedArticle = await _dbContext.Articles
                 .Where(x => x.PublishedAt != null)
@@ -128,11 +128,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task CreateArticle(ArticleToCreateDto articleDto)
         {
-            if (articleDto is null)
-            {
-                throw new ArgumentNullException(nameof(articleDto));
-            }
-
             var articleToAdding = new Article();
 
             var tags = await _dbContext.Tags.ToListAsync();
@@ -182,13 +177,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
    
-        public async Task UpdateArticle(int id, ArticleToUpdateDto articleDto)
+        public async Task UpdateArticle(int? id, ArticleToUpdateDto articleDto)
         {
-            if (articleDto is null)
-            {
-                throw new ArgumentNullException(nameof(articleDto));
-            }
-
             var articleToUpdating = await _dbContext.Articles
                 .Include(x => x.Tags)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -219,6 +209,19 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             _dbContext.Articles.Update(articleToUpdating);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteArticle(int? id)
+        {
+            var article = await _dbContext.Articles.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (article is null)
+            {
+                throw new ArticleNotFoundException(id);
+            }
+
+            _dbContext.Articles.Remove(article);
             await _dbContext.SaveChangesAsync();
         }
     }

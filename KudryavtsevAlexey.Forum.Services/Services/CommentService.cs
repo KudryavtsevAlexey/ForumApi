@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
@@ -7,6 +8,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +26,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleMainCommentDto>> GetArticleComments(int id)
+        public async Task<List<ArticleMainCommentDto>> GetArticleComments(int? id)
         {
             var articleMainComments = await _dbContext.ArticleMainComments
                 .Where(x => x.ArticleId == id)
@@ -37,7 +39,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleMainCommentsDtos;
         }
 
-        public async Task<List<ListingMainCommentDto>> GetListingComments(int id)
+        public async Task<List<ListingMainCommentDto>> GetListingComments(int? id)
         {
             var listingMainComments = await _dbContext.ListingMainComments
                 .Where(x => x.ListingId == id)
@@ -50,7 +52,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingMainCommentsDtos;
         }
 
-        public async Task<ArticleMainCommentDto> GetArticleMainCommentById(int id)
+        public async Task<ArticleMainCommentDto> GetArticleMainCommentById(int? id)
         {
             var articleMainComment = await _dbContext.ArticleMainComments
                 .Include(x => x.Article)
@@ -67,7 +69,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleMainCommentDto;
         }
 
-        public async Task<ListingMainCommentDto> GetListingMainCommentById(int id)
+        public async Task<ListingMainCommentDto> GetListingMainCommentById(int? id)
         {
             var listingMainComment = await _dbContext.ListingMainComments
                 .Include(x => x.Listing)
@@ -84,7 +86,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingMainCommentDto;
         }
 
-        public async Task<ArticleSubCommentDto> GetArticleSubCommentById(int id)
+        public async Task<ArticleSubCommentDto> GetArticleSubCommentById(int? id)
         {
             var articleSubComment = await _dbContext.ArticleSubComments
                 .Include(x => x.Article)
@@ -101,7 +103,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleSubCommentDto;
         }
 
-        public async Task<ListingSubCommentDto> GetListingSubCommentById(int id)
+        public async Task<ListingSubCommentDto> GetListingSubCommentById(int? id)
         {
             var listingSubComment = await _dbContext.ListingSubComments
                 .Include(x => x.Listing)
@@ -244,7 +246,68 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteArticleMainComment(int id)
+        public async Task UpdateArticleMainComment(int? id, ArticleMainCommentToUpdateDto articleMainCommentDto)
+        {
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (articleMainComment is null)
+            {
+                throw new ArticleMainCommentNotFoundException(id);
+            }
+
+            articleMainComment.Content = articleMainCommentDto.Content;
+
+            _dbContext.ArticleMainComments.Update(articleMainComment);
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task UpdateListingMainComment(int? id, ListingMainCommentToUpdateDto listingMainCommentDto)
+        {
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listingMainComment is null)
+            {
+                throw new ListingMainCommentNotFoundException(id);
+            }
+
+            listingMainComment.Content = listingMainCommentDto.Content;
+
+            _dbContext.ListingMainComments.Update(listingMainComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateArticleSubComment(int? id, ArticleSubCommentToUpdateDto articleSubCommentDto)
+        {
+            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (articleSubComment is null)
+            {
+                throw new ArticleSubCommentNotFoundException(id);
+            }
+
+            articleSubComment.Content = articleSubCommentDto.Content;
+
+            _dbContext.ArticleSubComments.Update(articleSubComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateListingSubComment(int? id, ListingSubCommentToUpdateDto listingSubCommentDto)
+        {
+            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listingSubComment is null)
+            {
+                throw new ListingSubCommentNotFoundException(id);
+            }
+
+            listingSubComment.Content = listingSubCommentDto.Content;
+
+            _dbContext.ListingSubComments.Update(listingSubComment);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteArticleMainComment(int? id)
         {
             var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -257,7 +320,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListingMainComment(int id)
+        public async Task DeleteListingMainComment(int? id)
         {
             var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -270,7 +333,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteArticleSubComment(int id)
+        public async Task DeleteArticleSubComment(int? id)
         {
             var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -283,7 +346,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListingSubComment(int id)
+        public async Task DeleteListingSubComment(int? id)
         {
             var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == id);
 

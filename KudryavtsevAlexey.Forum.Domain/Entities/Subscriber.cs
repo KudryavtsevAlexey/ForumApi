@@ -20,8 +20,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public ICollection<ApplicationUser> Users { get; set; }
 
-        public string ImageUrl { get; set; } = "ProfileImages\\ProfileImage.png";
-
         public Subscriber()
         {
             Users = new List<ApplicationUser>();

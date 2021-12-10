@@ -9,13 +9,13 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class OrganizationNotFoundException : NotFoundException
     {
-        public OrganizationNotFoundException(string organizationName)
+        public OrganizationNotFoundException(string? organizationName)
             : base($"Organization with the name {organizationName} was not found")
         {
 
         }
 
-        public OrganizationNotFoundException(int id)
+        public OrganizationNotFoundException(int? id)
             :base($"Organization with the identifier {id} was not found")
         {
             

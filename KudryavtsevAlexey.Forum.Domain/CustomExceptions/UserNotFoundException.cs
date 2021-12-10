@@ -9,13 +9,13 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class UserNotFoundException : NotFoundException
     {
-        public UserNotFoundException(int id)
+        public UserNotFoundException(int? id)
             : base($"User with the identifier {id} was not found")
         {
 
         }
 
-        public UserNotFoundException(string email) 
+        public UserNotFoundException(string? email) 
             : base($"User with the email {email} was not found")
         {
             

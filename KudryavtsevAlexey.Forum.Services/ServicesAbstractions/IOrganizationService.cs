@@ -14,12 +14,18 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface IOrganizationService
     {
-        public Task<OrganizationDto> GetOrganizationByName(string organizationName);
+        public Task<OrganizationDto> GetOrganizationByName(string? organizationName);
 
-        public Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName);
+        public Task<List<ApplicationUserDto>> GetOrganizationUsers(string? organizationName);
 
-        public Task<List<ListingDto>> GetOrganizationListings(string organizationName);
+        public Task<List<ListingDto>> GetOrganizationListings(string? organizationName);
 
-        public Task<List<ArticleDto>> GetOrganizationArticles(string organizationName);
+        public Task<List<ArticleDto>> GetOrganizationArticles(string? organizationName);
+
+        public Task CreateOrganization(OrganizationToCreateDto organizationDto);
+
+        public Task UpdateOrganization(int? id, OrganizationToUpdateDto organizationDto);
+
+        public Task DeleteOrganization(int? id);
     }
 }

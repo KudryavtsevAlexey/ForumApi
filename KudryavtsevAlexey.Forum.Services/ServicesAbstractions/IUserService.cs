@@ -12,8 +12,8 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface IUserService
     {
-        public Task<ApplicationUserDto> GetUserById(int id);
+        public Task<ApplicationUserDto> GetUserById(int? id);
 
-        public Task<List<SubscriberDto>> GetUserSubscribers(int id);
+        public Task<List<SubscriberDto>> GetUserSubscribers(int? id);
     }
 }

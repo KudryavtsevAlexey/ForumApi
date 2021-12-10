@@ -24,7 +24,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ListingDto> GetListingById(int id)
+        public async Task<ListingDto> GetListingById(int? id)
         {
             var listing = await _dbContext.Listings
                 .Include(x => x.Tags)
@@ -40,7 +40,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingDto;
         }
 
-        public async Task<List<ListingDto>> GetListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetListingsByUserId(int? id)
         {
             var userListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -62,13 +62,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return publishedListingsDtos;
         }
 
-        public async Task<List<ListingDto>> GetPublishedListingsByCategory(string category)
+        public async Task<List<ListingDto>> GetPublishedListingsByCategory(string? category)
         {
-            if (string.IsNullOrEmpty(category))
-            {
-                throw new ArgumentNullException(nameof(category));    
-            }
-
             var listingsByCategory = await _dbContext.Listings.Where(l => l.Category.ToLower() == category.ToLower())
                 .Where(l => l.PublishedAt != null)
                 .ToListAsync();
@@ -78,7 +73,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByCategoryDtos;
         }
 
-        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int? id)
         {
             var userPublishedListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -90,7 +85,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userPublishedListingsDtos;
         }
 
-        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int? id)
         {
             var userPublishedListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -112,7 +107,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task<ListingDto> GetPublishedListingById(int id)
+        public async Task<ListingDto> GetPublishedListingById(int? id)
         {
             var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -128,11 +123,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task CreateListing(ListingToCreateDto listingDto)
         {
-            if (listingDto is null)
-            {
-                throw new ArgumentNullException(nameof(listingDto));
-            }
-
             var listingToAdding = new Listing();
 
             var tags = await _dbContext.Tags.ToListAsync();
@@ -183,13 +173,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListing(int id, ListingToUpdateDto listingDto)
+        public async Task UpdateListing(int? id, ListingToUpdateDto listingDto)
         {
-            if (listingDto is null)
-            {
-                throw new ArgumentNullException(nameof(listingDto));
-            }
-
             var listingToUpdating = await _dbContext.Listings
                 .Include(x => x.Tags)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -220,6 +205,19 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             _dbContext.Listings.Update(listingToUpdating);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteListing(int? id)
+        {
+            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (listing is null)
+            {
+                throw new ListingNotFoundException(id);
+            }
+
+            _dbContext.Listings.Remove(listing);
             await _dbContext.SaveChangesAsync();
         }
     }

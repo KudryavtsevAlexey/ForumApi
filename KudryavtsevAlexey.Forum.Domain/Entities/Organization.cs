@@ -13,8 +13,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public ICollection<Article> Articles { get; set; }
 
-        public string ImageUrl { get; set; } = "ProfileImages\\ProfileImage.png";
-
         public Organization()
         {
             Listings = new List<Listing>();

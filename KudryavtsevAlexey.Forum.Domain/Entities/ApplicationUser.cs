@@ -36,8 +36,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public Organization Organization { get; set; }
 
-		public string ImageUrl { get; set; } = "ProfileImages\\ProfileImage.png";
-
         public ApplicationUser()
         {
             Articles = new List<Article>();
