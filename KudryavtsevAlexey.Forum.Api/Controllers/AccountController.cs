@@ -44,6 +44,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("sign-in")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> SignIn(SignInUserDto userDto)
         {
             var token = await _serviceManager.AccountService.SignIn(userDto);
@@ -56,10 +57,12 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if user signed out</returns>
         /// <response code="200">Returns ok</response>
+        /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("sign-out")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Logout()
         {
             await _serviceManager.AccountService.SignOut();
@@ -72,13 +75,15 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if user deleted</returns>
         /// <response code="200">Returns ok</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If user not found</response>
         [HttpDelete]
-        [Route("delete")]
+        [Route("{id}/deleting")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAccount(int id)
         {
             await _serviceManager.AccountService.DeleteUser(id);
 

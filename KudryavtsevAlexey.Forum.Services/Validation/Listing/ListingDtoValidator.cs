@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Dtos.Organization
+namespace KudryavtsevAlexey.Forum.Services.Validation.Listing
 {
-    public record OrganizationToUpdateDto(string Name);
+    public class ListingDtoValidator
+    {
+        
+    }
 }

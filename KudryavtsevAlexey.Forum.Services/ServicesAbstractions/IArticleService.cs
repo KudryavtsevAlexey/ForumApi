@@ -12,20 +12,20 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ArticleDto>> SortArticlesByDate();
 
-        public Task<ArticleDto> GetArticleById(int? id);
+        public Task<ArticleDto> GetArticleById(int id);
 
-        public Task<ArticleDto> GetPublishedArticleById(int? id);
+        public Task<ArticleDto> GetPublishedArticleById(int id);
 
-        public Task<List<ArticleDto>> GetArticlesByUserId(int? id);
+        public Task<List<ArticleDto>> GetArticlesByUserId(int id);
 
-        public Task<List<ArticleDto>> GetPublishedArticlesByUserId(int? id);
+        public Task<List<ArticleDto>> GetPublishedArticlesByUserId(int id);
 
-        public Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int? id);
+        public Task<List<ArticleDto>> GetUnpublishedArticlesByUserId(int id);
 
-        public Task CreateArticle(ArticleToCreateDto articleDto);
+        public Task CreateArticle(CreateArticleDto articleDto);
 
-        public Task UpdateArticle(int? id, ArticleToUpdateDto articleDto);
+        public Task UpdateArticle(int id, UpdateArticleDto articleDto);
 
-        public Task DeleteArticle(int? id);
+        public Task DeleteArticle(int id);
     }
 }

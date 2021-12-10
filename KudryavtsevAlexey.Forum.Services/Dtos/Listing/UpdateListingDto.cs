@@ -7,7 +7,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Listing
 {
-    public record ListingToUpdateDto(
+    public record UpdateListingDto(
         string Title,
         string ShortDescription,
         string Category,

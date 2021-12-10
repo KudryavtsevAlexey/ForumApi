@@ -21,7 +21,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ApplicationUserDto> GetUserById(int? id)
+        public async Task<ApplicationUserDto> GetUserById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -35,7 +35,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userDto;
         }
 
-        public async Task<List<SubscriberDto>> GetUserSubscribers(int? id)
+        public async Task<List<SubscriberDto>> GetUserSubscribers(int id)
         {
             var user = await _dbContext.Users
                 .Include(x=>x.Subscribers)

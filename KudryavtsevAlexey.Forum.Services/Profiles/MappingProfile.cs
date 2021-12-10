@@ -35,10 +35,10 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
 
             CreateMap<TagDto, Tag>();
 
-            CreateMap<Article, ArticleToUpdateDto>()
+            CreateMap<Article, UpdateArticleDto>()
                 .MaxDepth(1);
 
-            CreateMap<ArticleToUpdateDto, Article>();
+            CreateMap<UpdateArticleDto, Article>();
 
             CreateMap<Listing, ListingDto>()
                 .MaxDepth(1);

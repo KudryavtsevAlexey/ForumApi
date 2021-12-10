@@ -8,7 +8,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
-    public record ArticleSubCommentToCreateDto(
+    public record CreateArticleSubCommentDto(
         string Content,
         int UserId,
         int ArticleId,

@@ -1,15 +1,14 @@
-﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
+﻿using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
+using KudryavtsevAlexey.Forum.Services.ServiceManager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/listings")]
     public class ListingController : ControllerBase
     {
@@ -25,10 +24,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published listings</returns>
         /// <response code="200">Returns listings</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listings not found</response>
         [HttpGet]
         [Route("published")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,10 +48,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Listings by category</returns>
         /// <response code="200">Returns listings</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listings not found</response>
         [HttpGet]
         [Route("published/{category}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,10 +72,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Listing by id</returns>
         /// <response code="200">Returns listing</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listing not found</response>
         [HttpGet]
         [Route("{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,10 +96,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Listings sorted by date</returns>
         /// <response code="200">Returns sorted listings</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listings not found</response>
         [HttpGet]
         [Route("by-date")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -121,10 +120,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Listings by user id</returns>
         /// <response code="200">Returns listings</response>
+        /// <response code="401">If user not authorized</response>
         /// <responde code="404">if listings not found</responde>
         [HttpGet]
         [Route("user/{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -145,10 +144,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published listing by id</returns>
         /// <response code="200">Returns listing</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listing not found</response>
         [HttpGet]
         [Route("user/{id}/published")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -169,10 +168,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Unpublished listing by user id</returns>
         /// <response code="200">Returns listings</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listings not found</response>
         [HttpGet]
         [Route("user/{id}/unpublished")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -193,10 +192,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published listing by id</returns>
         /// <response code="200">Returns listing</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listing not found</response>
         [HttpGet]
         [Route("published/{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -215,15 +214,14 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds listing
         /// </summary>
-        /// <returns>Ok if listing added</returns>
+        /// <returns>Ok if listing created</returns>
         /// <responde code="201">Returns ok if article added</responde>
+        /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("creating")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Createlisting(ListingToCreateDto listing)
+        public async Task<IActionResult> Createlisting(CreateListingDto listing)
         {
             await _serviceManager.ListingService.CreateListing(listing);
 
@@ -235,14 +233,14 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if listing updated</returns>
         /// <response code="200">Returns ok if listing updated</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If listing not found</response>
         [HttpPut]
         [Route("updating")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing(int id, ListingToUpdateDto listing)
+        public async Task<IActionResult> UpdateListing(int id, UpdateListingDto listing)
         {
             await _serviceManager.ListingService.UpdateListing(id, listing);
 

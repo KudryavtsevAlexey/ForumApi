@@ -4,7 +4,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos
 {
-    public record ArticleToUpdateDto(
+    public record UpdateArticleDto(
         string Title,
         string ShortDescription,
         List<TagDto> Tags);

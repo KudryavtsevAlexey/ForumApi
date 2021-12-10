@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Article
 {
-    public record ArticleToCreateDto(
+    public record CreateArticleDto(
         string Title,
         string ShortDescription,
         List<TagDto> Tags,

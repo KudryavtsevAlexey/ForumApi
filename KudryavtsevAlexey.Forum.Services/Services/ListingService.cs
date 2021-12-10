@@ -24,7 +24,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ListingDto> GetListingById(int? id)
+        public async Task<ListingDto> GetListingById(int id)
         {
             var listing = await _dbContext.Listings
                 .Include(x => x.Tags)
@@ -40,7 +40,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingDto;
         }
 
-        public async Task<List<ListingDto>> GetListingsByUserId(int? id)
+        public async Task<List<ListingDto>> GetListingsByUserId(int id)
         {
             var userListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -62,7 +62,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return publishedListingsDtos;
         }
 
-        public async Task<List<ListingDto>> GetPublishedListingsByCategory(string? category)
+        public async Task<List<ListingDto>> GetPublishedListingsByCategory(string category)
         {
             var listingsByCategory = await _dbContext.Listings.Where(l => l.Category.ToLower() == category.ToLower())
                 .Where(l => l.PublishedAt != null)
@@ -73,7 +73,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByCategoryDtos;
         }
 
-        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int? id)
+        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int id)
         {
             var userPublishedListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -85,7 +85,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userPublishedListingsDtos;
         }
 
-        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int? id)
+        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id)
         {
             var userPublishedListings = await _dbContext.Listings
                 .Where(x => x.UserId == id)
@@ -107,7 +107,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task<ListingDto> GetPublishedListingById(int? id)
+        public async Task<ListingDto> GetPublishedListingById(int id)
         {
             var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -121,7 +121,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return publishedListingDto;
         }
 
-        public async Task CreateListing(ListingToCreateDto listingDto)
+        public async Task CreateListing(CreateListingDto listingDto)
         {
             var listingToAdding = new Listing();
 
@@ -173,7 +173,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListing(int? id, ListingToUpdateDto listingDto)
+        public async Task UpdateListing(int id, UpdateListingDto listingDto)
         {
             var listingToUpdating = await _dbContext.Listings
                 .Include(x => x.Tags)
@@ -208,7 +208,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListing(int? id)
+        public async Task DeleteListing(int id)
         {
             var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
 

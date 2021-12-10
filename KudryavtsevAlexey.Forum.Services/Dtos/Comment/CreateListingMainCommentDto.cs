@@ -7,7 +7,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Base;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
-    public record ListingMainCommentToCreateDto(
+    public record CreateListingMainCommentDto(
         string Content,
         int UserId,
         int ListingId,

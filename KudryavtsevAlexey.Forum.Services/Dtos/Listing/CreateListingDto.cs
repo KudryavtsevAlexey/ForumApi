@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Listing
 {
-    public record ListingToCreateDto(
+    public record CreateListingDto(
         string Title,
         string ShortDescription,
         string Category,

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/articles")]
     public class ArticleController : ControllerBase
     {
@@ -24,9 +25,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Article</returns>
         /// <response code="200">Returns article</response>
+        /// <response code="401">If user not authorized</response>
+        /// <response code="404">If article not found</response>
         [HttpGet]
         [Route("{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,10 +44,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published articles</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("published")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,10 +68,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Articles sorted by date</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("by-date")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -90,10 +92,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published article by id</returns>
         /// <response code="200">Returns article</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If article not found</response>
         [HttpGet]
         [Route("published/{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -114,10 +116,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Published articles by user</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,10 +140,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Unpublished articles by user</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/published")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -162,10 +164,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Unpublished articles by user</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/unpublished")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -186,10 +188,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>All articles by user</returns>
         /// <response code="200">Returns articles</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
         [Route("user/{id}/all")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -208,14 +210,14 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds article
         /// </summary>
-        /// <returns>Ok if article added</returns>
+        /// <returns>Ok if article created</returns>
         /// <response code="201">Returns ok if article added</response>
+        /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("creating")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateArticle(ArticleToCreateDto articleDto)
+        public async Task<IActionResult> CreateArticle(CreateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.CreateArticle(articleDto);
 
@@ -227,16 +229,36 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// </summary>
         /// <returns>Ok if article updated</returns>
         /// <response code="200">Returns ok if article updated</response>
+        /// <response code="401">If user not authorized</response>
         [HttpPut]
-        [Route("updating/{id}")]
-        [Authorize]
+        [Route("{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateArticle(int id, ArticleToUpdateDto articleDto)
+        public async Task<IActionResult> UpdateArticle(int id, UpdateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 
             return Ok(articleDto);
         }
+
+        /// <summary>
+        /// Deletes article
+        /// </summary>
+        /// <returns>Ok if article deleted</returns>
+        /// <response code="200">If article deleted</response>
+        /// <response code="401">If user not authorized</response>
+        /// <response code="404">If user not found</response>
+        [HttpDelete]
+        [Route("{id}/deleting")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteArticle(int id)
+        {
+            await _serviceManager.ArticleService.DeleteArticle(id);
+
+            return Ok();
+        }
+        
     }
 }

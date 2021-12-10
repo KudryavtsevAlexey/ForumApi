@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
-    public record ArticleSubCommentToUpdateDto(
+    public record UpdateListingMainCommentDto(
         string Content);
 }
