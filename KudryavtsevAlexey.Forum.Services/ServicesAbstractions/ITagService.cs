@@ -1,13 +1,16 @@
-﻿using System;
+﻿using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
+public interface ITagService
 {
-    public interface ITagService
-    {
-        
-    }
+    Task<TagDto> GetTagById(int id);
+
+    Task<List<TagDto>> GetAllTags();
+
+    Task CreateTag(CreateTagDto tagDto);
+
+    Task UpdateTag(int id, UpdateTagDto tagDto);
+
+    Task DeteteTag(int id);
 }

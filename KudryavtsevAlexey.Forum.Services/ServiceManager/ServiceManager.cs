@@ -19,6 +19,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         private readonly Lazy<IOrganizationService> _lazyOrganizationService;
         private readonly Lazy<IUserService> _lazyUserService;
         private readonly Lazy<IAccountService> _lazyAccountService;
+        private readonly Lazy<ITagService> _lazyTagService;
 
         public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
                             IMapper mapper, IConfiguration configuration)
@@ -29,6 +30,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
             _lazyOrganizationService = new Lazy<IOrganizationService>(() => new OrganizationService(dbContext, mapper));
             _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext, mapper));
             _lazyAccountService = new Lazy<IAccountService>(() => new AccountService(dbContext, userManager, signInManager, mapper, configuration));
+            _lazyTagService = new Lazy<ITagService>(() => new TagService(dbContext, mapper));
         }
 
         public IArticleService ArticleService => _lazyArticleService.Value;
@@ -37,5 +39,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         public IOrganizationService OrganizationService => _lazyOrganizationService.Value;
         public IUserService UserService => _lazyUserService.Value;
         public IAccountService AccountService => _lazyAccountService.Value;
+        public ITagService TagService => _lazyTagService.Value;
     }
 }
