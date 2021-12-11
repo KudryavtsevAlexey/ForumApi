@@ -26,10 +26,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ArticleMainCommentDto>> GetArticleComments(int id)
+        public async Task<List<ArticleMainCommentDto>> GetArticleComments(int articleId)
         {
             var articleMainComments = await _dbContext.ArticleMainComments
-                .Where(x => x.ArticleId == id)
+                .Where(x => x.ArticleId == articleId)
                 .Include(x => x.Article)
                 .Include(x => x.SubComments)
                 .ToListAsync();
@@ -39,10 +39,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleMainCommentsDtos;
         }
 
-        public async Task<List<ListingMainCommentDto>> GetListingComments(int id)
+        public async Task<List<ListingMainCommentDto>> GetListingComments(int listingId)
         {
             var listingMainComments = await _dbContext.ListingMainComments
-                .Where(x => x.ListingId == id)
+                .Where(x => x.ListingId == listingId)
                 .Include(x => x.Listing)
                 .Include(x => x.SubComments)
                 .ToListAsync();
@@ -52,16 +52,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingMainCommentsDtos;
         }
 
-        public async Task<ArticleMainCommentDto> GetArticleMainCommentById(int id)
+        public async Task<ArticleMainCommentDto> GetArticleMainCommentById(int articleMainCommentId)
         {
             var articleMainComment = await _dbContext.ArticleMainComments
                 .Include(x => x.Article)
                 .Include(x => x.SubComments)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == articleMainCommentId);
 
             if (articleMainComment is null)
             {
-                throw new ArticleMainCommentNotFoundException(id);
+                throw new ArticleMainCommentNotFoundException(articleMainCommentId);
             }
 
             var articleMainCommentDto = _mapper.Map<ArticleMainCommentDto>(articleMainComment);
@@ -69,16 +69,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleMainCommentDto;
         }
 
-        public async Task<ListingMainCommentDto> GetListingMainCommentById(int id)
+        public async Task<ListingMainCommentDto> GetListingMainCommentById(int listingMainCommentId)
         {
             var listingMainComment = await _dbContext.ListingMainComments
                 .Include(x => x.Listing)
                 .Include(x => x.SubComments)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == listingMainCommentId);
 
             if (listingMainComment is null)
             {
-                throw new ListingMainCommentNotFoundException(id);
+                throw new ListingMainCommentNotFoundException(listingMainCommentId);
             }
 
             var listingMainCommentDto = _mapper.Map<ListingMainCommentDto>(listingMainComment);
@@ -86,16 +86,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingMainCommentDto;
         }
 
-        public async Task<ArticleSubCommentDto> GetArticleSubCommentById(int id)
+        public async Task<ArticleSubCommentDto> GetArticleSubCommentById(int articleSubCommentId)
         {
             var articleSubComment = await _dbContext.ArticleSubComments
                 .Include(x => x.Article)
                 .Include(x => x.ArticleMainComment)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == articleSubCommentId);
 
             if (articleSubComment is null)
             {
-                throw new ArticleSubCommentNotFoundException(id);
+                throw new ArticleSubCommentNotFoundException(articleSubCommentId);
             }
 
             var articleSubCommentDto = _mapper.Map<ArticleSubCommentDto>(articleSubComment);
@@ -103,16 +103,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return articleSubCommentDto;
         }
 
-        public async Task<ListingSubCommentDto> GetListingSubCommentById(int id)
+        public async Task<ListingSubCommentDto> GetListingSubCommentById(int listingSubCommentId)
         {
             var listingSubComment = await _dbContext.ListingSubComments
                 .Include(x => x.Listing)
                 .Include(x => x.ListingMainComment)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == listingSubCommentId);
 
             if (listingSubComment is null)
             {
-                throw new ListingSubCommentNotFoundException(id);
+                throw new ListingSubCommentNotFoundException(listingSubCommentId);
             }
 
             var listingSubCommentDto = _mapper.Map<ListingSubCommentDto>(listingSubComment);
@@ -246,13 +246,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateArticleMainComment(int id, UpdateArticleMainCommentDto articleMainCommentDto)
+        public async Task UpdateArticleMainComment(int articleMainCommentId, UpdateArticleMainCommentDto articleMainCommentDto)
         {
-            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == id);
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == articleMainCommentId);
 
             if (articleMainComment is null)
             {
-                throw new ArticleMainCommentNotFoundException(id);
+                throw new ArticleMainCommentNotFoundException(articleMainCommentId);
             }
 
             articleMainComment.Content = articleMainCommentDto.Content;
@@ -262,13 +262,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         }
 
-        public async Task UpdateListingMainComment(int id, UpdateListingMainCommentDto listingMainCommentDto)
+        public async Task UpdateListingMainComment(int listingMainCommentId, UpdateListingMainCommentDto listingMainCommentDto)
         {
-            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == id);
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == listingMainCommentId);
 
             if (listingMainComment is null)
             {
-                throw new ListingMainCommentNotFoundException(id);
+                throw new ListingMainCommentNotFoundException(listingMainCommentId);
             }
 
             listingMainComment.Content = listingMainCommentDto.Content;
@@ -277,13 +277,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateArticleSubComment(int id, UpdateArticleSubCommentDto articleSubCommentDto)
+        public async Task UpdateArticleSubComment(int articleSubCommentId, UpdateArticleSubCommentDto articleSubCommentDto)
         {
-            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == id);
+            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == articleSubCommentId);
 
             if (articleSubComment is null)
             {
-                throw new ArticleSubCommentNotFoundException(id);
+                throw new ArticleSubCommentNotFoundException(articleSubCommentId);
             }
 
             articleSubComment.Content = articleSubCommentDto.Content;
@@ -292,13 +292,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListingSubComment(int id, UpdateListingSubCommentDto listingSubCommentDto)
+        public async Task UpdateListingSubComment(int listingSubCommentId, UpdateListingSubCommentDto listingSubCommentDto)
         {
-            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == id);
+            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == listingSubCommentId);
 
             if (listingSubComment is null)
             {
-                throw new ListingSubCommentNotFoundException(id);
+                throw new ListingSubCommentNotFoundException(listingSubCommentId);
             }
 
             listingSubComment.Content = listingSubCommentDto.Content;
@@ -307,52 +307,52 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteArticleMainComment(int id)
+        public async Task DeleteArticleMainComment(int articleMainCommentId)
         {
-            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == id);
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == articleMainCommentId);
 
             if (articleMainComment is null)
             {
-                throw new ArticleMainCommentNotFoundException(id);
+                throw new ArticleMainCommentNotFoundException(articleMainCommentId);
             }
 
             _dbContext.ArticleMainComments.Remove(articleMainComment);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListingMainComment(int id)
+        public async Task DeleteListingMainComment(int listingMainCommentId)
         {
-            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == id);
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == listingMainCommentId);
 
             if (listingMainComment is null)
             {
-                throw new ListingMainCommentNotFoundException(id);
+                throw new ListingMainCommentNotFoundException(listingMainCommentId);
             }
 
             _dbContext.ListingMainComments.Remove(listingMainComment);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteArticleSubComment(int id)
+        public async Task DeleteArticleSubComment(int articleSubCommentId)
         {
-            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == id);
+            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == articleSubCommentId);
 
             if (articleSubComment is null)
             {
-                throw new ArticleSubCommentNotFoundException(id);
+                throw new ArticleSubCommentNotFoundException(articleSubCommentId);
             }
 
             _dbContext.ArticleSubComments.Remove(articleSubComment);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListingSubComment(int id)
+        public async Task DeleteListingSubComment(int listingSubCommentId)
         {
-            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == id);
+            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == listingSubCommentId);
 
             if (listingSubComment is null)
             {
-                throw new ListingSubCommentNotFoundException(id);
+                throw new ListingSubCommentNotFoundException(listingSubCommentId);
             }
 
             _dbContext.ListingSubComments.Remove(listingSubComment);

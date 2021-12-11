@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos.User;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
@@ -21,13 +22,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ApplicationUserDto> GetUserById(int id)
+        public async Task<ApplicationUserDto> GetUserById(int userId)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user is null)
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
             }
 
             var userDto = _mapper.Map<ApplicationUserDto>(user);
@@ -35,20 +36,63 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userDto;
         }
 
-        public async Task<List<SubscriberDto>> GetUserSubscribers(int id)
+        public async Task<List<SubscriberDto>> GetUserSubscribers(int userId)
         {
             var user = await _dbContext.Users
                 .Include(x=>x.Subscribers)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user is null)
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
             }
 
             var userSubscribersDtos = _mapper.Map<List<SubscriberDto>>(user.Subscribers);
 
             return userSubscribersDtos;
+        }
+
+        public async Task CreateSubscriber(int userId, int subscriberId)
+        {
+            if (userId == subscriberId)
+            {
+                throw new SameUserIdentifiersException(userId, subscriberId);
+            }
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(userId);
+            }
+
+            var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == subscriberId);
+
+            if (subscriber is null)
+            {
+                throw new UserNotFoundException(subscriberId);
+            }
+
+            var createdSubscriber = _mapper.Map<Subscriber>(subscriber);
+
+            user.Subscribers.Add(createdSubscriber);
+            createdSubscriber.Users.Add(user);
+
+            await _dbContext.Subscribers.AddAsync(createdSubscriber);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSubscriber(int subscriberId)
+        {
+            var subscriber = await _dbContext.Subscribers.FirstOrDefaultAsync(x => x.Id == subscriberId);
+
+            if (subscriber is null)
+            {
+                throw new SubscriberNotFoundException(subscriberId);
+            }
+
+            _dbContext.Subscribers.Remove(subscriber);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

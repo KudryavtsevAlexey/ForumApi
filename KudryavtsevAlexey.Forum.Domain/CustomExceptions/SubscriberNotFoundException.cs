@@ -7,11 +7,12 @@ using KudryavtsevAlexey.Forum.Domain.BaseExceptions;
 
 namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
-    public class ArticleNotFoundException : NotFoundException
+    public class SubscriberNotFoundException : NotFoundException
     {
-        public ArticleNotFoundException(int articleId)
-            : base($"Article with the identifier {articleId} was not found")
+        public SubscriberNotFoundException(int subscriberId)
+            : base($"Subscriber with the identifier {subscriberId} was not found")
         {
+
         }
     }
 }

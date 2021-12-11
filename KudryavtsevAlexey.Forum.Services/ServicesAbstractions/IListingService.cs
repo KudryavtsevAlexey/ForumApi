@@ -11,22 +11,22 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ListingDto>> SortListingsByDate();
 
-        public Task<ListingDto> GetPublishedListingById(int id);
+        public Task<ListingDto> GetPublishedListingById(int listingId);
 
-        public Task<ListingDto> GetListingById(int id);
+        public Task<ListingDto> GetListingById(int listingId);
 
-        public Task<List<ListingDto>> GetListingsByUserId(int id);
+        public Task<List<ListingDto>> GetListingsByUserId(int userId);
 
         public Task<List<ListingDto>> GetPublishedListingsByCategory(string category);
 
-        public Task<List<ListingDto>> GetPublishedListingsByUserId(int id);
+        public Task<List<ListingDto>> GetPublishedListingsByUserId(int userId);
 
-        public Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id);
+        public Task<List<ListingDto>> GetUnpublishedListingsByUserId(int userId);
 
         public Task CreateListing(CreateListingDto listingDto);
 
-        public Task UpdateListing(int id, UpdateListingDto listingDto);
+        public Task UpdateListing(int listingId, UpdateListingDto listingDto);
 
-        public Task DeleteListing(int id);
+        public Task DeleteListing(int listingId);
     }
 }

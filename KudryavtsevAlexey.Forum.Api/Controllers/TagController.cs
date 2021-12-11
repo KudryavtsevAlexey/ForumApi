@@ -27,8 +27,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Returns tag by id
         /// </summary>
         /// <returns>Tag by id</returns>
-        /// <produce code="200">Returns tag</produce>
-        /// <produce code="404">If tag not found</produce>
+        /// <response code="200">Returns tag</response>
+        /// <response code="404">If tag not found</response>
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -91,8 +91,8 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// Deletes tag
         /// </summary>
         /// <returns>Ok if tag deleted</returns>
-        /// <produce code="200">Returns ok</produce>
-        /// <produce code="404">If tag not found</produce>
+        /// <response code="200">Returns ok</response>
+        /// <response code="404">If tag not found</response>
         [HttpDelete]
         [Route("deleting")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -104,5 +104,4 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             return Ok();
         }
     }
-
 }

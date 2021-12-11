@@ -24,8 +24,8 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateOrganization(CreateOrganizationDto organizationDto);
 
-        public Task UpdateOrganization(int id, UpdateOrganizationDto organizationDto);
+        public Task UpdateOrganization(int organizationId, UpdateOrganizationDto organizationDto);
 
-        public Task DeleteOrganization(int id);
+        public Task DeleteOrganization(int organizationId);
     }
 }

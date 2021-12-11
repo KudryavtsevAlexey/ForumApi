@@ -24,15 +24,15 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<ListingDto> GetListingById(int id)
+        public async Task<ListingDto> GetListingById(int listingId)
         {
             var listing = await _dbContext.Listings
                 .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == listingId);
 
             if (listing is null)
             {
-                throw new ListingNotFoundException(id);
+                throw new ListingNotFoundException(listingId);
             }
 
             var listingDto = _mapper.Map<ListingDto>(listing);
@@ -40,10 +40,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingDto;
         }
 
-        public async Task<List<ListingDto>> GetListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetListingsByUserId(int userId)
         {
             var userListings = await _dbContext.Listings
-                .Where(x => x.UserId == id)
+                .Where(x => x.UserId == userId)
                 .Include(x=>x.Tags)
                 .ToListAsync();
 
@@ -73,10 +73,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByCategoryDtos;
         }
 
-        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetPublishedListingsByUserId(int userId)
         {
             var userPublishedListings = await _dbContext.Listings
-                .Where(x => x.UserId == id)
+                .Where(x => x.UserId == userId)
                 .Where(x => x.PublishedAt != null)
                 .ToListAsync();
 
@@ -85,10 +85,10 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userPublishedListingsDtos;
         }
 
-        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int id)
+        public async Task<List<ListingDto>> GetUnpublishedListingsByUserId(int userId)
         {
             var userPublishedListings = await _dbContext.Listings
-                .Where(x => x.UserId == id)
+                .Where(x => x.UserId == userId)
                 .Where(x => x.PublishedAt == null)
                 .ToListAsync();
 
@@ -107,13 +107,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return listingsByDateDtos;
         }
 
-        public async Task<ListingDto> GetPublishedListingById(int id)
+        public async Task<ListingDto> GetPublishedListingById(int listingId)
         {
-            var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
+            var publishedListing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == listingId);
 
             if (publishedListing is null)
             {
-                throw new ListingNotFoundException(id);
+                throw new ListingNotFoundException(listingId);
             }
 
             var publishedListingDto = _mapper.Map<ListingDto>(publishedListing);
@@ -173,15 +173,15 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListing(int id, UpdateListingDto listingDto)
+        public async Task UpdateListing(int listingId, UpdateListingDto listingDto)
         {
             var listingToUpdating = await _dbContext.Listings
                 .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == listingId);
 
             if (listingToUpdating is null)
             {
-                throw new ArticleNotFoundException(id);
+                throw new ArticleNotFoundException(listingId);
             }
 
             listingToUpdating.Title = listingDto.Title;
@@ -208,13 +208,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteListing(int id)
+        public async Task DeleteListing(int listingId)
         {
-            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
+            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == listingId);
 
             if (listing is null)
             {
-                throw new ListingNotFoundException(id);
+                throw new ListingNotFoundException(listingId);
             }
 
             _dbContext.Listings.Remove(listing);

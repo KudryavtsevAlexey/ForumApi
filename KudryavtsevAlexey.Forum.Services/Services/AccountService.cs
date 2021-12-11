@@ -36,8 +36,8 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         private readonly string SecretKey = string.Empty;
 
-        public AccountService(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-                            IMapper mapper, IConfiguration configuration)
+        public AccountService(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, 
+                            SignInManager<ApplicationUser> signInManager, IMapper mapper, IConfiguration configuration)
         {
             
             _dbContext = dbContext;
@@ -116,13 +116,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return token;
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUser(int userId)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == userId);
 
             if (user is null)
             {
-                throw new UserNotFoundException(id);
+                throw new UserNotFoundException(userId);
             }
 
             await _userManager.DeleteAsync(user);

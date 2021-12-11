@@ -17,6 +17,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task SignOut();
 
-        public Task DeleteUser(int id);
+        public Task DeleteUser(int userId);
     }
 }

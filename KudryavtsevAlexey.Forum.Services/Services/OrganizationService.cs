@@ -96,13 +96,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateOrganization(int id, UpdateOrganizationDto organizationDto)
+        public async Task UpdateOrganization(int organizationId, UpdateOrganizationDto organizationDto)
         {
-            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(id);
+                throw new OrganizationNotFoundException(organizationId);
             }
 
             organization.Name = organizationDto.Name;
@@ -111,13 +111,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteOrganization(int id)
+        public async Task DeleteOrganization(int organizationId)
         {
-            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == id);
+            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(id);
+                throw new OrganizationNotFoundException(organizationId);
             }
 
             _dbContext.Organizations.Remove(organization);

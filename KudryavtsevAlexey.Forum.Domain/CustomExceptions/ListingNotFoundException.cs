@@ -9,8 +9,8 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class ListingNotFoundException : NotFoundException
     {
-        public ListingNotFoundException(int? id) 
-            : base($"Listing with the identifier {id} was not found")
+        public ListingNotFoundException(int listingId) 
+            : base($"Listing with the identifier {listingId} was not found")
         {
 
         }

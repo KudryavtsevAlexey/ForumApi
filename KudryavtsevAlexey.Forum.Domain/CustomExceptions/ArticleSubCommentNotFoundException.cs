@@ -9,8 +9,8 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class ArticleSubCommentNotFoundException : NotFoundException
     {
-        public ArticleSubCommentNotFoundException(int? id)
-            :base($"Article subcomment with identifier {id} was not found")
+        public ArticleSubCommentNotFoundException(int articleSubCommentId)
+            :base($"Article subcomment with identifier {articleSubCommentId} was not found")
         {
             
         }

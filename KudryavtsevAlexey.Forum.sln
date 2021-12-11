@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KudryavtsevAlexey.Forum.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KudryavtsevAlexey.Forum.Api", "KudryavtsevAlexey.Forum.Api\KudryavtsevAlexey.Forum.Api.csproj", "{8D716657-3847-4871-95C2-D1FE8C04420E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KudryavtsevAlexey.Forum.Services.Tests", "KudryavtsevAlexey.Forum.Services.Tests\KudryavtsevAlexey.Forum.Services.Tests.csproj", "{E0F1156F-72D1-4837-92B5-6A1CAAC33DFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KudryavtsevAlexey.Forum.Services.Tests", "KudryavtsevAlexey.Forum.Services.Tests\KudryavtsevAlexey.Forum.Services.Tests.csproj", "{E0F1156F-72D1-4837-92B5-6A1CAAC33DFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

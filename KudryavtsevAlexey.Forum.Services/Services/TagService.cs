@@ -21,13 +21,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<TagDto> GetTagById(int id)
+        public async Task<TagDto> GetTagById(int tagId)
         {
-            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
+            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
 
             if (tag is null)
             {
-                throw new TagNotFoundException(id);
+                throw new TagNotFoundException(tagId);
             }
 
             var tagDto = _mapper.Map<TagDto>(tag);
@@ -52,13 +52,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateTag(int id, UpdateTagDto tagDto)
+        public async Task UpdateTag(int tagId, UpdateTagDto tagDto)
         {
-            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
+            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
 
             if (tag is null)
             {
-                throw new TagNotFoundException(id);
+                throw new TagNotFoundException(tagId);
             }
 
             tag.Name = tagDto.Name;
@@ -67,13 +67,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeteteTag(int id)
+        public async Task DeteteTag(int tagId)
         {
-            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
+            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
 
             if (tag is null)
             {
-                throw new TagNotFoundException(id);
+                throw new TagNotFoundException(tagId);
             }
 
             _dbContext.Tags.Remove(tag);

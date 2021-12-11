@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 public interface ITagService
 {
-    Task<TagDto> GetTagById(int id);
+    Task<TagDto> GetTagById(int tagId);
 
     Task<List<TagDto>> GetAllTags();
 
     Task CreateTag(CreateTagDto tagDto);
 
-    Task UpdateTag(int id, UpdateTagDto tagDto);
+    Task UpdateTag(int tagId, UpdateTagDto tagDto);
 
-    Task DeteteTag(int id);
+    Task DeteteTag(int tagId);
 }

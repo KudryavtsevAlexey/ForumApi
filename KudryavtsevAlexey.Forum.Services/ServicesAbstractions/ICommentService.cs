@@ -9,17 +9,17 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
     public interface ICommentService
     {
-        public Task<List<ArticleMainCommentDto>> GetArticleComments(int id);
+        public Task<List<ArticleMainCommentDto>> GetArticleComments(int articleId);
 
-        public Task<ArticleMainCommentDto> GetArticleMainCommentById(int id);
+        public Task<ArticleMainCommentDto> GetArticleMainCommentById(int articleMainCommentId);
 
-        public Task<List<ListingMainCommentDto>> GetListingComments(int id);
+        public Task<List<ListingMainCommentDto>> GetListingComments(int listingId);
 
-        public Task<ListingMainCommentDto> GetListingMainCommentById(int id);
+        public Task<ListingMainCommentDto> GetListingMainCommentById(int listingMainCommentId);
 
-        public Task<ArticleSubCommentDto> GetArticleSubCommentById(int id);
+        public Task<ArticleSubCommentDto> GetArticleSubCommentById(int articleSubCommentId);
         
-        public Task<ListingSubCommentDto> GetListingSubCommentById(int id);
+        public Task<ListingSubCommentDto> GetListingSubCommentById(int listingSubCommentId);
 
         public Task<List<ArticleMainCommentDto>> GetAllArticlesComments();
 
@@ -33,20 +33,20 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateListingSubComment(CreateListingSubCommentDto listingSubCommentDto);
 
-        public Task UpdateArticleMainComment(int id, UpdateArticleMainCommentDto articleMainCommentDto);
+        public Task UpdateArticleMainComment(int articleMainCommentId, UpdateArticleMainCommentDto articleMainCommentDto);
 
-        public Task UpdateListingMainComment(int id, UpdateListingMainCommentDto listingMainCommentDto);
+        public Task UpdateListingMainComment(int listingMainCommentId, UpdateListingMainCommentDto listingMainCommentDto);
 
-        public Task UpdateArticleSubComment(int id, UpdateArticleSubCommentDto articleSubCommentDto);
+        public Task UpdateArticleSubComment(int articleSubCommentId, UpdateArticleSubCommentDto articleSubCommentDto);
 
-        public Task UpdateListingSubComment(int id, UpdateListingSubCommentDto listingSubCommentDto);
+        public Task UpdateListingSubComment(int listingSubCommentId, UpdateListingSubCommentDto listingSubCommentDto);
 
-        public Task DeleteArticleMainComment(int id);
+        public Task DeleteArticleMainComment(int articleMainCommentId);
 
-        public Task DeleteListingMainComment(int id);
+        public Task DeleteListingMainComment(int listingMainCommentId);
 
-        public Task DeleteArticleSubComment(int id);
+        public Task DeleteArticleSubComment(int articleSubCommentId);
 
-        public Task DeleteListingSubComment(int id);
+        public Task DeleteListingSubComment(int listingSubCommentId);
     }
 }

@@ -9,8 +9,8 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class ListingSubCommentNotFoundException : NotFoundException
     {
-        public ListingSubCommentNotFoundException(int? id)
-            :base($"Listing subcomment with identifier {id} was not found")
+        public ListingSubCommentNotFoundException(int listingSubCommentId)
+            :base($"Listing subcomment with identifier {listingSubCommentId} was not found")
         {
             
         }

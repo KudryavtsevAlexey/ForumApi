@@ -9,8 +9,8 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
 {
     public class ArticleMainCommentNotFoundException : NotFoundException
     {
-        public ArticleMainCommentNotFoundException(int? id)
-            :base($"Article main comment with identifier {id} was not found")
+        public ArticleMainCommentNotFoundException(int articleMainCommentId)
+            :base($"Article main comment with identifier {articleMainCommentId} was not found")
         {
             
         }
