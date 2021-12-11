@@ -92,6 +92,15 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
             CreateMap<SignInUserDto, ApplicationUser>()
                 .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.Email))
                 .ForAllOtherMembers(opt=>opt.Ignore());
+
+            CreateMap<RegisterUserDto, ApplicationUser>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(x => x.Location, opt => opt.MapFrom(x => x.Location))
+                .ForMember(x => x.Email, opt => opt.MapFrom(x => x.Email))
+                .MaxDepth(1)
+                .ReverseMap()
+                .ForAllOtherMembers(opt => opt.Ignore());
         }
     }
 }

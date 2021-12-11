@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [Route("api/organizations")]
     public class OrganizationController : ControllerBase
     {

@@ -12,7 +12,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
     {
         public string Name { get; set; }
 
-		public string Summary { get; set; }
+		public string? Summary { get; set; }
 
 		public string Location { get; set; }
 

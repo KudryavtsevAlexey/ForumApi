@@ -20,6 +20,8 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public ICollection<ApplicationUser> Users { get; set; }
 
+        public DateTime SubscribedAt { get; set; } = DateTime.UtcNow.Date;
+
         public Subscriber()
         {
             Users = new List<ApplicationUser>();

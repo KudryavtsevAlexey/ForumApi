@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [Route("api/articles")]
     public class ArticleController : ControllerBase
     {

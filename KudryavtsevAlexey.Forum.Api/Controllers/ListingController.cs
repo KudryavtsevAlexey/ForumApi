@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [Route("api/listings")]
     public class ListingController : ControllerBase
     {

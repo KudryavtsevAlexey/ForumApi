@@ -55,9 +55,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .HasKey(x => x.Id);
 
             builder.Entity<ApplicationUser>()
-                .Property("Id").HasColumnType("int");
-
-            builder.Entity<ApplicationUser>()
                 .HasMany(x => x.ArticleMainComments)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);

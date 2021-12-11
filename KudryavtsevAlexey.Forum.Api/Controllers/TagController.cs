@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [Route("api/tags")]
     public class TagController : ControllerBase
     {

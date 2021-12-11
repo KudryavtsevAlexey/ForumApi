@@ -13,7 +13,7 @@ using Microsoft.Identity.Client;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "JwtBearer")]
     [Route("api/comments")]
     public class CommentController : ControllerBase
     {

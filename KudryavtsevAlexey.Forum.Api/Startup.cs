@@ -5,6 +5,7 @@ using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,14 +39,18 @@ namespace KudryavtsevAlexey.Forum.Api
                 config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.RequireAuthenticatedSignIn = true;
             })
-            .AddJwtBearer("OAuthJwt", config =>
+            .AddJwtBearer("JwtBearer", config =>
             {
                 config.SaveToken = true;
 				config.TokenValidationParameters = new TokenValidationParameters()
 				{
 					ValidateIssuer = true,
 					ValidateAudience = true,
+					ValidateLifetime = true,
                     ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
                     ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtBearer:SecretKey"])),
@@ -100,9 +105,7 @@ namespace KudryavtsevAlexey.Forum.Api
 
 			app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-			//TODO: ExceptionHandlingMiddleware
-
-			app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
 			});
