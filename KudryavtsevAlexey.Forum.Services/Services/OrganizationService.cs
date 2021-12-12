@@ -76,6 +76,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Users)
+                .ThenInclude(x => x.Organization)
                 .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
 
             if (organization is null)
@@ -105,7 +106,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new OrganizationNotFoundException(organizationId);
             }
 
-            organization.Name = organizationDto.Name;
+            organization = _mapper.Map<Organization>(organizationDto);
 
             _dbContext.Organizations.Update(organization);
             await _dbContext.SaveChangesAsync();

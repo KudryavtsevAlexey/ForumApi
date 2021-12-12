@@ -128,11 +128,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task CreateArticle(CreateArticleDto articleDto)
         {
-            var article = new Article()
-            {
-                Title = articleDto.Title,
-                ShortDescription = articleDto.ShortDescription
-            };
+            var article = _mapper.Map<Article>(articleDto);
 
             var tags = await _dbContext.Tags.ToListAsync();
             int[] identifiers = tags.Select(x => x.Id).ToArray();

@@ -255,7 +255,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new ArticleMainCommentNotFoundException(articleMainCommentId);
             }
 
-            articleMainComment.Content = articleMainCommentDto.Content;
+            articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
 
             _dbContext.ArticleMainComments.Update(articleMainComment);
             await _dbContext.SaveChangesAsync();

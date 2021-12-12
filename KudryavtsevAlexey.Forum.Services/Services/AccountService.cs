@@ -69,7 +69,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 Audience,
                 claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials);
 
             var token = new JwtSecurityTokenHandler().WriteToken(securityToken);

@@ -123,7 +123,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task CreateListing(CreateListingDto listingDto)
         {
-            var listingToAdding = new Listing();
+            var listingToAdding = _mapper.Map<Listing>(listingDto);
 
             var tags = await _dbContext.Tags.ToListAsync();
             int[] identifiers = tags.Select(x => x.Id).ToArray();
@@ -164,10 +164,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             user.Listings = new List<Listing>() { listingToAdding };
 
             listingToAdding.User = user;
-
-            listingToAdding.Title = listingDto.Title;
-            listingToAdding.ShortDescription = listingDto.ShortDescription;
-            listingToAdding.Category = listingDto.Category;
 
             await _dbContext.Listings.AddAsync(listingToAdding);
             await _dbContext.SaveChangesAsync();

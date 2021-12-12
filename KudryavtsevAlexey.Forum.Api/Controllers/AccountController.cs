@@ -60,7 +60,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("sign-out")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Logout()
@@ -79,7 +79,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="404">If user not found</response>
         [HttpDelete]
         [Route("{id}/deleting")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

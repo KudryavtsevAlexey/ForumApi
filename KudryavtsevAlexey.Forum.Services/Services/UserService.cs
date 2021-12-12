@@ -40,6 +40,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
         {
             var user = await _dbContext.Users
                 .Include(x=>x.Subscribers)
+                .ThenInclude(x=>x.Organization)
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user is null)

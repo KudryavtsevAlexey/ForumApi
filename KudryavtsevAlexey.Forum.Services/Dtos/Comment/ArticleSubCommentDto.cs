@@ -13,6 +13,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
         int ArticleId,
         ArticleDto Article,
         int ArticleMainCommentId,
-        ArticleMainCommentDto MainComment,
+        ArticleMainCommentDto ArticleMainComment,
         DateTime? CreatedAt) : BaseCommentDto(Content, UserId, CreatedAt);
 }
