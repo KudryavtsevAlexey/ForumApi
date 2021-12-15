@@ -19,7 +19,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.User
         string Location,
         DateTime JoinedAt,
         List<ArticleDto> Articles,
-        List<SubscriberDto> Subscribers,
         List<ListingDto> Listings,
         int OrganizationId,
         OrganizationDto Organization) : BaseDto(Id);

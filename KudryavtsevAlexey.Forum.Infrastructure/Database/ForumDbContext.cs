@@ -74,11 +74,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<ApplicationUser>()
-                .HasMany(x => x.Subscribers)
-                .WithMany(x => x.Users)
-                .LeftNavigation.ForeignKey.DeleteBehavior = DeleteBehavior.Restrict;
-
             builder.Entity<Subscriber>()
                 .HasKey(x => x.Id);
 

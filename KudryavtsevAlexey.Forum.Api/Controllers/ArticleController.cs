@@ -230,7 +230,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <returns>Ok if article updated</returns>
         /// <response code="200">Returns ok if article updated</response>
         /// <response code="401">If user not authorized</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

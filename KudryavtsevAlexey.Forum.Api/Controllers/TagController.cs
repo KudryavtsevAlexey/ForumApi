@@ -76,7 +76,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <returns></returns>
         /// <response code="200">Returns ok if tag updated</response>
         /// <response code="404">If tag not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

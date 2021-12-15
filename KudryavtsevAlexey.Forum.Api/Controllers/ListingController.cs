@@ -235,7 +235,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns ok if listing updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If listing not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

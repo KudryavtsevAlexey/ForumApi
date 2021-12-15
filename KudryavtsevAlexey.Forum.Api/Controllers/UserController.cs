@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -58,5 +59,18 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 
             return Ok(subscribers);
         }
+
+
+        [HttpPatch]
+        [Route("{id}/updating")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUser(int id, UpdateApplicationUserDto userDto)
+        {
+            await _serviceManager.UserService.UpdateUser(id, userDto);
+
+            return Ok();
+        }
+        
     }
 }

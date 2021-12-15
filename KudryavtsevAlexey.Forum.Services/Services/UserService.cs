@@ -36,19 +36,19 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userDto;
         }
 
-        public async Task<List<SubscriberDto>> GetUserSubscribers(int userId)
+        public async Task<List<ApplicationUserDto>> GetUserSubscribers(int userId)
         {
             var user = await _dbContext.Users
-                .Include(x=>x.Subscribers)
-                .ThenInclude(x=>x.Organization)
-                .FirstOrDefaultAsync(x => x.Id == userId);
+                .Include(x => x.Subscribers)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x=>x.Id == userId);
 
             if (user is null)
             {
                 throw new UserNotFoundException(userId);
             }
 
-            var userSubscribersDtos = _mapper.Map<List<SubscriberDto>>(user.Subscribers);
+            var userSubscribersDtos = _mapper.Map<List<ApplicationUserDto>>(user.Subscribers);
 
             return userSubscribersDtos;
         }
@@ -77,7 +77,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var createdSubscriber = _mapper.Map<Subscriber>(subscriber);
 
             user.Subscribers.Add(createdSubscriber);
-            createdSubscriber.Users.Add(user);
+            createdSubscriber.User = subscriber;
 
             await _dbContext.Subscribers.AddAsync(createdSubscriber);
             await _dbContext.SaveChangesAsync();
@@ -93,6 +93,21 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             _dbContext.Subscribers.Remove(subscriber);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(int userId, UpdateApplicationUserDto userDto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user is null)
+            {
+                throw new UserNotFoundException(userId);
+            }
+
+            user = _mapper.Map<ApplicationUser>(userDto);
+
+            _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
     }

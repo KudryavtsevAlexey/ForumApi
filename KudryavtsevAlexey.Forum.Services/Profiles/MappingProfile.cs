@@ -200,21 +200,21 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
-            CreateMap<Subscriber, SubscriberDto>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
-                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
-                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
-                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
-                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
-                .ForMember(x => x.SubscribedAt, opt => opt.MapFrom(x => x.SubscribedAt))
+            CreateMap<Subscriber, ApplicationUserDto>()
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.UserId))
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.User.UserName))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.User.Name))
+                .ForMember(x => x.Summary, opt => opt.MapFrom(x => x.User.Summary))
+                .ForMember(x => x.Location, opt => opt.MapFrom(x => x.User.Location))
+                .ForMember(x => x.JoinedAt, opt => opt.MapFrom(x => x.User.JoinedAt))
+                .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
-            CreateMap<ApplicationUser, Subscriber>()
-                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
-                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+            CreateMap<UpdateApplicationUserDto, ApplicationUser>()
                 .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.UserName))
-                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
-                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Location, opt => opt.MapFrom(x => x.Location))
+                .ForMember(x => x.Summary, opt => opt.MapFrom(x => x.Summary))
                 .ForAllOtherMembers(opt => opt.Ignore());
         }
     }

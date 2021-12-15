@@ -291,7 +291,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">If comment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("article-comment/{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -310,7 +310,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">If comment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("listing-comment/{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -329,7 +329,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">If subcomment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("article-subcomment/{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -348,7 +348,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">If subcomment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("listing-subcomment{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
