@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20211211171943_InitialBlyad")]
-    partial class InitialBlyad
+    [Migration("20211215175500_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ApplicationUserSubscriber", b =>
-                {
-                    b.Property<int>("SubscribersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SubscribersId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ApplicationUserSubscriber");
-                });
 
             modelBuilder.Entity("ArticleTag", b =>
                 {
@@ -356,23 +341,15 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrganizationId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("SubscribedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Subscribers");
                 });
@@ -538,21 +515,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ApplicationUserSubscriber", b =>
-                {
-                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", null)
-                        .WithMany()
-                        .HasForeignKey("SubscribersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ArticleTag", b =>
                 {
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Article", null)
@@ -711,13 +673,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Subscriber", b =>
                 {
-                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("Subscribers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Organization");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ListingTag", b =>
@@ -799,6 +761,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.Navigation("Listings");
 
                     b.Navigation("ListingSubComments");
+
+                    b.Navigation("Subscribers");
                 });
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Article", b =>

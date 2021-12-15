@@ -1,10 +1,12 @@
 using System.Text;
+using FluentValidation.AspNetCore;
 using KudryavtsevAlexey.Forum.Api.Middlewares;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
+using KudryavtsevAlexey.Forum.Services.Validation.Article;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -76,7 +78,9 @@ namespace KudryavtsevAlexey.Forum.Api
             });
 
 			services.AddControllers()
-                .AddNewtonsoftJson(options=>
+                .AddFluentValidation(fv =>
+                    fv.RegisterValidatorsFromAssemblyContaining<CreateArticleDtoValidator>())
+				.AddNewtonsoftJson(options=>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddScoped<IServiceManager, ServiceManager>();

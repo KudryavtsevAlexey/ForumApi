@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 {
-    public partial class InitialBlyad : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -100,28 +100,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subscribers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganizationId = table.Column<int>(type: "int", nullable: false),
-                    SubscribedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subscribers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Subscribers_Organizations_OrganizationId",
                         column: x => x.OrganizationId,
                         principalTable: "Organizations",
                         principalColumn: "Id",
@@ -273,25 +251,21 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUserSubscriber",
+                name: "Subscribers",
                 columns: table => new
                 {
-                    SubscribersId = table.Column<int>(type: "int", nullable: false),
-                    UsersId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    SubscribedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationUserSubscriber", x => new { x.SubscribersId, x.UsersId });
+                    table.PrimaryKey("PK_Subscribers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ApplicationUserSubscriber_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_Subscribers_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ApplicationUserSubscriber_Subscribers_SubscribersId",
-                        column: x => x.SubscribersId,
-                        principalTable: "Subscribers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -471,11 +445,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserSubscriber_UsersId",
-                table: "ApplicationUserSubscriber",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ArticleMainComments_ArticleId",
                 table: "ArticleMainComments",
                 column: "ArticleId");
@@ -600,16 +569,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subscribers_OrganizationId",
+                name: "IX_Subscribers_UserId",
                 table: "Subscribers",
-                column: "OrganizationId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApplicationUserSubscriber");
-
             migrationBuilder.DropTable(
                 name: "ArticleSubComments");
 

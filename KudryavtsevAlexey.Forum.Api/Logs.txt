@@ -1188,3 +1188,15 @@ System.InvalidOperationException: No authentication handler is registered for th
 2021-12-12 23:37:50.246 +03:00 [INF] HTTP GET /api/articles/user/1/published responded 200 in 685.5474 ms
 2021-12-12 23:39:17.627 +03:00 [INF] HTTP GET /api/users/1 responded 200 in 5.9428 ms
 2021-12-12 23:39:25.295 +03:00 [INF] HTTP GET /api/users/1 responded 401 in 41.9684 ms
+2021-12-15 23:32:17.205 +03:00 [INF] Application starting up
+2021-12-15 23:32:54.092 +03:00 [INF] Application starting up
+2021-12-15 23:34:13.323 +03:00 [INF] Application starting up
+2021-12-15 23:38:54.606 +03:00 [INF] HTTP POST /api/account/registration responded 200 in 2010.8236 ms
+2021-12-15 23:39:27.682 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 515.8776 ms
+2021-12-15 23:39:50.787 +03:00 [INF] HTTP GET /api/users/1 responded 401 in 44.0215 ms
+2021-12-15 23:39:55.855 +03:00 [INF] HTTP GET /api/users/1 responded 200 in 293.5034 ms
+2021-12-15 23:40:53.713 +03:00 [INF] HTTP POST /api/account/registration responded 400 in 96.9516 ms
+2021-12-15 23:41:29.414 +03:00 [INF] HTTP POST /api/account/registration responded 200 in 35.3659 ms
+2021-12-15 23:42:07.423 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 34.5590 ms
+2021-12-15 23:42:21.685 +03:00 [INF] HTTP POST /api/users/2 responded 405 in 1.3540 ms
+2021-12-15 23:42:24.807 +03:00 [INF] HTTP GET /api/users/2 responded 200 in 12.9946 ms
