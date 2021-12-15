@@ -55,7 +55,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingsByCategory(string category)
+        public async Task<IActionResult> GetPublishedListingsByCategory([FromQuery]string category)
         {
             var publishedListingsByCategory = await _serviceManager.ListingService.GetPublishedListingsByCategory(category);
 
@@ -79,7 +79,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingById(int id)
+        public async Task<IActionResult> GetListingById([FromQuery]int id)
         {
             var listing = await _serviceManager.ListingService.GetListingById(id);
 
@@ -127,7 +127,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetListingsByUserId(int id)
+        public async Task<IActionResult> GetListingsByUserId([FromQuery]int id)
         {
             var listings = await _serviceManager.ListingService.GetListingsByUserId(id);
 
@@ -151,7 +151,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingsByUserId(int id)
+        public async Task<IActionResult> GetPublishedListingsByUserId([FromQuery]int id)
         {
             var listings = await _serviceManager.ListingService.GetPublishedListingById(id);
 
@@ -175,7 +175,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedListingsByUserId(int id)
+        public async Task<IActionResult> GetUnpublishedListingsByUserId([FromQuery]int id)
         {
             var listings = await _serviceManager.ListingService.GetUnpublishedListingsByUserId(id);
 
@@ -199,7 +199,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedListingById(int id)
+        public async Task<IActionResult> GetPublishedListingById([FromQuery]int id)
         {
             var listing = await _serviceManager.ListingService.GetPublishedListingById(id);
 
@@ -221,7 +221,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Createlisting(CreateListingDto listing)
+        public async Task<IActionResult> Createlisting([FromBody]CreateListingDto listing)
         {
             await _serviceManager.ListingService.CreateListing(listing);
 
@@ -240,11 +240,28 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing(int id, UpdateListingDto listing)
+        public async Task<IActionResult> UpdateListing([FromQuery]int id, [FromBody]UpdateListingDto listing)
         {
             await _serviceManager.ListingService.UpdateListing(id, listing);
 
             return Ok(listing);
+        }
+
+        /// <summary>
+        /// Deletes listing
+        /// </summary>
+        /// <returns>Ok if listing deleted</returns>
+        /// <response code="200">If user deleted</response>
+        /// <response code="404">If user not found</response>
+        [HttpDelete]
+        [Route("{id}/deleting")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteListing([FromRoute]int id)
+        {
+            await _serviceManager.ListingService.DeleteListing(id);
+
+            return Ok();
         }
     }
 }

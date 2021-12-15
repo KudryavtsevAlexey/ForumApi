@@ -35,7 +35,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationByName(string organizationName)
+        public async Task<IActionResult> GetOrganizationByName([FromQuery]string organizationName)
         {
             var organization = await _serviceManager.OrganizationService.GetOrganizationByName(organizationName);
 
@@ -59,7 +59,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationUsers(string organizationName)
+        public async Task<IActionResult> GetOrganizationUsers([FromQuery]string organizationName)
         {
             var organizationUsers = await _serviceManager.OrganizationService.GetOrganizationUsers(organizationName);
 
@@ -83,7 +83,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationArticles(string organizationName)
+        public async Task<IActionResult> GetOrganizationArticles([FromQuery]string organizationName)
         {
             var organizationArticles = await _serviceManager.OrganizationService.GetOrganizationArticles(organizationName);
 
@@ -107,7 +107,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationListings(string organizationName)
+        public async Task<IActionResult> GetOrganizationListings([FromQuery]string organizationName)
         {
             var organizationListings = await _serviceManager.OrganizationService.GetOrganizationListings(organizationName);
 
@@ -129,7 +129,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateOrganization(CreateOrganizationDto organizationDto)
+        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationDto organizationDto)
         {
             await _serviceManager.OrganizationService.CreateOrganization(organizationDto);
 
@@ -148,7 +148,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrganization(int id, UpdateOrganizationDto organizationDto)
+        public async Task<IActionResult> UpdateOrganization([FromQuery]int id, [FromBody]UpdateOrganizationDto organizationDto)
         {
             await _serviceManager.OrganizationService.UpdateOrganization(id, organizationDto);
 
@@ -167,7 +167,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteOrganization(int id)
+        public async Task<IActionResult> DeleteOrganization([FromRoute]int id)
         {
             await _serviceManager.OrganizationService.DeleteOrganization(id);
 

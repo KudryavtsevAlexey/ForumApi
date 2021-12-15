@@ -32,7 +32,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleById(int id)
+        public async Task<IActionResult> GetArticleById([FromQuery]int id)
         {
             var article = await _serviceManager.ArticleService.GetArticleById(id);
 
@@ -99,7 +99,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticleById(int id)
+        public async Task<IActionResult> GetPublishedArticleById([FromQuery]int id)
         {
             var article = await _serviceManager.ArticleService.GetPublishedArticleById(id);
 
@@ -123,7 +123,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticlesByUserId(int id)
+        public async Task<IActionResult> GetArticlesByUserId([FromQuery]int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -147,7 +147,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticlesByUserId(int id)
+        public async Task<IActionResult> GetPublishedArticlesByUserId([FromQuery]int id)
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
@@ -171,7 +171,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedArticlesByUserId(int id)
+        public async Task<IActionResult> GetUnpublishedArticlesByUserId([FromQuery]int id)
         {
             var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
 
@@ -195,7 +195,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllArticlesByUserId(int id)
+        public async Task<IActionResult> GetAllArticlesByUserId([FromQuery]int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -217,7 +217,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateArticle(CreateArticleDto articleDto)
+        public async Task<IActionResult> CreateArticle([FromBody]CreateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.CreateArticle(articleDto);
 
@@ -234,7 +234,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateArticle(int id, UpdateArticleDto articleDto)
+        public async Task<IActionResult> UpdateArticle([FromQuery]int id, [FromBody]UpdateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 
@@ -253,7 +253,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteArticle(int id)
+        public async Task<IActionResult> DeleteArticle([FromRoute]int id)
         {
             await _serviceManager.ArticleService.DeleteArticle(id);
 

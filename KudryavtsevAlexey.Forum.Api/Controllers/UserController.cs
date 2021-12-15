@@ -21,11 +21,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById([FromQuery]int id)
         {
             var user = await _serviceManager.UserService.GetUserById(id);
 
@@ -48,7 +47,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserSubscribers(int id)
+        public async Task<IActionResult> GetUserSubscribers([FromQuery]int id)
         {
             var subscribers = await _serviceManager.UserService.GetUserSubscribers(id);
 
@@ -60,12 +59,17 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             return Ok(subscribers);
         }
 
-
+        /// <summary>
+        /// Updates user
+        /// </summary>
+        /// <returns>Ok if user updated</returns>
+        /// <response code="200">If user updated</response>
+        /// <response code="404">If user not found</response>
         [HttpPatch]
         [Route("{id}/updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUser(int id, UpdateApplicationUserDto userDto)
+        public async Task<IActionResult> UpdateUser([FromRoute]int id, [FromBody]UpdateApplicationUserDto userDto)
         {
             await _serviceManager.UserService.UpdateUser(id, userDto);
 

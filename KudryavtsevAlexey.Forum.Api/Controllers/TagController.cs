@@ -33,7 +33,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTagById(int id)
+        public async Task<IActionResult> GetTagById([FromQuery]int id)
         {
             var tag = await _serviceManager.TagService.GetTagById(id);
 
@@ -63,7 +63,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpPost]
         [Route("creating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateTag(CreateTagDto tagDto)
+        public async Task<IActionResult> CreateTag([FromBody]CreateTagDto tagDto)
         {
             await _serviceManager.TagService.CreateTag(tagDto);
 
@@ -80,7 +80,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("updating")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateTag(int id, UpdateTagDto tagDto)
+        public async Task<IActionResult> UpdateTag([FromQuery]int id, [FromBody]UpdateTagDto tagDto)
         {
             await _serviceManager.TagService.UpdateTag(id, tagDto);
 
@@ -97,7 +97,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("deleting")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteTag(int id)
+        public async Task<IActionResult> DeleteTag([FromRoute]int id)
         {
             await _serviceManager.TagService.DeteteTag(id);
 
