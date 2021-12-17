@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using KudryavtsevAlexey.Forum.Domain.BaseEntities;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities
 {

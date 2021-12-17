@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
-    internal sealed class UserService : IUserService
+	internal sealed class UserService : IUserService
     {
         private readonly ForumDbContext _dbContext;
 

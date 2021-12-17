@@ -1320,3 +1320,13 @@ KudryavtsevAlexey.Forum.Domain.CustomExceptions.UserNotFoundException: User with
 2021-12-16 00:20:03.643 +03:00 [INF] HTTP GET /api/users/1 responded 404 in 3233.9118 ms
 2021-12-16 00:20:31.602 +03:00 [INF] Application starting up
 2021-12-16 00:20:52.895 +03:00 [INF] HTTP GET /api/users?Id=1 responded 200 in 1831.4085 ms
+2021-12-17 04:33:44.524 +03:00 [INF] Application starting up
+2021-12-17 04:33:51.748 +03:00 [ERR] Failed executing DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [Forum];
+2021-12-17 04:34:13.694 +03:00 [INF] Application starting up
+2021-12-17 04:34:17.811 +03:00 [ERR] Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [Forum];
+2021-12-17 04:40:23.145 +03:00 [INF] Application starting up
+2021-12-17 04:40:25.891 +03:00 [ERR] Failed executing DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [Forum];
+2021-12-17 04:51:40.796 +03:00 [INF] Application starting up
