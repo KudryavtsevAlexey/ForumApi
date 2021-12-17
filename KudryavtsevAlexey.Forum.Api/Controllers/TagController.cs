@@ -30,7 +30,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns tag</response>
         /// <response code="404">If tag not found</response>
         [HttpGet]
-        [Route("{id}")]
+        [Route("find/id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTagById([FromQuery]int id)
