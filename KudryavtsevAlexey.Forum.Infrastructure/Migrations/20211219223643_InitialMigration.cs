@@ -114,7 +114,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganizationId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -127,12 +126,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Articles_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,7 +222,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrganizationId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -242,12 +234,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Listings_Organizations_OrganizationId",
-                        column: x => x.OrganizationId,
-                        principalTable: "Organizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -295,7 +281,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -341,7 +327,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ListingMainComments_Listings_ListingId",
                         column: x => x.ListingId,
@@ -406,7 +392,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -429,7 +415,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ListingSubComments_ListingMainComments_ListingMainCommentId",
                         column: x => x.ListingMainCommentId,
@@ -453,11 +439,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_ArticleMainComments_UserId",
                 table: "ArticleMainComments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Articles_OrganizationId",
-                table: "Articles",
-                column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_UserId",
@@ -537,11 +518,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                 name: "IX_ListingMainComments_UserId",
                 table: "ListingMainComments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Listings_OrganizationId",
-                table: "Listings",
-                column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Listings_UserId",
