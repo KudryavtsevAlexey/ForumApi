@@ -29,14 +29,11 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags))
                 .ForMember(x => x.User, opt => opt.MapFrom(x => x.User))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.UserId))
-                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
-                .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CreateArticleDto, Article>()
                 .ForMember(x => x.Title, opt => opt.MapFrom(x => x.Title))
                 .ForMember(x => x.ShortDescription, opt => opt.MapFrom(x => x.ShortDescription))
-                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.UserId))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
@@ -154,7 +151,6 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.ShortDescription, opt => opt.MapFrom(x => x.ShortDescription))
                 .ForMember(x => x.Category, opt => opt.MapFrom(x => x.Category))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.UserId))
-                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<UpdateListingDto, Listing>()

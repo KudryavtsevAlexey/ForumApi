@@ -154,10 +154,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new OrganizationNotFoundException(articleDto.OrganizationId);
             }
 
-            organization.Articles.Add(article);
-
-            article.Organization = organization;
-
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleDto.UserId);
 
             if (user is null)

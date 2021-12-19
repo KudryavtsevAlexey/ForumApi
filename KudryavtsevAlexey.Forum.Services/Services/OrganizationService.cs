@@ -40,38 +40,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationDto;
         }
 
-        public async Task<List<ArticleDto>> GetOrganizationArticles(string organizationName)
-        {
-            var organization = await _dbContext.Organizations
-                .Include(x => x.Articles)
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(organizationName);
-            }
-
-            var organizationArticlesDtos = _mapper.Map<List<ArticleDto>>(organization.Articles);
-
-            return organizationArticlesDtos;
-        }
-
-        public async Task<List<ListingDto>> GetOrganizationListings(string organizationName)
-        {
-            var organization = await _dbContext.Organizations
-                .Include(x => x.Listings)
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(organizationName);
-            }
-
-            var organizationListingsDtos = _mapper.Map<List<ListingDto>>(organization.Listings);
-
-            return organizationListingsDtos;
-        }
-
         public async Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName)
         {
             var organization = await _dbContext.Organizations

@@ -156,7 +156,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
 
             articleMainComment.User = user;
-            user.ArticleMainComments.Add(articleMainComment);
 
             await _dbContext.ArticleMainComments.AddAsync(articleMainComment);
             await _dbContext.SaveChangesAsync();
@@ -174,7 +173,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             var listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
 
             listingMainComment.User = user;
-            user.ListingMainComments.Add(listingMainComment);
 
             await _dbContext.ListingMainComments.AddAsync(listingMainComment);
             await _dbContext.SaveChangesAsync();

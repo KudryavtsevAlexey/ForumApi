@@ -72,54 +72,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         }
 
         /// <summary>
-        /// Returns organization articles
-        /// </summary>
-        /// <returns>Organization articles</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="401">If user not authorized</response>
-        /// <response code="404">If organization articles not found</response>
-        [HttpGet]
-        [Route("find/articles")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationArticles([FromQuery]string organizationName)
-        {
-            var organizationArticles = await _serviceManager.OrganizationService.GetOrganizationArticles(organizationName);
-
-            if (organizationArticles is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(organizationArticles);
-        }
-
-        /// <summary>
-        /// Returns organization listings
-        /// </summary>
-        /// <returns>Organization listings</returns>
-        /// <response code="200">Returns listing</response>
-        /// <response code="401">If user not authorized</response>
-        /// <response code="404">If organization listings not found</response>
-        [HttpGet]
-        [Route("find/listings")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationListings([FromQuery]string organizationName)
-        {
-            var organizationListings = await _serviceManager.OrganizationService.GetOrganizationListings(organizationName);
-
-            if (organizationListings is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(organizationListings);
-        }
-
-        /// <summary>
         /// Creates organization
         /// </summary>
         /// <returns>Ok if organization created</returns>

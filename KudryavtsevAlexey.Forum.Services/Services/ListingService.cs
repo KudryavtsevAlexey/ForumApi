@@ -150,10 +150,6 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new OrganizationNotFoundException(listingDto.OrganizationId);
             }
 
-            organization.Listings = new List<Listing>() { listingToAdding };
-
-            listingToAdding.Organization = organization;
-
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingDto.UserId);
 
             if (user is null)

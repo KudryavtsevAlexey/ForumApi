@@ -7,17 +7,11 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<Listing> Listings { get; set; }
-
         public ICollection<ApplicationUser> Users { get; set; }
-
-        public ICollection<Article> Articles { get; set; }
 
         public Organization()
         {
-            Listings = new List<Listing>();
-            Users = new List<ApplicationUser>();
-            Articles = new List<Article>();
+	        Users = new List<ApplicationUser>();
         }
     }
 }

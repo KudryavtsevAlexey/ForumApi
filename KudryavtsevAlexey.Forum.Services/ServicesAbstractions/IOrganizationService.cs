@@ -18,10 +18,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName);
 
-        public Task<List<ListingDto>> GetOrganizationListings(string organizationName);
-
-        public Task<List<ArticleDto>> GetOrganizationArticles(string organizationName);
-
         public Task CreateOrganization(CreateOrganizationDto organizationDto);
 
         public Task UpdateOrganization(int organizationId, UpdateOrganizationDto organizationDto);

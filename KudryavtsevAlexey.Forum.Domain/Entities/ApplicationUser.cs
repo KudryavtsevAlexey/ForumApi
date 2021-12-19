@@ -21,15 +21,7 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
 		public ICollection<Listing> Listings { get; set; }
 
-        public ICollection<ArticleMainComment> ArticleMainComments { get; set; }
-
-        public ICollection<ListingMainComment> ListingMainComments { get; set; }
-
-        public ICollection<ArticleSubComment> ArticleSubComments { get; set; }
-
-        public ICollection<ListingSubComment> ListingSubComments { get; set; }
-
-        public int OrganizationId { get; set; }
+		public int OrganizationId { get; set; }
 
 		public Organization Organization { get; set; }
 
@@ -38,10 +30,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
             Articles = new List<Article>();
             Subscribers = new List<Subscriber>();
             Listings = new List<Listing>();
-            ArticleMainComments = new List<ArticleMainComment>();
-            ListingMainComments = new List<ListingMainComment>();
-            ArticleSubComments = new List<ArticleSubComment>();
-            ListingSubComments = new List<ListingSubComment>();
         }
 	}
 }

@@ -15,10 +15,6 @@ namespace KudryavtsevAlexey.Forum.Domain.Entities
 
         public ICollection<Tag> Tags { get; set; }
 
-        public int OrganizationId { get; set; }
-
-		public Organization Organization { get; set; }
-
         public int UserId { get; set; }
 
 		public ApplicationUser User { get; set; }
