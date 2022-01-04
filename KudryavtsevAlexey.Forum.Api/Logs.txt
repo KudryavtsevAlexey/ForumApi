@@ -1330,3 +1330,4 @@ CREATE DATABASE [Forum];
 2021-12-17 04:40:25.891 +03:00 [ERR] Failed executing DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
 CREATE DATABASE [Forum];
 2021-12-17 04:51:40.796 +03:00 [INF] Application starting up
+2021-12-22 17:55:30.597 +03:00 [INF] Application starting up
