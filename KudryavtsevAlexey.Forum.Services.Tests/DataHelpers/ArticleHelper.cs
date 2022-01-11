@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 
-namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
+namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {
 	public static class ArticleHelper
     {

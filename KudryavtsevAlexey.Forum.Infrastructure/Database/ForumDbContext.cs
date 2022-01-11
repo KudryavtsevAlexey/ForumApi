@@ -55,7 +55,7 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .HasKey(x => x.Id);
 
             builder.Entity<Subscriber>()
-                .HasKey(x => x.Id);
+                .HasKey(x => x.UserId);
 
             builder.Entity<ArticleMainComment>()
                 .HasKey(x => x.Id);

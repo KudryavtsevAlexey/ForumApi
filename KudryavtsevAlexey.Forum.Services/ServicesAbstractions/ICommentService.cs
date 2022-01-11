@@ -1,5 +1,4 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
@@ -7,7 +6,7 @@ using Microsoft.Identity.Client;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
-    public interface ICommentService
+	public interface ICommentService
     {
         public Task<List<ArticleMainCommentDto>> GetArticleComments(int articleId);
 

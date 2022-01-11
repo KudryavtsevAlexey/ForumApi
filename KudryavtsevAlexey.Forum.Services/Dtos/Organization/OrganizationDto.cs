@@ -13,7 +13,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Organization
     public record OrganizationDto(
         int Id,
         string Name,
-        List<ListingDto> Listings,
-        List<ApplicationUserDto> Users,
-        List<ArticleDto> Articles) : BaseDto(Id);
+        List<ApplicationUserDto> Users) : BaseDto(Id);
 }

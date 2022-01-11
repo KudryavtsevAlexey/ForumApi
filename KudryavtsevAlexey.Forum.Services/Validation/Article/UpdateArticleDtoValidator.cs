@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
-using KudryavtsevAlexey.Forum.Services.Dtos;
+using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 
 namespace KudryavtsevAlexey.Forum.Services.Validation.Article
 {
-    public class UpdateArticleDtoValidator : AbstractValidator<UpdateArticleDto>
+	public class UpdateArticleDtoValidator : AbstractValidator<UpdateArticleDto>
     {
         public UpdateArticleDtoValidator()
         {

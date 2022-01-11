@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Tests
+namespace KudryavtsevAlexey.Forum.Services.Dtos.User
 {
-    public class ArticleServiceTests
-    {
-        
-    }
+	public record SubscriberDto();
 }

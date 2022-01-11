@@ -13,8 +13,6 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Article
         string Title,
         string ShortDescription, 
         List<TagDto> Tags,
-        int OrganizationId,
-        OrganizationDto Organization,
         int UserId,
         ApplicationUserDto User,
         DateTime? PublishedAt,

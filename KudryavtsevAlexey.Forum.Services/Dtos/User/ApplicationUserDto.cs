@@ -20,6 +20,7 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.User
         DateTime JoinedAt,
         List<ArticleDto> Articles,
         List<ListingDto> Listings,
+        List<SubscriberDto> Subscribers,
         int OrganizationId,
         OrganizationDto Organization) : BaseDto(Id);
 }

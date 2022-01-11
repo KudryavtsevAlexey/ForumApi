@@ -8,6 +8,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Listing
         string ShortDescription,
         string Category,
         List<TagDto> Tags,
-        int UserId,
-        int OrganizationId);
+        int UserId);
 }

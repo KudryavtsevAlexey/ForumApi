@@ -11,6 +11,5 @@ namespace KudryavtsevAlexey.Forum.Services.Dtos.Article
         string Title,
         string ShortDescription,
         List<TagDto> Tags,
-        int OrganizationId,
         int UserId);
 }

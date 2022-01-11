@@ -49,6 +49,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             Audience = _configuration["Authentication:JwtBearer:Audience"];
             SecretKey = _configuration["Authentication:JwtBearer:SecretKey"];
         }
+
         private string GenerateToken(string userName, string userEmail)
         {
             var claims = new List<Claim>()
@@ -75,6 +76,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             return token;
         }
+
         public async Task Register(RegisterUserDto userDto)
         {
             var user = _mapper.Map<ApplicationUser>(userDto);
@@ -89,12 +91,22 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             user.Organization = organization;
 
             var result = await _userManager.CreateAsync(user, userDto.Password);
+
+            if (result.Succeeded)
+            {
+	            await Task.CompletedTask;
+            }
+            else
+            {
+	            throw new Exception("User not created");
+            }
         }
+
         public async Task<string> SignIn(SignInUserDto userDto)
         {
-            var user = await _userManager.FindByEmailAsync(userDto.Email);
+	        var user = await _userManager.FindByEmailAsync(userDto.Email);
 
-            if (user is null)
+			if (user is null)
             {
                 throw new UserNotFoundException(userDto.Email);
             }

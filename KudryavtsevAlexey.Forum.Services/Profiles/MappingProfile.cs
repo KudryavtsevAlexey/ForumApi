@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
@@ -11,7 +10,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Services.Profiles
 {
-    public class MappingProfile : Profile
+	public class MappingProfile : Profile
     {
         public MappingProfile()
         {

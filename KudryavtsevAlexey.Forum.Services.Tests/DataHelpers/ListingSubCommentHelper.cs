@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
+namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {
 	public static class ListingSubCommentHelper
 	{

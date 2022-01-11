@@ -14,7 +14,6 @@ namespace KudryavtsevAlexey.Forum.Services.Validation.Listing
         public CreateListingDtoValidator()
         {
             RuleFor(x => x.UserId).SetValidator(new IdValidator<CreateListingDto>("User id"));
-            RuleFor(x=>x.OrganizationId).SetValidator(new IdValidator<CreateListingDto>("Organization id"));
             RuleFor(x => x.Category).NotEmpty().MinimumLength(3);
             RuleFor(x => x.ShortDescription).NotEmpty().MinimumLength(5);
             RuleFor(x => x.Title).NotEmpty().MinimumLength(2);

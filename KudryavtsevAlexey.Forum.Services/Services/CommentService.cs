@@ -3,7 +3,6 @@ using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
-    internal sealed class CommentService : ICommentService
+	internal sealed class CommentService : ICommentService
     {
         private readonly ForumDbContext _dbContext;
 

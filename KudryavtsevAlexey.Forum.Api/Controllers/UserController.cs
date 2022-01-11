@@ -9,8 +9,8 @@ using KudryavtsevAlexey.Forum.Services.Dtos.User;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer")]
-    [Route("api/users")]
+    [Authorize]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -67,7 +67,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">If user updated</response>
         /// <response code="404">If user not found</response>
         [HttpPatch]
-        [Route("updating")]
+        [Route("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUser([FromRoute]int id, [FromBody]UpdateApplicationUserDto userDto)

@@ -1,52 +1,43 @@
-﻿using System.Collections.Generic;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
+namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {
-    public class DbContextHelper
+    public static class DbContextHelper
     {
-        public ForumDbContext Context { get; set; }
+	    public static void InitializeTestingDatabase(this IServiceCollection serviceCollection, ForumDbContext dbContext)
+	    {
+		    var organizations = new List<Organization> {OrganizationHelper.GetOne()};
+		    organizations.AddRange(OrganizationHelper.GetMany());
 
-        public DbContextHelper()
-        {
-            var builder = new DbContextOptionsBuilder<ForumDbContext>();
+			var articles = new List<Article> {ArticleHelper.GetOne()};
+			articles.AddRange(ArticleHelper.GetMany());
 
-            builder.UseInMemoryDatabase("TestForumDb")
-                .ConfigureWarnings(x=>x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+			var listings = new List<Listing>() {ListingHelper.GetOne()};
+			listings.AddRange(ListingHelper.GetMany());
 
-            var options = builder.Options;
+			var tags = new List<Tag>() {TagHelper.GetOne()};
+			tags.AddRange(TagHelper.GetMany());
 
-            Context = new ForumDbContext(options);
+			var users = new List<ApplicationUser>() {UserHelper.GetOne()};
+			users.AddRange(UserHelper.GetMany());
 
-			var organizations = OrganizationHelper.GetMany();
-			organizations.Add(OrganizationHelper.GetOne());
+			var articleMainComments = new List<ArticleMainComment>() {ArticleMainCommentHelper.GetOne()};
+			articleMainComments.AddRange(ArticleMainCommentHelper.GetMany());
 
-			var articles = ArticleHelper.GetMany();
-			articles.Add(ArticleHelper.GetOne());
+			var listingMainComments = new List<ListingMainComment>() {ListingMainCommentHelper.GetOne()};
+			listingMainComments.AddRange(ListingMainCommentHelper.GetMany());
 
-			var listings = ListingHelper.GetMany();
-			listings.Add(ListingHelper.GetOne());
+			var articleSubComments = new List<ArticleSubComment>() {ArticleSubCommentHelper.GetOne()};
+			articleSubComments.AddRange(ArticleSubCommentHelper.GetMany());
 
-			var tags = TagHelper.GetMany();
-			tags.Add(TagHelper.GetOne());
-
-			var users = UserHelper.GetMany();
-			users.Add(UserHelper.GetOne());
-
-			var articleMainComments = ArticleMainCommentHelper.GetMany();
-			articleMainComments.Add(ArticleMainCommentHelper.GetOne());
-
-			var listingMainComments = ListingMainCommentHelper.GetMany();
-			listingMainComments.Add(ListingMainCommentHelper.GetOne());
-
-			var articleSubComments = ArticleSubCommentHelper.GetMany();
-			articleSubComments.Add(ArticleSubCommentHelper.GetOne());
-
-			var listingSubComments = ListingSubCommentHelper.GetMany();
-			listingSubComments.Add(ListingSubCommentHelper.GetOne());
+			var listingSubComments = new List<ListingSubComment>() {ListingSubCommentHelper.GetOne()};
+			listingSubComments.AddRange(ListingSubCommentHelper.GetMany());
 
 			for (int i = 0; i < organizations.Count; i++)
 			{
@@ -66,7 +57,7 @@ namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
 				users[i].Articles.Add(articles[i]);
 				users[i].Listings.Add(listings[i]);
 				users[i].Organization = organizations[i];
-				users[i].Subscribers = new List<Subscriber>() {new Subscriber() {User = users[(i+1)%4]}};
+				users[i].Subscribers = new List<Subscriber>() { new Subscriber() { User = users[(i + 1) % 4] } };
 
 				articleMainComments[i].Article = articles[i];
 				articleMainComments[i].SubComments.Add(articleSubComments[i]);
@@ -85,17 +76,17 @@ namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
 				listingSubComments[i].User = users[i];
 			}
 
-			Context.Organizations.AddRange(organizations);
-			Context.Articles.AddRange(articles);
-			Context.Listings.AddRange(listings);
-			Context.Tags.AddRange(tags);
-			Context.Users.AddRange(users);
-			Context.ArticleMainComments.AddRange(articleMainComments);
-			Context.ListingMainComments.AddRange(listingMainComments);
-			Context.ArticleSubComments.AddRange(articleSubComments);
-			Context.ListingSubComments.AddRange(listingSubComments);
+			dbContext.Organizations.AddRange(organizations);
+			dbContext.Articles.AddRange(articles);
+			dbContext.Listings.AddRange(listings);
+			dbContext.Tags.AddRange(tags);
+			dbContext.Users.AddRange(users);
+			dbContext.ArticleMainComments.AddRange(articleMainComments);
+			dbContext.ListingMainComments.AddRange(listingMainComments);
+			dbContext.ArticleSubComments.AddRange(articleSubComments);
+			dbContext.ListingSubComments.AddRange(listingSubComments);
 
-			Context.SaveChanges();
+			dbContext.SaveChanges();
         }
     }
 }

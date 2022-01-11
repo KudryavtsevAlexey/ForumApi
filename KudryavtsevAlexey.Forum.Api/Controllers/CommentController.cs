@@ -13,8 +13,8 @@ using Microsoft.Identity.Client;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer")]
-    [Route("api/comments")]
+    [Authorize]
+    [Route("api/comment")]
     public class CommentController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -223,7 +223,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">If comment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("article-comment/creating")]
+        [Route("article-comment/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticleMainComment([FromBody]CreateArticleMainCommentDto articleMainCommentDto)
@@ -240,7 +240,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">If comment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("listing-comment/creating")]
+        [Route("listing-comment/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateListingMainComment([FromBody]CreateListingMainCommentDto listingMainCommentDto)
@@ -257,7 +257,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">If subcomment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("article-subcomment/creating")]
+        [Route("article-subcomment/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticleSubComment([FromBody]CreateArticleSubCommentDto articleSubCommentDto)
@@ -274,7 +274,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">If subcomment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("listing-subcomment/creating")]
+        [Route("listing-subcomment/create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateListingSubComment([FromBody]CreateListingSubCommentDto listingSubCommentDto)
@@ -292,7 +292,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpPatch]
-        [Route("article-comment/updating")]
+        [Route("article-comment/update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -311,7 +311,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpPatch]
-        [Route("listing-comment/updating")]
+        [Route("listing-comment/update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -330,7 +330,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpPatch]
-        [Route("article-subcomment/updating")]
+        [Route("article-subcomment/update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -349,7 +349,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpPatch]
-        [Route("listing-subcomment/updating")]
+        [Route("listing-subcomment/update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -368,7 +368,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpDelete]
-        [Route("article-comment/{id}/deleting")]
+        [Route("article-comment/{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -387,7 +387,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpDelete]
-        [Route("listing-comment/{id}/deleting")]
+        [Route("listing-comment/{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -406,7 +406,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpDelete]
-        [Route("article-subcomment/{id}/deleting")]
+        [Route("article-subcomment/{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -425,7 +425,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpDelete]
-        [Route("listing-subcomment/{id}/deleting")]
+        [Route("listing-subcomment/{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

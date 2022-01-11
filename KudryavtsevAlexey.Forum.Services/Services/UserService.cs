@@ -85,7 +85,7 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task DeleteSubscriber(int subscriberId)
         {
-            var subscriber = await _dbContext.Subscribers.FirstOrDefaultAsync(x => x.Id == subscriberId);
+            var subscriber = await _dbContext.Subscribers.FirstOrDefaultAsync(x => x.UserId == subscriberId);
 
             if (subscriber is null)
             {

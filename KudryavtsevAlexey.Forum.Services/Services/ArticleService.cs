@@ -2,7 +2,6 @@
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
-    internal sealed class ArticleService : IArticleService
+	internal sealed class ArticleService : IArticleService
     {
         private readonly ForumDbContext _dbContext;
 
@@ -146,19 +145,19 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 }
             }
 
-            var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Id == articleDto.OrganizationId);
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(articleDto.OrganizationId);
-            }
-
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == articleDto.UserId);
 
             if (user is null)
             {
                 throw new UserNotFoundException(articleDto.UserId);
+            }
+
+            var organization = await _dbContext.Organizations
+	            .FirstOrDefaultAsync(x => x.Id == user.OrganizationId);
+
+            if (organization is null)
+            {
+	            throw new OrganizationNotFoundException(user.OrganizationId);
             }
 
             user.Articles.Add(article);

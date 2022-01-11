@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer")]
-    [Route("api/organizations")]
+    [Authorize]
+    [Route("api/organization")]
     public class OrganizationController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -78,7 +78,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">If organization created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("creating")]
+        [Route("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationDto organizationDto)
@@ -96,7 +96,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpPatch]
-        [Route("updating")]
+        [Route("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -115,7 +115,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpDelete]
-        [Route("{id}/deleting")]
+        [Route("{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

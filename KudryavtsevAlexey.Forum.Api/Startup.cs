@@ -7,86 +7,72 @@ using KudryavtsevAlexey.Forum.Services.Profiles;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using KudryavtsevAlexey.Forum.Services.Validation.Article;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using WebMotions.Fake.Authentication.JwtBearer;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace KudryavtsevAlexey.Forum.Api
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration, IWebHostEnvironment env)
 		{
 			Configuration = configuration;
+			Environment = env;
 		}
 
 		public IConfiguration Configuration { get; }
+		public IWebHostEnvironment Environment { get; }
 
 		public void ConfigureServices(IServiceCollection services)
-        {
-			services.AddDbContext<ForumDbContext>(config =>
-                config.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
+		{
+			AddDatabaseByEnvironment(services);
 
-            services.AddAuthentication(config =>
-            {
-                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-                config.RequireAuthenticatedSignIn = true;
-            })
-            .AddJwtBearer("JwtBearer", config =>
-            {
-                config.SaveToken = true;
-				config.TokenValidationParameters = new TokenValidationParameters()
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-                    ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
-                    ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:JwtBearer:SecretKey"])),
-                };
-            });
+			AddIdentityByEnvironment(services);
 
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+			AddAuthenticationByEnvironment(services);
+
+			IdentityModelEventSource.ShowPII = true;
+
+			services.AddAutoMapper(typeof(MappingProfile));
+
+			services.AddSwaggerGen(config =>
 			{
-                config.Password.RequireDigit = true;
-				config.Password.RequireLowercase = true;
-				config.Password.RequireNonAlphanumeric = false;
-				config.Password.RequireUppercase = true;
-				config.Password.RequiredLength = 6;
-            })
-			.AddEntityFrameworkStores<ForumDbContext>()
-			.AddDefaultTokenProviders();
+				config.SwaggerDoc("v1", new OpenApiInfo {Title = "ForumApi", Version = "v1"});
+			});
 
-            services.AddAutoMapper(typeof(MappingProfile));
-
-            services.AddSwaggerGen(config =>
+			services.AddAuthorization(config =>
 			{
-				config.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
-            });
+				config.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+					.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+					.RequireAuthenticatedUser().Build());
+			});
 
 			services.AddControllers()
-                .AddFluentValidation(fv =>
-                    fv.RegisterValidatorsFromAssemblyContaining<CreateArticleDtoValidator>())
-				.AddNewtonsoftJson(options=>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+				.AddFluentValidation(fv =>
+					fv.RegisterValidatorsFromAssemblyContaining<CreateArticleDtoValidator>())
+				.AddNewtonsoftJson(options =>
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddScoped<IServiceManager, ServiceManager>();
 
 			services.AddTransient<ExceptionHandlingMiddleware>();
-        }
+		}
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
@@ -95,22 +81,97 @@ namespace KudryavtsevAlexey.Forum.Api
 				app.UseSwaggerUI();
 			}
 
-            app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 
-            app.UseSerilogRequestLogging();
+			app.UseSerilogRequestLogging();
 
 			app.UseRouting();
 
-            app.UseAuthentication();
+			app.UseAuthentication();
 
 			app.UseAuthorization();
 
 			app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-            app.UseEndpoints(endpoints =>
+			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+		}
+
+		private void AddDatabaseByEnvironment(IServiceCollection services)
+		{
+			if (Environment.IsEnvironment("Testing"))
 			{
-				endpoints.MapControllers();
-			});
+				services.AddDbContext<ForumDbContext>(options =>
+					options.UseInMemoryDatabase("TestingForumDb"));
+			}
+			else
+			{
+				services.AddDbContext<ForumDbContext>(options =>
+					options.UseSqlServer(
+						Configuration.GetConnectionString("ForumDb")));
+			}
+		}
+
+		private void AddIdentityByEnvironment(IServiceCollection services)
+		{
+			if (Environment.IsEnvironment("Testing"))
+			{
+				services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+				{
+					config.Password.RequireDigit = true;
+					config.Password.RequireLowercase = true;
+					config.Password.RequireNonAlphanumeric = false;
+					config.Password.RequireUppercase = true;
+					config.Password.RequiredLength = 6;
+				})
+				.AddEntityFrameworkStores<ForumDbContext>()
+				.AddDefaultTokenProviders();
+			}
+			else
+			{
+				services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+				{
+					config.Password.RequireDigit = true;
+					config.Password.RequireLowercase = true;
+					config.Password.RequireNonAlphanumeric = false;
+					config.Password.RequireUppercase = true;
+					config.Password.RequiredLength = 6;
+				})
+				.AddEntityFrameworkStores<ForumDbContext>()
+				.AddDefaultTokenProviders();
+			}
+		}
+
+		private void AddAuthenticationByEnvironment(IServiceCollection services)
+		{
+			if (Environment.IsEnvironment("Testing"))
+			{
+				services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
+			}
+			else
+			{
+				services.AddAuthentication(config =>
+				{
+					config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer("Bearer", config =>
+				{
+					//config.Authority = "https://login.microsoftonline.com/common";
+					config.RequireHttpsMetadata = false;
+					config.SaveToken = true;
+					config.TokenValidationParameters = new TokenValidationParameters()
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["Authentication:JwtBearer:Issuer"],
+						ValidAudience = Configuration["Authentication:JwtBearer:Audience"],
+						IssuerSigningKey =
+							new SymmetricSecurityKey(
+								Encoding.UTF8.GetBytes(Configuration["Authentication:JwtBearer:SecretKey"])),
+					};
+				});
+			}
 		}
 	}
 }

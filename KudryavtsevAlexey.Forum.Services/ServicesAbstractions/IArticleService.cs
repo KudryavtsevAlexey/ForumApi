@@ -1,12 +1,11 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {
-    public interface IArticleService
+	public interface IArticleService
     {
         public Task<List<ArticleDto>> GetPublishedArticles();
 

@@ -16,7 +16,7 @@ namespace KudryavtsevAlexey.Forum.Domain.CustomExceptions
         }
 
         public UserNotFoundException(string userEmail) 
-            : base($"User with the userEmail {userEmail} was not found")
+            : base($"User with the email {userEmail} was not found")
         {
             
         }

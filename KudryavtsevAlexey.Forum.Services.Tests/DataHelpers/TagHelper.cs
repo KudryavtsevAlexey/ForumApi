@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.Entities;
 
-namespace KudryavtsevAlexey.Forum.Services.Tests.DataHelpers
+namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {
     public static class TagHelper
     {

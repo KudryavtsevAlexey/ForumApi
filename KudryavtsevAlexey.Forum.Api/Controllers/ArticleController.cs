@@ -1,5 +1,4 @@
-﻿using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.ServiceManager;
+﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
-    [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer")]
-    [Route("api/articles")]
+	[ApiController]
+    [Authorize]
+    [Route("api/article")]
     public class ArticleController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -214,7 +213,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="201">Returns ok if article added</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [Route("creating")]
+        [Route("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticle([FromBody]CreateArticleDto articleDto)
@@ -231,7 +230,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns ok if article updated</response>
         /// <response code="401">If user not authorized</response>
         [HttpPatch]
-        [Route("updating")]
+        [Route("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateArticle([FromQuery]int id, [FromBody]UpdateArticleDto articleDto)
@@ -249,7 +248,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If user not found</response>
         [HttpDelete]
-        [Route("{id}/deleting")]
+        [Route("{id}/delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

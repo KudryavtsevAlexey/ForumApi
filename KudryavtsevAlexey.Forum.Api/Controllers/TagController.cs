@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer")]
-    [Route("api/tags")]
+    [Authorize]
+    [Route("api/tag")]
     public class TagController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
@@ -61,7 +61,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <returns>Ok if tag created</returns>
         /// <response code="200">Returns ok</response>
         [HttpPost]
-        [Route("creating")]
+        [Route("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateTag([FromBody]CreateTagDto tagDto)
         {
@@ -77,7 +77,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns ok if tag updated</response>
         /// <response code="404">If tag not found</response>
         [HttpPatch]
-        [Route("updating")]
+        [Route("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateTag([FromQuery]int id, [FromBody]UpdateTagDto tagDto)
@@ -94,7 +94,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns ok</response>
         /// <response code="404">If tag not found</response>
         [HttpDelete]
-        [Route("deleting")]
+        [Route("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTag([FromRoute]int id)

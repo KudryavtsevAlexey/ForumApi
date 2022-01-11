@@ -142,19 +142,19 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 }
             }
 
-            var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Id == listingDto.OrganizationId);
-
-            if (organization is null)
-            {
-                throw new OrganizationNotFoundException(listingDto.OrganizationId);
-            }
-
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == listingDto.UserId);
 
             if (user is null)
             {
                 throw new UserNotFoundException(listingDto.UserId);
+            }
+
+            var organization = await _dbContext.Organizations
+	            .FirstOrDefaultAsync(x => x.Id == user.OrganizationId);
+
+            if (organization is null)
+            {
+	            throw new OrganizationNotFoundException(user.OrganizationId);
             }
 
             user.Listings = new List<Listing>() { listingToAdding };
