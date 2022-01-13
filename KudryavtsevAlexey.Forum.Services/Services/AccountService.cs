@@ -14,6 +14,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.JsonWebTokens;
+using JwtConstants = Microsoft.IdentityModel.JsonWebTokens.JwtConstants;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
@@ -117,7 +120,9 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             if (result.Succeeded)
             {
-                token = GenerateToken(user.UserName, user.Email);
+	            token = GenerateToken(user.UserName, user.Email);
+
+                await _userManager.SetAuthenticationTokenAsync(user, JwtBearerDefaults.AuthenticationScheme, "Bearer", token);
 
                 await _signInManager.SignInAsync(user, false);
             }

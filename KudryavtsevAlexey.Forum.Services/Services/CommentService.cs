@@ -152,8 +152,15 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new UserNotFoundException(articleMainCommentDto.UserId);
             }
 
-            var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
+            var article = await _dbContext.Articles.FirstOrDefaultAsync(x => x.Id == articleMainCommentDto.ArticleId);
 
+            if (article is null)
+            {
+	            throw new ArticleNotFoundException(articleMainCommentDto.ArticleId);
+            }
+
+            var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
+            article.MainComments.Add(articleMainComment);
             articleMainComment.User = user;
 
             await _dbContext.ArticleMainComments.AddAsync(articleMainComment);
@@ -169,8 +176,15 @@ namespace KudryavtsevAlexey.Forum.Services.Services
                 throw new UserNotFoundException(listingMainCommentDto.UserId);
             }
 
-            var listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
+            var listing = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == listingMainCommentDto.ListingId);
 
+            if (listing is null)
+            {
+	            throw new ListingNotFoundException(listingMainCommentDto.ListingId);
+            }
+
+            var listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
+            listing.MainComments.Add(listingMainComment);
             listingMainComment.User = user;
 
             await _dbContext.ListingMainComments.AddAsync(listingMainComment);

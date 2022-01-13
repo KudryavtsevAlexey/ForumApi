@@ -11,6 +11,7 @@ namespace KudryavtsevAlexey.Forum.Services.Validation.User
             RuleFor(x => x.UserName).NotEmpty().MinimumLength(2);
             RuleFor(x => x.Location).NotEmpty().MinimumLength(2);
             RuleFor(x => x.OrganizationName).NotEmpty().MinimumLength(2);
+            RuleFor(x => x.Password).Equal(x => x.ConfirmedPassword);
             RuleFor(x => x.Email).SetValidator(new BaseValidators.EmailValidator<RegisterUserDto>("Email"));
         }
     }

@@ -18,7 +18,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateSubscriber(int userId, int subscriberId);
 
-        public Task DeleteSubscriber(int subscriberId);
+        public Task DeleteSubscriber(int userId, int subscriberId);
 
         public Task UpdateUser(int userId, UpdateApplicationUserDto userDto);
     }

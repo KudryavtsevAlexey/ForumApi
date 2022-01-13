@@ -11,11 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -41,7 +39,16 @@ namespace KudryavtsevAlexey.Forum.Api
 		{
 			AddDatabaseByEnvironment(services);
 
-			AddIdentityByEnvironment(services);
+			services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
+			{
+				config.Password.RequireDigit = true;
+				config.Password.RequireLowercase = true;
+				config.Password.RequireNonAlphanumeric = false;
+				config.Password.RequireUppercase = true;
+				config.Password.RequiredLength = 6;
+			})
+			.AddEntityFrameworkStores<ForumDbContext>()
+			.AddDefaultTokenProviders();
 
 			AddAuthenticationByEnvironment(services);
 
@@ -108,36 +115,6 @@ namespace KudryavtsevAlexey.Forum.Api
 				services.AddDbContext<ForumDbContext>(options =>
 					options.UseSqlServer(
 						Configuration.GetConnectionString("ForumDb")));
-			}
-		}
-
-		private void AddIdentityByEnvironment(IServiceCollection services)
-		{
-			if (Environment.IsEnvironment("Testing"))
-			{
-				services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
-				{
-					config.Password.RequireDigit = true;
-					config.Password.RequireLowercase = true;
-					config.Password.RequireNonAlphanumeric = false;
-					config.Password.RequireUppercase = true;
-					config.Password.RequiredLength = 6;
-				})
-				.AddEntityFrameworkStores<ForumDbContext>()
-				.AddDefaultTokenProviders();
-			}
-			else
-			{
-				services.AddIdentity<ApplicationUser, IdentityRole<int>>(config =>
-				{
-					config.Password.RequireDigit = true;
-					config.Password.RequireLowercase = true;
-					config.Password.RequireNonAlphanumeric = false;
-					config.Password.RequireUppercase = true;
-					config.Password.RequiredLength = 6;
-				})
-				.AddEntityFrameworkStores<ForumDbContext>()
-				.AddDefaultTokenProviders();
 			}
 		}
 

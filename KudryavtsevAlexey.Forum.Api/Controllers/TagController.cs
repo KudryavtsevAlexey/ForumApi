@@ -48,9 +48,15 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [HttpGet]
         [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllTags()
         {
             var tags = await _serviceManager.TagService.GetAllTags();
+
+            if (tags.Count == 0)
+            {
+	            return NotFound();
+            }
 
             return Ok(tags);
         }
@@ -58,50 +64,50 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Creates tag
         /// </summary>
-        /// <returns>Ok if tag created</returns>
-        /// <response code="200">Returns ok</response>
+        /// <returns>No content if tag created</returns>
+        /// <response code="204">If tag created</response>
         [HttpPost]
         [Route("create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> CreateTag([FromBody]CreateTagDto tagDto)
         {
             await _serviceManager.TagService.CreateTag(tagDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Updates tag
         /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Returns ok if tag updated</response>
+        /// <returns>No content if tag updated</returns>
+        /// <response code="204">If tag updated</response>
         /// <response code="404">If tag not found</response>
         [HttpPatch]
         [Route("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateTag([FromQuery]int id, [FromBody]UpdateTagDto tagDto)
         {
             await _serviceManager.TagService.UpdateTag(id, tagDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes tag
         /// </summary>
-        /// <returns>Ok if tag deleted</returns>
-        /// <response code="200">Returns ok</response>
+        /// <returns>No content if tag deleted</returns>
+        /// <response code="204">If tag deleted</response>
         /// <response code="404">If tag not found</response>
         [HttpDelete]
-        [Route("delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("{id}/delete")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTag([FromRoute]int id)
         {
             await _serviceManager.TagService.DeteteTag(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -28,6 +28,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags))
                 .ForMember(x => x.User, opt => opt.MapFrom(x => x.User))
                 .ForMember(x => x.UserId, opt => opt.MapFrom(x => x.UserId))
+                .MaxDepth(1)
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CreateArticleDto, Article>()
@@ -50,6 +51,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Article, opt => opt.MapFrom(x => x.Article))
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
                 .ForMember(x => x.SubComments, opt => opt.MapFrom(x => x.SubComments))
+                .MaxDepth(1)
                 .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
@@ -63,6 +65,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
                 .ForMember(x => x.ArticleMainCommentId, opt => opt.MapFrom(x => x.ArticleMainCommentId))
                 .ForMember(x => x.ArticleMainComment, opt => opt.MapFrom(x => x.ArticleMainComment))
+                .MaxDepth(1)
                 .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
@@ -75,6 +78,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.Listing, opt => opt.MapFrom(x => x.Listing))
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
                 .ForMember(x => x.SubComments, opt => opt.MapFrom(x => x.SubComments))
+                .MaxDepth(1)
                 .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
@@ -88,6 +92,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
                 .ForMember(x => x.ListingMainCommentId, opt => opt.MapFrom(x => x.ListingMainCommentId))
                 .ForMember(x => x.ListingMainComment, opt => opt.MapFrom(x => x.ListingMainComment))
+                .MaxDepth(1)
                 .ReverseMap()
                 .ForAllOtherMembers(opt => opt.Ignore());
 
@@ -143,6 +148,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.ShortDescription, opt => opt.MapFrom(x => x.ShortDescription))
                 .ForMember(x => x.Category, opt => opt.MapFrom(x => x.Category))
                 .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags))
+                .MaxDepth(1)
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CreateListingDto, Listing>()
@@ -172,6 +178,7 @@ namespace KudryavtsevAlexey.Forum.Services.Profiles
                 .ForMember(x => x.JoinedAt, opt => opt.MapFrom(x => x.JoinedAt))
                 .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrganizationId))
                 .ForMember(x => x.Organization, opt => opt.MapFrom(x => x.Organization))
+                .MaxDepth(1)
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<CreateOrganizationDto, Organization>()

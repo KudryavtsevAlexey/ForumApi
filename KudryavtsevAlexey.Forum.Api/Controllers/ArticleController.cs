@@ -54,7 +54,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticles();
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -78,7 +78,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.SortArticlesByDate();
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -102,11 +102,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var article = await _serviceManager.ArticleService.GetPublishedArticleById(id);
 
-            if (article is null)
-            {
-                return NotFound();
-            }
-
             return Ok(article);
         }
 
@@ -126,7 +121,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -150,7 +145,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -174,7 +169,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -198,7 +193,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
-            if (articles is null)
+            if (articles.Count == 0)
             {
                 return NotFound();
             }
@@ -209,54 +204,54 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Adds article
         /// </summary>
-        /// <returns>Ok if article created</returns>
-        /// <response code="201">Returns ok if article added</response>
+        /// <returns>No content if article created</returns>
+        /// <response code="204">If article created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticle([FromBody]CreateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.CreateArticle(articleDto);
 
-            return Ok(articleDto);
+            return NoContent();
         }
 
         /// <summary>
         /// Updates article
         /// </summary>
-        /// <returns>Ok if article updated</returns>
-        /// <response code="200">Returns ok if article updated</response>
+        /// <returns>No content if article updated</returns>
+        /// <response code="204">If article updated</response>
         /// <response code="401">If user not authorized</response>
         [HttpPatch]
         [Route("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> UpdateArticle([FromQuery]int id, [FromBody]UpdateArticleDto articleDto)
         {
             await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
 
-            return Ok(articleDto);
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes article
         /// </summary>
-        /// <returns>Ok if article deleted</returns>
-        /// <response code="200">If article deleted</response>
+        /// <returns>No content if article deleted</returns>
+        /// <response code="204">If article deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If user not found</response>
         [HttpDelete]
         [Route("{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteArticle([FromRoute]int id)
         {
             await _serviceManager.ArticleService.DeleteArticle(id);
 
-            return Ok();
+            return NoContent();
         }
         
     }

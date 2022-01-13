@@ -83,14 +83,25 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteSubscriber(int subscriberId)
+        public async Task DeleteSubscriber(int userId, int subscriberId)
         {
+	        var user = await _dbContext.Users
+		        .Include(x=>x.Subscribers)
+		        .FirstOrDefaultAsync(x => x.Id == userId);
+
+	        if (user is null)
+	        {
+		        throw new UserNotFoundException(userId);
+	        }
+
             var subscriber = await _dbContext.Subscribers.FirstOrDefaultAsync(x => x.UserId == subscriberId);
 
             if (subscriber is null)
             {
                 throw new SubscriberNotFoundException(subscriberId);
             }
+
+            user.Subscribers.Remove(subscriber);
 
             _dbContext.Subscribers.Remove(subscriber);
             await _dbContext.SaveChangesAsync();

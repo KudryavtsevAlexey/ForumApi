@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.Dtos;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using Microsoft.AspNetCore.Authorization;
-using Azure;
-using Microsoft.Identity.Client;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
@@ -40,7 +37,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var comments = await _serviceManager.CommentService.GetArticleComments(id);
 
-            if (comments is null)
+            if (comments.Count == 0)
             {
                 return NotFound();
             }
@@ -64,7 +61,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var comments = await _serviceManager.CommentService.GetListingComments(id);
 
-            if (comments is null)
+            if (comments.Count == 0)
             {
                 return NotFound();
             }
@@ -88,11 +85,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articleMainComment = await _serviceManager.CommentService.GetArticleMainCommentById(id);
 
-            if (articleMainComment is null)
-            {
-                return NotFound();
-            }
-
             return Ok(articleMainComment);
         }
 
@@ -111,11 +103,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         public async Task<IActionResult> GetListingMainCommentById([FromQuery]int id)
         {
             var listingMainComment = await _serviceManager.CommentService.GetListingMainCommentById(id);
-
-            if (listingMainComment is null)
-            {
-                return NotFound();
-            }
 
             return Ok(listingMainComment);
         }
@@ -136,11 +123,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var articleSubComment = await _serviceManager.CommentService.GetArticleSubCommentById(id);
 
-            if (articleSubComment is null)
-            {
-                return NotFound();
-            }
-
             return Ok(articleSubComment);
         }
 
@@ -159,11 +141,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         public async Task<IActionResult> GetListingSubCommentById([FromQuery]int id)
         {
             var listingSubComment = await _serviceManager.CommentService.GetListingSubCommentById(id);
-
-            if (listingSubComment is null)
-            {
-                return NotFound();
-            }
 
             return Ok(listingSubComment);
         }
@@ -184,7 +161,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var allArticleComments = await _serviceManager.CommentService.GetAllArticlesComments();
 
-            if (allArticleComments is null)
+            if (allArticleComments.Count == 0)
             {
                 return NotFound();
             }
@@ -208,7 +185,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var allListingComments = await _serviceManager.CommentService.GetAllListingsComments();
 
-            if (allListingComments is null)
+            if (allListingComments.Count == 0)
             {
                 return NotFound();
             }
@@ -219,221 +196,221 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Creates comment to article
         /// </summary>
-        /// <returns>Ok if comment created</returns>
-        /// <response code="201">If comment created</response>
+        /// <returns>No content if comment created</returns>
+        /// <response code="204">If comment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("article-comment/create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticleMainComment([FromBody]CreateArticleMainCommentDto articleMainCommentDto)
         {
             await _serviceManager.CommentService.CreateArticleMainComment(articleMainCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Creates comment to listing
         /// </summary>
-        /// <returns>Ok if comment created</returns>
-        /// <response code="201">If comment created</response>
+        /// <returns>No content if comment created</returns>
+        /// <response code="204">If comment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("listing-comment/create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateListingMainComment([FromBody]CreateListingMainCommentDto listingMainCommentDto)
         {
             await _serviceManager.CommentService.CreateListingMainComment(listingMainCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Creates subcomment to article
         /// </summary>
-        /// <returns>Ok if comment created</returns>
-        /// <response code="201">If subcomment created</response>
+        /// <returns>No content if comment created</returns>
+        /// <response code="204">If subcomment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("article-subcomment/create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateArticleSubComment([FromBody]CreateArticleSubCommentDto articleSubCommentDto)
         {
             await _serviceManager.CommentService.CreateArticleSubComment(articleSubCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Creates subcomment to listing
         /// </summary>
-        /// <returns>Ok if comment created</returns>
-        /// <response code="201">If subcomment created</response>
+        /// <returns>No content if comment created</returns>
+        /// <response code="204">If subcomment created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("listing-subcomment/create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> CreateListingSubComment([FromBody]CreateListingSubCommentDto listingSubCommentDto)
         {
             await _serviceManager.CommentService.CreateListingSubComment(listingSubCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Updates comment to article
         /// </summary>
-        /// <returns>Ok if comment updated</returns>
-        /// <response code="200">If comment updated</response>
+        /// <returns>No content if comment updated</returns>
+        /// <response code="204">If comment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpPatch]
         [Route("article-comment/update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateArticleMainComment([FromQuery]int id, [FromBody]UpdateArticleMainCommentDto articleMainCommentDto)
         {
             await _serviceManager.CommentService.UpdateArticleMainComment(id, articleMainCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Updates comment to listing
         /// </summary>
-        /// <returns>Ok if comment updated</returns>
-        /// <response code="200">If comment updated</response>
+        /// <returns>No content if comment updated</returns>
+        /// <response code="204">If comment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpPatch]
         [Route("listing-comment/update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateListingMainComment([FromQuery]int id, [FromBody]UpdateListingMainCommentDto listingMainCommentDto) 
         {
             await _serviceManager.CommentService.UpdateListingMainComment(id, listingMainCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Updates subcomment to article
         /// </summary>
-        /// <returns>Ok if subcomment updated</returns>
-        /// <response code="200">If subcomment updated</response>
+        /// <returns>No content if subcomment updated</returns>
+        /// <response code="204">If subcomment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpPatch]
         [Route("article-subcomment/update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateArticleSubComment([FromQuery]int id, [FromBody]UpdateArticleSubCommentDto articleSubCommentDto)
         {
             await _serviceManager.CommentService.UpdateArticleSubComment(id, articleSubCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Updates subcomment to listing
         /// </summary>
-        /// <returns>Ok if subcomment updated</returns>
-        /// <response code="200">If subcomment updated</response>
+        /// <returns>No content if subcomment updated</returns>
+        /// <response code="204">If subcomment updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpPatch]
         [Route("listing-subcomment/update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateListingSubComment([FromQuery]int id, [FromBody]UpdateListingSubCommentDto listingSubCommentDto)
         {
             await _serviceManager.CommentService.UpdateListingSubComment(id, listingSubCommentDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes comment to article
         /// </summary>
-        /// <returns>Ok if comment deleted</returns>
-        /// <response code="200">If comment deleted</response>
+        /// <returns>No content if comment deleted</returns>
+        /// <response code="204">If comment deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpDelete]
         [Route("article-comment/{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteArticleMainComment([FromRoute]int id)
         {
             await _serviceManager.CommentService.DeleteArticleMainComment(id);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes comment to listing
         /// </summary>
-        /// <returns>Ok if comment deleted</returns>
-        /// <response code="200">If comment deleted</response>
+        /// <returns>No content if comment deleted</returns>
+        /// <response code="204">If comment deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If comment not found</response>
         [HttpDelete]
         [Route("listing-comment/{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteListingMainComment([FromRoute]int id)
         {
             await _serviceManager.CommentService.DeleteListingMainComment(id);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes subcomment to article
         /// </summary>
-        /// <returns>Ok if subcomment deleted</returns>
-        /// <response code="200">If subcomment deleted</response>
+        /// <returns>No content if subcomment deleted</returns>
+        /// <response code="204">If subcomment deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpDelete]
         [Route("article-subcomment/{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteArticleSubComment([FromRoute]int id)
         {
             await _serviceManager.CommentService.DeleteArticleSubComment(id);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes subcomment to listing
         /// </summary>
-        /// <returns>Ok if subcomment deleted</returns>
-        /// <response code="200">If subcomment deleted</response>
+        /// <returns>No content if subcomment deleted</returns>
+        /// <response code="204">If subcomment deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If subcomment not found</response>
         [HttpDelete]
         [Route("listing-subcomment/{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteListingSubComment([FromRoute]int id)
         {
             await _serviceManager.CommentService.DeleteListingSubComment(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

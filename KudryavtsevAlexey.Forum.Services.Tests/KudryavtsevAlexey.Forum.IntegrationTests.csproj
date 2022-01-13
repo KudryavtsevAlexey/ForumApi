@@ -37,8 +37,4 @@
     <ProjectReference Include="..\KudryavtsevAlexey.Forum.Services\KudryavtsevAlexey.Forum.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DtoHelpers\" />
-  </ItemGroup>
-
 </Project>

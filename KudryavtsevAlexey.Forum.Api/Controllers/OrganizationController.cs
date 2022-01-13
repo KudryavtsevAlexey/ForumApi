@@ -74,56 +74,56 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <summary>
         /// Creates organization
         /// </summary>
-        /// <returns>Ok if organization created</returns>
-        /// <response code="201">If organization created</response>
+        /// <returns>No content if organization created</returns>
+        /// <response code="204">If organization created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
         [Route("create")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationDto organizationDto)
+        public async Task<IActionResult> CreateOrganization([FromBody] CreateOrganizationDto organizationDto)
         {
-            await _serviceManager.OrganizationService.CreateOrganization(organizationDto);
+	        await _serviceManager.OrganizationService.CreateOrganization(organizationDto);
 
-            return Ok();
+	        return NoContent();
         }
 
         /// <summary>
         /// Updates organization
         /// </summary>
-        /// <returns>Ok if organization updated</returns>
-        /// <response code="200">If organization updated</response>
+        /// <returns>No content if organization updated</returns>
+        /// <response code="204">If organization updated</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpPatch]
         [Route("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateOrganization([FromQuery]int id, [FromBody]UpdateOrganizationDto organizationDto)
         {
             await _serviceManager.OrganizationService.UpdateOrganization(id, organizationDto);
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
         /// Deletes organization
         /// </summary>
-        /// <returns>Ok if organization deleted</returns>
-        /// <response code="200">If organization deleted</response>
+        /// <returns>No content if organization deleted</returns>
+        /// <response code="204">If organization deleted</response>
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpDelete]
         [Route("{id}/delete")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteOrganization([FromRoute]int id)
         {
             await _serviceManager.OrganizationService.DeleteOrganization(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

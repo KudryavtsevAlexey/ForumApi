@@ -20,6 +20,13 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
             _serviceManager = serviceManager;
         }
 
+        /// <summary>
+        /// Returns user by id
+        /// </summary>
+        /// <returns>Ok if user found</returns>
+        /// <response code="200">If user found</response>
+        /// <response code="401">If user not authorized</response>
+        /// <response code="404">If user not found</response>
         [HttpGet]
         [Route("find/id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -29,19 +36,15 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var user = await _serviceManager.UserService.GetUserById(id);
 
-            if (user is null)
-            {
-                return NotFound();
-            }
-
             return Ok(user);
         }
-        
+
         /// <summary>
         /// Returns user subscribers
         /// </summary>
         /// <returns>User subscribers</returns>
-        /// <response code="200">Returns subscribers</response>>
+        /// <response code="200">Returns subscribers</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If subscribers not found</response>
         [HttpGet]
         [Route("find/userId/subscribers")]
@@ -52,7 +55,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         {
             var subscribers = await _serviceManager.UserService.GetUserSubscribers(id);
 
-            if (subscribers is null)
+            if (subscribers.Count == 0)
             {
                 return NotFound();
             }
@@ -61,20 +64,57 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         }
 
         /// <summary>
+        /// Creates subscriber
+        /// </summary>
+        /// <returns>No content if subscriber created</returns>
+        /// <response code="204">If subscriber created</response>
+        /// <response code="401">If user not authorized</response>
+        /// <response code="404">If user or subscriber not found</response>
+		[HttpPost]
+		[Route("sub")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> SubscribeUser([FromQuery] int userId, [FromQuery] int subscriberId)
+		{
+			await _serviceManager.UserService.CreateSubscriber(userId, subscriberId);
+
+			return NoContent();
+		}
+
+        /// <summary>
+        /// Deletes subscriber
+        /// </summary>
+        /// <returns>No content if subscriber deleted</returns>
+        /// <response code="204">If subscriber deleted</response>
+        /// <response code="401">If user not authorized</response>
+        /// <response code="404">If subscriber user or subscriber not found</response>
+        [HttpDelete]
+		[Route("unsub")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> StopSubscribe([FromQuery] int userId, [FromQuery] int subscriberId)
+		{
+			await _serviceManager.UserService.DeleteSubscriber(userId, subscriberId);
+
+			return NoContent();
+		}
+
+        /// <summary>
         /// Updates user
         /// </summary>
-        /// <returns>Ok if user updated</returns>
-        /// <response code="200">If user updated</response>
+        /// <returns>No content if user updated</returns>
+        /// <response code="204">If user updated</response>
+        /// <response code="401">If user not authorized</response>
         /// <response code="404">If user not found</response>
         [HttpPatch]
         [Route("update")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUser([FromRoute]int id, [FromBody]UpdateApplicationUserDto userDto)
         {
             await _serviceManager.UserService.UpdateUser(id, userDto);
 
-            return Ok();
+            return NoContent();
         }
     }
 }
