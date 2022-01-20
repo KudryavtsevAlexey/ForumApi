@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,19 +7,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using KudryavtsevAlexey.Forum.Api;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
+using KudryavtsevAlexey.Forum.IntegrationTests.DtoHelpers;
 using KudryavtsevAlexey.Forum.IntegrationTests.Extensions;
-using KudryavtsevAlexey.Forum.IntegrationTests.GlobalTestConfiguration;
 using KudryavtsevAlexey.Forum.IntegrationTests.WebApplicationFactory;
-using KudryavtsevAlexey.Forum.Services.Dtos.Article;
-using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
-using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
 using KudryavtsevAlexey.Forum.Services.Dtos.Organization;
-using KudryavtsevAlexey.Forum.Services.Dtos.Subscriber;
 using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
-using KudryavtsevAlexey.Forum.Services.Dtos.User;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
@@ -34,6 +26,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		private readonly HttpClient _client;
 		private readonly ForumDbContext _dbContext;
 		private readonly IMapper _mapper;
+		private readonly DtoGenerator _dtoGenerator;
 
 		public CrudTests(CustomWebApplicationFactory<Startup> factory)
 		{
@@ -45,6 +38,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			_dbContext = _factory.Services.GetRequiredService<ForumDbContext>();
 			_mapper = _factory.Services.GetRequiredService<IMapper>();
+			_dtoGenerator = new DtoGenerator(_dbContext, _mapper);
 		}
 
 		[Theory]
@@ -54,14 +48,14 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// arrange
 			await _client.Register();
 
-			var createOrganizationDto = new CreateOrganizationDto(Name: "CreatedOrganizationName");
-			var createOrganizationJson = new StringContent(JsonConvert.SerializeObject(createOrganizationDto), Encoding.UTF8, "application/json");
+			var createOrganizationDto = _dtoGenerator.GetCreateOrganizationDto();
+			var createOrganizationJson = JsonGenerator.GetStringContent(createOrganizationDto);
 
 			var organizationName = createOrganizationDto.Name;
 			var organizationId = _dbContext.Organizations.Last().Id + 1;
 
-			var updateOrganizationDto = new UpdateOrganizationDto(organizationId, createOrganizationDto.Name);
-			var updateOrganizationJson = new StringContent(JsonConvert.SerializeObject(updateOrganizationDto), Encoding.UTF8, "application/json");
+			var updateOrganizationDto = _dtoGenerator.GetUpdateOrganizationDto(organizationId, organizationName);
+			var updateOrganizationJson = JsonGenerator.GetStringContent(updateOrganizationDto);
 
 			// act
 			var countBeforeCreate = _dbContext.Organizations.Count();
@@ -91,22 +85,13 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// arrange
 			await _client.Register();
 
-			var userId = _dbContext.Users.First().Id;
-			var tag = _dbContext.Tags.First();
-
-			var tagDto = _mapper.Map<TagDto>(tag);
-
-			var createArticleDto = new CreateArticleDto(UserId: userId, ShortDescription: "ArticleShortDescription1",
-				Title: "ArticleTitle1", Tags: new List<TagDto>() {tagDto});
-			var createArticleJson = new StringContent(JsonConvert.SerializeObject(createArticleDto), Encoding.UTF8,
-				"application/json");
+			var createArticleDto = _dtoGenerator.GetCreateArticleDto();
+			var createArticleJson = JsonGenerator.GetStringContent(createArticleDto);
 
 			var articleId = _dbContext.Articles.Last().Id + 1;
 
-			var updateArticleDto = new UpdateArticleDto(Id: articleId, Title: "UpdatedArticleTitle", Tags: createArticleDto.Tags,
-				ShortDescription: createArticleDto.ShortDescription);
-			var updateArticleJson = new StringContent(JsonConvert.SerializeObject(updateArticleDto), Encoding.UTF8,
-				"application/json");
+			var updateArticleDto = _dtoGenerator.GetUpdateArticleDto(createArticleDto, articleId);
+			var updateArticleJson = JsonGenerator.GetStringContent(updateArticleDto);
 
 			// act
 			var countBeforeCreate = _dbContext.Articles.Count();
@@ -148,27 +133,18 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// arrange
 			await _client.Register();
 
-			var userId = _dbContext.Users.Last().Id;
-			var tag = _dbContext.Tags.Last();
-
-			var tagDto = _mapper.Map<TagDto>(tag);
-
-			var createListingDto = new CreateListingDto(UserId: userId, Category: "ListingCategory1",
-				ShortDescription: "ListingShortDescription1", Title: "ListingTitle1",
-				Tags: new List<TagDto>() {tagDto});
-			var createListingJson = new StringContent(JsonConvert.SerializeObject(createListingDto), Encoding.UTF8,
-				"application/json");
+			var createListingDto = _dtoGenerator.GetCreateListingDto();
+			var createListingJson = JsonGenerator.GetStringContent(createListingDto);
 
 			var updatedTag = _dbContext.Tags.First();
 			var updatedTagDto = _mapper.Map<TagDto>(updatedTag);
 
+			var tagList = new List<TagDto>() {updatedTagDto};
+
 			var listingId = _dbContext.Listings.Last().Id + 1;
 
-			var updateListingDto = new UpdateListingDto(Id: listingId, Category: "UpdatedListingCategory1",
-				ShortDescription: "UpdatedShortDescription1", Title: "UpdatedListingTitle1",
-				Tags: new List<TagDto>() {tagDto, updatedTagDto});
-			var updateListingJson = new StringContent(JsonConvert.SerializeObject(updateListingDto), Encoding.UTF8,
-				"application/json");
+			var updateListingDto = _dtoGenerator.GetUpdateListingDto(listingId, tagList);
+			var updateListingJson = JsonGenerator.GetStringContent(updateListingDto);
 
 			// act
 			var countBeforeCreate = _dbContext.Listings.Count();
@@ -210,16 +186,14 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// arrange
 			await _client.Register();
 
-			var createTagDto = new CreateTagDto(Name: "CreatedTag1");
-			var createTagJson = new StringContent(JsonConvert.SerializeObject(createTagDto), Encoding.UTF8,
-				"application/json");
+			var createTagDto = _dtoGenerator.GetCreateTagDto();
+			var createTagJson = JsonGenerator.GetStringContent(createTagDto);
 
 			var tagId = _dbContext.Tags.Last().Id + 1;
 
-			var updateTagDto = new UpdateTagDto(Id: tagId, Name: "UpdatedTag1");
-			var updateTagJson = new StringContent(JsonConvert.SerializeObject(updateTagDto), Encoding.UTF8,
-				"application/json");
-			
+			var updateTagDto = _dtoGenerator.GetUpdateTagDto(tagId);
+			var updateTagJson = JsonGenerator.GetStringContent(updateTagDto);
+
 			// act
 			var countBeforeCreate = _dbContext.Tags.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createTagJson);
@@ -248,22 +222,13 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// arrange
 			await _client.Register();
 
-			var userId = _dbContext.Users.First().Id;
-			var articleId = _dbContext.Articles.First().Id;
-
-			var createArticleMainCommentDto = new CreateArticleMainCommentDto("CorrectArticleMainCommentContent1", userId,
-				articleId, DateTime.UtcNow.Date);
-			var createArticleMainCommentJson =
-				new StringContent(JsonConvert.SerializeObject(createArticleMainCommentDto), Encoding.UTF8,
-					"application/json");
+			var createArticleMainCommentDto = _dtoGenerator.GetCreateArticleMainCommentDto();
+			var createArticleMainCommentJson = JsonGenerator.GetStringContent(createArticleMainCommentDto);
 
 			var articleMainCommentId = _dbContext.ArticleMainComments.Last().Id + 1;
 
-			var updateArticleMainCommentDto =
-				new UpdateArticleMainCommentDto(Id: articleMainCommentId, Content: "CorrectUpdatedArticleMainCommentContent1");
-			var updateArticleMainCommentJson =
-				new StringContent(JsonConvert.SerializeObject(updateArticleMainCommentDto), Encoding.UTF8,
-					"application/json");
+			var updateArticleMainCommentDto = _dtoGenerator.GetUpdateArticleMainCommentDto(articleMainCommentId);
+			var updateArticleMainCommentJson = JsonGenerator.GetStringContent(updateArticleMainCommentDto);
 
 			// act
 			var countBeforeCreate = _dbContext.ArticleMainComments.Count();
@@ -307,20 +272,14 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var userId = _dbContext.Users.First().Id;
 			var listingId = _dbContext.Listings.First().Id;
 
-			var createListingMainCommentDto = new CreateListingMainCommentDto(
-				Content: "CorrectListingMainCommentContent1", CreatedAt: DateTime.UtcNow.Date, UserId: userId,
-				ListingId: listingId);
-			var createListingMainCommentJson =
-				new StringContent(JsonConvert.SerializeObject(createListingMainCommentDto), Encoding.UTF8,
-					"application/json");
+			var createListingMainCommentDto = _dtoGenerator.GetCreateListingMainCommentDto(userId, listingId);
+			var createListingMainCommentJson = JsonGenerator.GetStringContent(createListingMainCommentDto);
 
 			var listingMainCommentId = _dbContext.ListingMainComments.Last().Id + 1;
 
-			var updateListingMainCommentDto =
-				new UpdateListingMainCommentDto(Id: listingMainCommentId, Content: "CorrectUpdatedListingMainCommentContent1");
-			var updateListingMainCommentJson =
-				new StringContent(JsonConvert.SerializeObject(updateListingMainCommentDto), Encoding.UTF8,
-					"application/json");
+			var updateListingMainCommentDto = _dtoGenerator.GetUpdateListingMainCommentDto(listingMainCommentId);
+				
+			var updateListingMainCommentJson = JsonGenerator.GetStringContent(updateListingMainCommentDto);
 
 			// act
 			var countBeforeCreate = _dbContext.ListingMainComments.Count();
@@ -365,18 +324,13 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var articleId = _dbContext.Articles.First().Id;
 			var articleMainCommentId = _dbContext.ArticleMainComments.First().Id;
 
-			var createArticleSubCommentDto = new CreateArticleSubCommentDto(Content: "CorrectArticleSubCommentContent1",
-				CreatedAt: DateTime.UtcNow.Date, UserId: userId, ArticleId: articleId,
-				ArticleMainCommentId: articleMainCommentId);
-			var createArticleSubCommentJson = new StringContent(JsonConvert.SerializeObject(createArticleSubCommentDto),
-				Encoding.UTF8, "application/json");
+			var createArticleSubCommentDto = _dtoGenerator.GetCreateArticleSubCommentDto(userId, articleId, articleMainCommentId);
+			var createArticleSubCommentJson = JsonGenerator.GetStringContent(createArticleSubCommentDto);
 
 			var articleSubCommentId = _dbContext.ArticleSubComments.Last().Id + 1;
 
-			var updateArticleSubCommentDto =
-				new UpdateArticleSubCommentDto(Id: articleSubCommentId, Content: "CorrectUpdatedArticleSubCommentContent1");
-			var updateArticleSubCommentJson = new StringContent(JsonConvert.SerializeObject(updateArticleSubCommentDto),
-				Encoding.UTF8, "application/json");
+			var updateArticleSubCommentDto = _dtoGenerator.GetUpdateArticleSubCommentDto(articleSubCommentId);
+			var updateArticleSubCommentJson = JsonGenerator.GetStringContent(updateArticleSubCommentDto);
 
 			// act
 			var countBeforeCreate = _dbContext.ArticleSubComments.Count();
@@ -423,18 +377,13 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var listingId = _dbContext.Listings.Last().Id;
 			var listingMainCommentId = _dbContext.ListingMainComments.Last().Id;
 
-			var createListingSubCommentDto = new CreateListingSubCommentDto(
-				Content: "CorrectListingMainCommentContent1", CreatedAt: DateTime.UtcNow.Date, UserId: userId,
-				ListingId: listingId, ListingMainCommentId: listingMainCommentId);
-			var createListingSubCommentJson = new StringContent(JsonConvert.SerializeObject(createListingSubCommentDto),
-				Encoding.UTF8, "application/json");
+			var createListingSubCommentDto = _dtoGenerator.GetCreateListingSubCommentDto(userId, listingId, listingMainCommentId);
+			var createListingSubCommentJson = JsonGenerator.GetStringContent(createListingSubCommentDto);
 
 			var listingSubCommentId = _dbContext.ListingSubComments.Last().Id + 1;
 
-			var updateListingSubCommentDto =
-				new UpdateListingSubCommentDto(Id: listingSubCommentId, Content: "CorrectUpdatedListingMainCommentContent1");
-			var updateListingSubCommentJson = new StringContent(JsonConvert.SerializeObject(updateListingSubCommentDto),
-				Encoding.UTF8, "application/json");
+			var updateListingSubCommentDto = _dtoGenerator.GetUpdateListingSubCommentDto(listingSubCommentId);
+			var updateListingSubCommentJson = JsonGenerator.GetStringContent(updateListingSubCommentDto);
 
 			// act
 			var countBeforeCreate = _dbContext.ListingSubComments.Count();
@@ -483,9 +432,8 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			var subscriberId = _dbContext.Users.Last().Id;
 
-			var findUserToSubscriberDto = new FindUserToSubscribeDto(userId, subscriberId);
-			var findUserToSubscriberJson = new StringContent(JsonConvert.SerializeObject(findUserToSubscriberDto),
-				Encoding.UTF8, "application/json");
+			var findUserToSubscriberDto = _dtoGenerator.GetFindUserToSubscribeDto(userId, subscriberId);
+			var findUserToSubscriberJson = JsonGenerator.GetStringContent(findUserToSubscriberDto);
 
 			var createdSubscriberId = _dbContext.Subscribers.Last().Id + 1;
 			// act
@@ -493,11 +441,8 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync($"{createUrl}", findUserToSubscriberJson);
 			var countAfterCreate = _dbContext.Subscribers.Count();
 
-			var updateApplicationUserDto = new UpdateApplicationUserDto(Id: createdSubscriberId, Location: "UpdatedApplicationUserLocation1",
-				Name: "UpdatedName1", Summary: "UpdatedApplicationUserSummary1",
-				UserName: "UpdatedApplicationUserName");
-			var updateApplicationUserJson = new StringContent(JsonConvert.SerializeObject(updateApplicationUserDto),
-				Encoding.UTF8, "application/json");
+			var updateApplicationUserDto = _dtoGenerator.GetUpdateApplicationUserDto(createdSubscriberId);
+			var updateApplicationUserJson = JsonGenerator.GetStringContent(updateApplicationUserDto);
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={createdSubscriberId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateApplicationUserJson);
