@@ -25,7 +25,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateListing(CreateListingDto listingDto);
 
-        public Task UpdateListing(int listingId, UpdateListingDto listingDto);
+        public Task UpdateListing(UpdateListingDto listingDto);
 
         public Task DeleteListing(int listingId);
     }

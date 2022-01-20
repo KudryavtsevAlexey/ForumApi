@@ -6,7 +6,9 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Helpers;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -52,22 +54,29 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateTag(int tagId, UpdateTagDto tagDto)
+        public async Task UpdateTag(UpdateTagDto tagDto)
         {
-            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
+            var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagDto.Id);
 
             if (tag is null)
             {
-                throw new TagNotFoundException(tagId);
+                throw new TagNotFoundException(tagDto.Id);
             }
 
-            tag.Name = tagDto.Name;
+            tag = _mapper.Map<Tag>(tagDto);
 
-            _dbContext.Tags.Update(tag);
+            var local = _dbContext.Tags.Local.FirstOrDefault(x => x.Id == tag.Id);
+
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(tag).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeteteTag(int tagId)
+        public async Task DeleteTag(int tagId)
         {
             var tag = await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
 

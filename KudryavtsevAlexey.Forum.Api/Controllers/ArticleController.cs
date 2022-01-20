@@ -228,9 +228,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("update")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> UpdateArticle([FromQuery]int id, [FromBody]UpdateArticleDto articleDto)
+        public async Task<IActionResult> UpdateArticle([FromBody]UpdateArticleDto articleDto)
         {
-            await _serviceManager.ArticleService.UpdateArticle(id, articleDto);
+            await _serviceManager.ArticleService.UpdateArticle(articleDto);
 
             return NoContent();
         }

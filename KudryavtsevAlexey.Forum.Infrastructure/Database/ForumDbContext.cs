@@ -27,6 +27,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 
         public DbSet<Subscriber> Subscribers { get; set; }
 
+        public DbSet<Subscription> Subscriptions { get; set; }
+
         public DbSet<ListingMainComment> ListingMainComments { get; set; }
 
         public DbSet<ListingSubComment> ListingSubComments { get; set; }
@@ -52,10 +54,13 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Database
                 .IsRequired().OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
-                .HasKey(x => x.Id);
+	            .HasKey(x => x.Id);
 
             builder.Entity<Subscriber>()
-                .HasKey(x => x.UserId);
+                .HasKey(x => x.Id);
+
+            builder.Entity<Subscription>()
+	            .HasKey(x => x.Id);
 
             builder.Entity<ArticleMainComment>()
                 .HasKey(x => x.Id);

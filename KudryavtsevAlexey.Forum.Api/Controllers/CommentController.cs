@@ -273,9 +273,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateArticleMainComment([FromQuery]int id, [FromBody]UpdateArticleMainCommentDto articleMainCommentDto)
+        public async Task<IActionResult> UpdateArticleMainComment([FromBody]UpdateArticleMainCommentDto articleMainCommentDto)
         {
-            await _serviceManager.CommentService.UpdateArticleMainComment(id, articleMainCommentDto);
+            await _serviceManager.CommentService.UpdateArticleMainComment(articleMainCommentDto);
 
             return NoContent();
         }
@@ -292,9 +292,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListingMainComment([FromQuery]int id, [FromBody]UpdateListingMainCommentDto listingMainCommentDto) 
+        public async Task<IActionResult> UpdateListingMainComment([FromBody]UpdateListingMainCommentDto listingMainCommentDto) 
         {
-            await _serviceManager.CommentService.UpdateListingMainComment(id, listingMainCommentDto);
+            await _serviceManager.CommentService.UpdateListingMainComment(listingMainCommentDto);
 
             return NoContent();
         }
@@ -311,9 +311,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateArticleSubComment([FromQuery]int id, [FromBody]UpdateArticleSubCommentDto articleSubCommentDto)
+        public async Task<IActionResult> UpdateArticleSubComment([FromBody]UpdateArticleSubCommentDto articleSubCommentDto)
         {
-            await _serviceManager.CommentService.UpdateArticleSubComment(id, articleSubCommentDto);
+            await _serviceManager.CommentService.UpdateArticleSubComment(articleSubCommentDto);
 
             return NoContent();
         }
@@ -330,9 +330,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListingSubComment([FromQuery]int id, [FromBody]UpdateListingSubCommentDto listingSubCommentDto)
+        public async Task<IActionResult> UpdateListingSubComment([FromBody]UpdateListingSubCommentDto listingSubCommentDto)
         {
-            await _serviceManager.CommentService.UpdateListingSubComment(id, listingSubCommentDto);
+            await _serviceManager.CommentService.UpdateListingSubComment(listingSubCommentDto);
 
             return NoContent();
         }

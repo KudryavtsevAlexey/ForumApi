@@ -7,6 +7,10 @@ using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -53,72 +57,28 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return userSubscribersDtos;
         }
 
-        public async Task CreateSubscriber(int userId, int subscriberId)
+        public async Task UpdateUser(UpdateApplicationUserDto userDto)
         {
-            if (userId == subscriberId)
-            {
-                throw new SameUserIdentifiersException(userId, subscriberId);
-            }
-
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userDto.Id);
 
             if (user is null)
             {
-                throw new UserNotFoundException(userId);
+                throw new UserNotFoundException(userDto.Id);
             }
 
-            var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == subscriberId);
-
-            if (subscriber is null)
-            {
-                throw new UserNotFoundException(subscriberId);
-            }
-
-            var createdSubscriber = _mapper.Map<Subscriber>(subscriber);
-
-            user.Subscribers.Add(createdSubscriber);
-            createdSubscriber.User = subscriber;
-
-            await _dbContext.Subscribers.AddAsync(createdSubscriber);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteSubscriber(int userId, int subscriberId)
-        {
-	        var user = await _dbContext.Users
-		        .Include(x=>x.Subscribers)
-		        .FirstOrDefaultAsync(x => x.Id == userId);
-
-	        if (user is null)
-	        {
-		        throw new UserNotFoundException(userId);
-	        }
-
-            var subscriber = await _dbContext.Subscribers.FirstOrDefaultAsync(x => x.UserId == subscriberId);
-
-            if (subscriber is null)
-            {
-                throw new SubscriberNotFoundException(subscriberId);
-            }
-
-            user.Subscribers.Remove(subscriber);
-
-            _dbContext.Subscribers.Remove(subscriber);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task UpdateUser(int userId, UpdateApplicationUserDto userDto)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
-
-            if (user is null)
-            {
-                throw new UserNotFoundException(userId);
-            }
+            var concurrencyStampBeforeUpdating = user.ConcurrencyStamp;
 
             user = _mapper.Map<ApplicationUser>(userDto);
+            user.ConcurrencyStamp = concurrencyStampBeforeUpdating;
 
-            _dbContext.Users.Update(user);
+            var local = _dbContext.Users.Local.FirstOrDefault(x => x.Id == user.Id);
+
+            if (local is not null)
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(user).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
     }

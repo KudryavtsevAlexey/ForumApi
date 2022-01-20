@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KudryavtsevAlexey.Forum.Services.Dtos.User
+namespace KudryavtsevAlexey.Forum.Services.Helpers
 {
-	public record SubscriberDto();
+	public interface IIdentifier
+	{
+		public int Id { get; }
+	}
 }

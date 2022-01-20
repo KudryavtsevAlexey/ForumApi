@@ -20,9 +20,10 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         private readonly Lazy<IUserService> _lazyUserService;
         private readonly Lazy<IAccountService> _lazyAccountService;
         private readonly Lazy<ITagService> _lazyTagService;
+        private readonly Lazy<ISubscriberService> _lazySubscriberService;
 
-        public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-                            IMapper mapper, IConfiguration configuration)
+        public ServiceManager(ForumDbContext dbContext, UserManager<ApplicationUser> userManager,
+	        SignInManager<ApplicationUser> signInManager, IMapper mapper, IConfiguration configuration)
         {
             _lazyArticleService = new Lazy<IArticleService>(() => new ArticleService(dbContext, mapper));
             _lazyCommentService = new Lazy<ICommentService>(() => new CommentService(dbContext, mapper));
@@ -31,6 +32,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
             _lazyUserService = new Lazy<IUserService>(() => new UserService(dbContext, mapper));
             _lazyAccountService = new Lazy<IAccountService>(() => new AccountService(dbContext, userManager, signInManager, mapper, configuration));
             _lazyTagService = new Lazy<ITagService>(() => new TagService(dbContext, mapper));
+            _lazySubscriberService = new Lazy<ISubscriberService>(() => new SubscriberService(dbContext, mapper));
         }
 
         public IArticleService ArticleService => _lazyArticleService.Value;
@@ -40,5 +42,6 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         public IUserService UserService => _lazyUserService.Value;
         public IAccountService AccountService => _lazyAccountService.Value;
         public ITagService TagService => _lazyTagService.Value;
+        public ISubscriberService SubscriberService => _lazySubscriberService.Value;
     }
 }

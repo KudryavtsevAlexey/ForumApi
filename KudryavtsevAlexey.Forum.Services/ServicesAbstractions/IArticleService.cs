@@ -23,7 +23,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateArticle(CreateArticleDto articleDto);
 
-        public Task UpdateArticle(int articleId, UpdateArticleDto articleDto);
+        public Task UpdateArticle(UpdateArticleDto articleDto);
 
         public Task DeleteArticle(int articleId);
     }

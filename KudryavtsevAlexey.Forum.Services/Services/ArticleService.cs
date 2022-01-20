@@ -160,23 +160,24 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 	            throw new OrganizationNotFoundException(user.OrganizationId);
             }
 
-            user.Articles.Add(article);
-
+            article.UserId = user.Id;
             article.User = user;
+
+            user.Articles.Add(article);
 
             await _dbContext.Articles.AddAsync(article);
             await _dbContext.SaveChangesAsync();
         }
    
-        public async Task UpdateArticle(int articleId, UpdateArticleDto articleDto)
+        public async Task UpdateArticle(UpdateArticleDto articleDto)
         {
             var article = await _dbContext.Articles
                 .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == articleId);
+                .FirstOrDefaultAsync(x => x.Id == articleDto.Id);
 
             if (article is null)
             {
-                throw new ArticleNotFoundException(articleId);
+                throw new ArticleNotFoundException(articleDto.Id);
             }
 
             article.Title = articleDto.Title;

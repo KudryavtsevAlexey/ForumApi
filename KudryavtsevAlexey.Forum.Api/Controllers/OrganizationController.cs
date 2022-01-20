@@ -100,9 +100,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateOrganization([FromQuery]int id, [FromBody]UpdateOrganizationDto organizationDto)
+        public async Task<IActionResult> UpdateOrganization([FromBody]UpdateOrganizationDto organizationDto)
         {
-            await _serviceManager.OrganizationService.UpdateOrganization(id, organizationDto);
+            await _serviceManager.OrganizationService.UpdateOrganization(organizationDto);
 
             return NoContent();
         }

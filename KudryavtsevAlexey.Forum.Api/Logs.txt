@@ -1796,3 +1796,54 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2022-01-13 22:31:37.827 +03:00 [INF] HTTP POST /api/comment/article-comment/create responded 400 in 230.6064 ms
 2022-01-13 22:36:40.620 +03:00 [INF] Application starting up
 2022-01-13 22:36:50.212 +03:00 [INF] HTTP POST /api/comment/article-comment/create responded 400 in 1468.4605 ms
+2022-01-14 17:03:38.238 +03:00 [INF] Application starting up
+2022-01-14 17:03:58.283 +03:00 [WRN] The foreign key property 'Subscriber.UserId1' was created in shadow state because a conflicting property with the simple name 'UserId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2022-01-14 17:04:13.868 +03:00 [INF] HTTP POST /api/account/sign-in responded 204 in 17423.7243 ms
+2022-01-14 17:05:36.062 +03:00 [INF] HTTP POST /api/subscriber/create?userId=1&subscriberId=2 responded 404 in 78.9553 ms
+2022-01-14 17:05:54.611 +03:00 [INF] HTTP POST /api/subscriber/create?userId=6&subscriberId=7 responded 404 in 6.5305 ms
+2022-01-14 17:30:04.350 +03:00 [INF] Application starting up
+2022-01-14 17:30:11.266 +03:00 [INF] Application starting up
+2022-01-14 17:30:23.355 +03:00 [INF] Application starting up
+2022-01-14 17:30:26.108 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2022-01-14 17:30:49.773 +03:00 [INF] Application starting up
+2022-01-14 17:30:51.514 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2022-01-14 17:32:14.762 +03:00 [INF] Application starting up
+2022-01-14 17:32:16.548 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2022-01-14 17:32:27.424 +03:00 [INF] Application starting up
+2022-01-14 17:32:34.829 +03:00 [INF] Application starting up
+2022-01-14 17:32:42.149 +03:00 [INF] Application starting up
+2022-01-14 17:32:46.568 +03:00 [INF] Application starting up
+2022-01-14 17:32:49.959 +03:00 [INF] Application starting up
+2022-01-14 17:32:59.912 +03:00 [INF] Application starting up
+2022-01-14 17:33:11.842 +03:00 [INF] Application starting up
+2022-01-14 20:51:10.214 +03:00 [INF] Application starting up
+2022-01-14 20:51:19.414 +03:00 [INF] Application starting up
+2022-01-14 20:51:28.622 +03:00 [INF] Application starting up
+2022-01-14 20:51:39.785 +03:00 [INF] Application starting up
+2022-01-14 21:17:22.745 +03:00 [INF] Application starting up
+2022-01-14 21:17:32.110 +03:00 [INF] Application starting up
+2022-01-14 21:17:44.598 +03:00 [INF] Application starting up
+2022-01-14 21:20:16.664 +03:00 [INF] Application starting up
+2022-01-14 21:20:26.516 +03:00 [INF] Application starting up
+2022-01-14 21:20:36.339 +03:00 [INF] Application starting up

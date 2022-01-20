@@ -86,9 +86,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [Route("update")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateTag([FromQuery]int id, [FromBody]UpdateTagDto tagDto)
+        public async Task<IActionResult> UpdateTag([FromBody]UpdateTagDto tagDto)
         {
-            await _serviceManager.TagService.UpdateTag(id, tagDto);
+            await _serviceManager.TagService.UpdateTag(tagDto);
 
             return NoContent();
         }
@@ -105,7 +105,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTag([FromRoute]int id)
         {
-            await _serviceManager.TagService.DeteteTag(id);
+            await _serviceManager.TagService.DeleteTag(id);
 
             return NoContent();
         }

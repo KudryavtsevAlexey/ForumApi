@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities
 {
-	public class Subscriber
+	public class Subscription
 	{
 		public int Id { get; set; }
 

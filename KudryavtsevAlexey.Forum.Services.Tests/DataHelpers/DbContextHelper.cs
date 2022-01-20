@@ -1,10 +1,8 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {
@@ -39,6 +37,9 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 			var listingSubComments = new List<ListingSubComment>() {ListingSubCommentHelper.GetOne()};
 			listingSubComments.AddRange(ListingSubCommentHelper.GetMany());
 
+			var subscribers = new List<Subscriber>();
+			var subscriptions = new List<Subscription>();
+
 			for (int i = 0; i < organizations.Count; i++)
 			{
 				organizations[i].Users.Add(users[i]);
@@ -57,7 +58,25 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 				users[i].Articles.Add(articles[i]);
 				users[i].Listings.Add(listings[i]);
 				users[i].Organization = organizations[i];
-				users[i].Subscribers = new List<Subscriber>() { new Subscriber() { User = users[(i + 1) % 4] } };
+
+				var subscriber = new Subscriber();
+				var subscription = new Subscription();
+
+				/// <summary>
+				/// subscriber.User = users[1];
+				///
+				/// subscription.User = users[0];
+				/// subscription.User.Name = UserName1;
+				/// </summary>
+
+				subscriber.User = users[(i % 4) + 1];
+				subscriber.User.Subscriptions.Add(subscription);
+
+				subscription.User = users[i];
+				subscription.User.Subscribers.Add(subscriber);
+
+				subscribers.Add(subscriber);
+				subscriptions.Add(subscription);
 
 				articleMainComments[i].Article = articles[i];
 				articleMainComments[i].SubComments.Add(articleSubComments[i]);
@@ -81,6 +100,8 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 			dbContext.Listings.AddRange(listings);
 			dbContext.Tags.AddRange(tags);
 			dbContext.Users.AddRange(users);
+			dbContext.Subscribers.AddRange(subscribers);
+			dbContext.Subscriptions.AddRange(subscriptions);
 			dbContext.ArticleMainComments.AddRange(articleMainComments);
 			dbContext.ListingMainComments.AddRange(listingMainComments);
 			dbContext.ArticleSubComments.AddRange(articleSubComments);

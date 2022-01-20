@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.Entities;
+using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
+using System.Linq;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -65,18 +67,25 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateOrganization(int organizationId, UpdateOrganizationDto organizationDto)
+        public async Task UpdateOrganization(UpdateOrganizationDto organizationDto)
         {
-            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == organizationId);
+            var organization = await _dbContext.Organizations.FirstOrDefaultAsync(x => x.Id == organizationDto.Id);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(organizationId);
+                throw new OrganizationNotFoundException(organizationDto.Id);
             }
 
             organization = _mapper.Map<Organization>(organizationDto);
 
-            _dbContext.Organizations.Update(organization);
+            var local = _dbContext.Organizations.Local.FirstOrDefault(x => x.Id == organization.Id);
+
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(organization).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 

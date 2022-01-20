@@ -24,5 +24,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServiceManager
         IAccountService AccountService { get; }
 
         ITagService TagService { get; }
+
+        ISubscriberService SubscriberService { get; }
     }
 }

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.Base;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Organization
 {
-    public record UpdateOrganizationDto(string Name);
+    public record UpdateOrganizationDto(
+	    int Id,
+	    string Name) : BaseDto(Id);
 }

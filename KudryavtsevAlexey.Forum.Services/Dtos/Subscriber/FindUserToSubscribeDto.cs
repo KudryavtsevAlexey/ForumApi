@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Base;
 
-namespace KudryavtsevAlexey.Forum.Services.Dtos.Tag
+namespace KudryavtsevAlexey.Forum.Services.Dtos.Subscriber
 {
-    public record UpdateTagDto(
-	    int Id,
-	    string Name) : BaseDto(Id);
+	public record FindUserToSubscribeDto(
+		int UserId,
+		int SubscriberId);
 }

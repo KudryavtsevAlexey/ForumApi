@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Domain.Entities;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {
@@ -160,8 +161,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             var articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
-            article.MainComments.Add(articleMainComment);
+
+            articleMainComment.ArticleId = article.Id;
+            articleMainComment.Article = article;
+            articleMainComment.UserId = user.Id;
             articleMainComment.User = user;
+
+            article.MainComments.Add(articleMainComment);
 
             await _dbContext.ArticleMainComments.AddAsync(articleMainComment);
             await _dbContext.SaveChangesAsync();
@@ -184,8 +190,13 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             }
 
             var listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
-            listing.MainComments.Add(listingMainComment);
+
+            listingMainComment.ListingId = listing.Id;
+            listingMainComment.Listing = listing;
+            listingMainComment.UserId = user.Id;
             listingMainComment.User = user;
+
+            listing.MainComments.Add(listingMainComment);
 
             await _dbContext.ListingMainComments.AddAsync(listingMainComment);
             await _dbContext.SaveChangesAsync();
@@ -216,8 +227,11 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var articleSubComment = _mapper.Map<ArticleSubComment>(articleSubCommentDto);
 
+            articleSubComment.ArticleId = article.Id;
             articleSubComment.Article = article;
+            articleSubComment.UserId = user.Id;
             articleSubComment.User = user;
+            articleSubComment.ArticleMainCommentId = articleMainComment.Id;
             articleSubComment.ArticleMainComment = articleMainComment;
 
             await _dbContext.ArticleSubComments.AddAsync(articleSubComment);
@@ -249,72 +263,102 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
             var listingSubComment = _mapper.Map<ListingSubComment>(listingSubCommentDto);
 
+            listingSubComment.ListingId = listing.Id;
             listingSubComment.Listing = listing;
+            listingSubComment.UserId = user.Id;
             listingSubComment.User = user;
+            listingSubComment.ListingMainCommentId = listingMainComment.Id;
             listingSubComment.ListingMainComment = listingMainComment;
 
             await _dbContext.ListingSubComments.AddAsync(listingSubComment);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateArticleMainComment(int articleMainCommentId, UpdateArticleMainCommentDto articleMainCommentDto)
+        public async Task UpdateArticleMainComment(UpdateArticleMainCommentDto articleMainCommentDto)
         {
-            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == articleMainCommentId);
+            var articleMainComment = await _dbContext.ArticleMainComments.FirstOrDefaultAsync(x => x.Id == articleMainCommentDto.Id);
 
             if (articleMainComment is null)
             {
-                throw new ArticleMainCommentNotFoundException(articleMainCommentId);
+                throw new ArticleMainCommentNotFoundException(articleMainCommentDto.Id);
             }
 
             articleMainComment = _mapper.Map<ArticleMainComment>(articleMainCommentDto);
 
-            _dbContext.ArticleMainComments.Update(articleMainComment);
-            await _dbContext.SaveChangesAsync();
+            var local = _dbContext.ArticleMainComments.Local.FirstOrDefault(x => x.Id == articleMainComment.Id);
 
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(articleMainComment).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListingMainComment(int listingMainCommentId, UpdateListingMainCommentDto listingMainCommentDto)
+        public async Task UpdateListingMainComment(UpdateListingMainCommentDto listingMainCommentDto)
         {
-            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == listingMainCommentId);
+            var listingMainComment = await _dbContext.ListingMainComments.FirstOrDefaultAsync(x => x.Id == listingMainCommentDto.Id);
 
             if (listingMainComment is null)
             {
-                throw new ListingMainCommentNotFoundException(listingMainCommentId);
+                throw new ListingMainCommentNotFoundException(listingMainCommentDto.Id);
             }
 
-            listingMainComment.Content = listingMainCommentDto.Content;
+            listingMainComment = _mapper.Map<ListingMainComment>(listingMainCommentDto);
 
-            _dbContext.ListingMainComments.Update(listingMainComment);
+            var local = _dbContext.ListingMainComments.Local.FirstOrDefault(x => x.Id == listingMainComment.Id);
+
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(listingMainComment).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateArticleSubComment(int articleSubCommentId, UpdateArticleSubCommentDto articleSubCommentDto)
+        public async Task UpdateArticleSubComment(UpdateArticleSubCommentDto articleSubCommentDto)
         {
-            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == articleSubCommentId);
+            var articleSubComment = await _dbContext.ArticleSubComments.FirstOrDefaultAsync(x => x.Id == articleSubCommentDto.Id);
 
             if (articleSubComment is null)
             {
-                throw new ArticleSubCommentNotFoundException(articleSubCommentId);
+                throw new ArticleSubCommentNotFoundException(articleSubCommentDto.Id);
             }
 
-            articleSubComment.Content = articleSubCommentDto.Content;
+            articleSubComment = _mapper.Map<ArticleSubComment>(articleSubCommentDto);
 
-            _dbContext.ArticleSubComments.Update(articleSubComment);
+            var local = _dbContext.ArticleSubComments.Local.FirstOrDefault(x => x.Id == articleSubComment.Id);
+
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(articleSubComment).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListingSubComment(int listingSubCommentId, UpdateListingSubCommentDto listingSubCommentDto)
+        public async Task UpdateListingSubComment(UpdateListingSubCommentDto listingSubCommentDto)
         {
-            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == listingSubCommentId);
+            var listingSubComment = await _dbContext.ListingSubComments.FirstOrDefaultAsync(x => x.Id == listingSubCommentDto.Id);
 
             if (listingSubComment is null)
             {
-                throw new ListingSubCommentNotFoundException(listingSubCommentId);
+                throw new ListingSubCommentNotFoundException(listingSubCommentDto.Id);
             }
 
-            listingSubComment.Content = listingSubCommentDto.Content;
+            listingSubComment = _mapper.Map<ListingSubComment>(listingSubCommentDto);
 
-            _dbContext.ListingSubComments.Update(listingSubComment);
+            var local = _dbContext.ListingSubComments.Local.FirstOrDefault(x => x.Id == listingSubComment.Id);
+
+            if (!(local is null))
+            {
+	            _dbContext.Entry(local).State = EntityState.Detached;
+            }
+
+            _dbContext.Entry(listingSubComment).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 

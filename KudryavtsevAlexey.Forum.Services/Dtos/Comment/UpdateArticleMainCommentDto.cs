@@ -9,5 +9,6 @@ using KudryavtsevAlexey.Forum.Services.Dtos.User;
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
     public record UpdateArticleMainCommentDto(
-        string Content);
+        int Id,
+        string Content) : BaseDto(Id);
 }

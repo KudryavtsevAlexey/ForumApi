@@ -10,7 +10,7 @@ public interface ITagService
 
     Task CreateTag(CreateTagDto tagDto);
 
-    Task UpdateTag(int tagId, UpdateTagDto tagDto);
+    Task UpdateTag(UpdateTagDto tagDto);
 
-    Task DeteteTag(int tagId);
+    Task DeleteTag(int tagId);
 }

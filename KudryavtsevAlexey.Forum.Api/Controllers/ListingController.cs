@@ -220,9 +220,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateListing([FromQuery]int id, [FromBody]UpdateListingDto listing)
+        public async Task<IActionResult> UpdateListing([FromBody]UpdateListingDto listing)
         {
-            await _serviceManager.ListingService.UpdateListing(id, listing);
+            await _serviceManager.ListingService.UpdateListing(listing);
 
             return NoContent();
         }

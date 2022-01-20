@@ -34,13 +34,13 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 
         public Task CreateListingSubComment(CreateListingSubCommentDto listingSubCommentDto);
 
-        public Task UpdateArticleMainComment(int articleMainCommentId, UpdateArticleMainCommentDto articleMainCommentDto);
+        public Task UpdateArticleMainComment(UpdateArticleMainCommentDto articleMainCommentDto);
 
-        public Task UpdateListingMainComment(int listingMainCommentId, UpdateListingMainCommentDto listingMainCommentDto);
+        public Task UpdateListingMainComment(UpdateListingMainCommentDto listingMainCommentDto);
 
-        public Task UpdateArticleSubComment(int articleSubCommentId, UpdateArticleSubCommentDto articleSubCommentDto);
+        public Task UpdateArticleSubComment(UpdateArticleSubCommentDto articleSubCommentDto);
 
-        public Task UpdateListingSubComment(int listingSubCommentId, UpdateListingSubCommentDto listingSubCommentDto);
+        public Task UpdateListingSubComment(UpdateListingSubCommentDto listingSubCommentDto);
 
         public Task DeleteArticleMainComment(int articleMainCommentId);
 

@@ -123,21 +123,21 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 
         public async Task CreateListing(CreateListingDto listingDto)
         {
-            var listingToAdding = _mapper.Map<Listing>(listingDto);
+            var listing = _mapper.Map<Listing>(listingDto);
 
             var tags = await _dbContext.Tags.ToListAsync();
             int[] identifiers = tags.Select(x => x.Id).ToArray();
 
             if (!(listingDto.Tags is null))
             {
-                listingToAdding.Tags = new List<Tag>();
+                listing.Tags = new List<Tag>();
                 for (int i = 0; i < listingDto.Tags.Count; i++)
                 {
                     if (identifiers.Contains(listingDto.Tags[i].Id))
                     {
                         int tagId = listingDto.Tags[i].Id;
-                        tags[tagId - 1].Listings = new List<Listing>() { listingToAdding };
-                        listingToAdding.Tags.Add(tags[tagId - 1]);
+                        tags[tagId - 1].Listings = new List<Listing>() { listing };
+                        listing.Tags.Add(tags[tagId - 1]);
                     }
                 }
             }
@@ -157,23 +157,24 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 	            throw new OrganizationNotFoundException(user.OrganizationId);
             }
 
-            user.Listings = new List<Listing>() { listingToAdding };
+            listing.UserId = user.Id;
+            listing.User = user;
 
-            listingToAdding.User = user;
+            user.Listings.Add(listing);
 
-            await _dbContext.Listings.AddAsync(listingToAdding);
+            await _dbContext.Listings.AddAsync(listing);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateListing(int listingId, UpdateListingDto listingDto)
+        public async Task UpdateListing(UpdateListingDto listingDto)
         {
             var listingToUpdating = await _dbContext.Listings
                 .Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == listingId);
+                .FirstOrDefaultAsync(x => x.Id == listingDto.Id);
 
             if (listingToUpdating is null)
             {
-                throw new ArticleNotFoundException(listingId);
+                throw new ArticleNotFoundException(listingDto.Id);
             }
 
             listingToUpdating.Title = listingDto.Title;
