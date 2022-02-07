@@ -1847,3 +1847,9 @@ CREATE TABLE [AspNetRoles] (
 2022-01-14 21:20:16.664 +03:00 [INF] Application starting up
 2022-01-14 21:20:26.516 +03:00 [INF] Application starting up
 2022-01-14 21:20:36.339 +03:00 [INF] Application starting up
+2022-01-29 15:30:25.382 +03:00 [INF] Application starting up
+2022-01-29 15:43:30.320 +03:00 [INF] Application starting up
+2022-01-29 19:57:14.471 +03:00 [INF] Application starting up
+2022-01-31 14:09:44.108 +03:00 [INF] Application starting up
+2022-01-31 20:17:41.912 +03:00 [INF] Application starting up
+2022-01-31 20:17:42.633 +03:00 [WRN] Storing keys in a directory 'C:\Users\ContainerUser\AppData\Local\ASP.NET\DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.

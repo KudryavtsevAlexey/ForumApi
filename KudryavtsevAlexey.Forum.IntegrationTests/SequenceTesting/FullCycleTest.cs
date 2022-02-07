@@ -64,7 +64,6 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.SequenceTesting
 			var createListingMainCommentDto = _dtoGenerator.GetCreateListingMainCommentDto(userId, listingId);
 			var createListingSubCommentDto = _dtoGenerator.GetCreateListingSubCommentDto(userId, listingId, listingMainCommentId);
 
-			// TODO: Json
 			var createTagJson = JsonGenerator.GetStringContent(createTagDto);
 			var createArticleJson = JsonGenerator.GetStringContent(createArticleDto);
 			var createListingJson = JsonGenerator.GetStringContent(createListingDto);
