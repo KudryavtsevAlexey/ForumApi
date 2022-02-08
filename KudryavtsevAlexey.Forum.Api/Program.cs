@@ -25,7 +25,6 @@ public partial class Program
 			.WriteTo.File("Logs.txt")
 			.CreateLogger();
 
-		Log.Information("Application starting up");
 		var host = CreateHostBuilder(args).Build();
 
 		await host.RunAsync();

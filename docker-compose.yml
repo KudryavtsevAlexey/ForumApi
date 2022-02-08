@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "kalexforumapi2022"
+  api:
+    image: forum_api_image
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"

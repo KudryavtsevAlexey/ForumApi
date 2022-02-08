@@ -113,8 +113,7 @@ namespace KudryavtsevAlexey.Forum.Api
 			else
 			{
 				services.AddDbContext<ForumDbContext>(options =>
-					options.UseSqlServer(
-						Configuration.GetConnectionString("ForumDb")));
+					options.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
 			}
 		}
 
@@ -133,7 +132,6 @@ namespace KudryavtsevAlexey.Forum.Api
 				})
 				.AddJwtBearer("Bearer", config =>
 				{
-					//config.Authority = "https://login.microsoftonline.com/common";
 					config.RequireHttpsMetadata = false;
 					config.SaveToken = true;
 					config.TokenValidationParameters = new TokenValidationParameters()

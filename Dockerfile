@@ -1,6 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 80
+EXPOSE 443
 
 WORKDIR /source
 COPY KudryavtsevAlexey.Forum.sln ./
