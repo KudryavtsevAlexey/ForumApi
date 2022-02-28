@@ -1,7 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
+EXPOSE 1433
 
 WORKDIR /source
 COPY KudryavtsevAlexey.Forum.sln ./
@@ -10,29 +10,14 @@ COPY KudryavtsevAlexey.Forum.Infrastructure/KudryavtsevAlexey.Forum.Infrastructu
 COPY KudryavtsevAlexey.Forum.Services/KudryavtsevAlexey.Forum.Services.csproj ./KudryavtsevAlexey.Forum.Services/
 COPY KudryavtsevAlexey.Forum.IntegrationTests/KudryavtsevAlexey.Forum.IntegrationTests.csproj ./KudryavtsevAlexey.Forum.IntegrationTests/
 COPY KudryavtsevAlexey.Forum.Api/KudryavtsevAlexey.Forum.Api.csproj ./KudryavtsevAlexey.Forum.Api/
-RUN dotnet restore
+RUN dotnet restore --disable-parallel
 
 COPY . .
 
-WORKDIR /source/KudryavtsevAlexey.Forum.Domain
-RUN dotnet build -c Release -o /app
-
-WORKDIR /source/KudryavtsevAlexey.Forum.Infrastructure
-RUN dotnet build -c Release -o /app
-
-WORKDIR /source/KudryavtsevAlexey.Forum.Services
-RUN dotnet build -c Release -o /app
-
-WORKDIR /source/KudryavtsevAlexey.Forum.IntegrationTests
-RUN dotnet build -c Release -o /app
-
 WORKDIR /source/KudryavtsevAlexey.Forum.Api
-RUN dotnet build -c Release -o /app
-
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
-COPY --from=build /app .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "KudryavtsevAlexey.Forum.Api.dll"]

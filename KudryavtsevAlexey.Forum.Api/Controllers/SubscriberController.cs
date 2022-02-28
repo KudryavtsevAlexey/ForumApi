@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Subscriber;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
@@ -72,7 +68,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		public async Task<IActionResult> SubscribeUser(FindUserToSubscribeDto findUserToSubscribeDto)
 		{
 			await _serviceManager.SubscriberService.CreateSubscriber(findUserToSubscribeDto);
-
+			
 			return NoContent();
 		}
 
@@ -90,7 +86,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		public async Task<IActionResult> StopSubscribe([FromQuery] int userId, [FromQuery] int subscriberId)
 		{
 			await _serviceManager.SubscriberService.DeleteSubscriber(userId, subscriberId);
-
+			
 			return NoContent();
 		}
 	}

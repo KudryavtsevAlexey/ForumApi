@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Organization;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
@@ -78,6 +74,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="204">If organization created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
+        [AllowAnonymous]
         [Route("create")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

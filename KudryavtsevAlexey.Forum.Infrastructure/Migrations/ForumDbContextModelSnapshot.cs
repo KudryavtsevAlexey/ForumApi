@@ -341,9 +341,6 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("SubscribedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -352,6 +349,24 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Subscribers");
+                });
+
+            modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Tag", b =>
@@ -670,6 +685,17 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Subscription", b =>
+                {
+                    b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.ApplicationUser", "User")
+                        .WithMany("Subscriptions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ListingTag", b =>
                 {
                     b.HasOne("KudryavtsevAlexey.Forum.Domain.Entities.Listing", null)
@@ -743,6 +769,8 @@ namespace KudryavtsevAlexey.Forum.Infrastructure.Migrations
                     b.Navigation("Listings");
 
                     b.Navigation("Subscribers");
+
+                    b.Navigation("Subscriptions");
                 });
 
             modelBuilder.Entity("KudryavtsevAlexey.Forum.Domain.Entities.Article", b =>

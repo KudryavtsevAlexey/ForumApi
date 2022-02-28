@@ -6,6 +6,7 @@ using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 using KudryavtsevAlexey.Forum.Api;
+using KudryavtsevAlexey.Forum.Infrastructure.SeedHelpers;
 
 public partial class Program
 {
@@ -27,6 +28,11 @@ public partial class Program
 
 		var host = CreateHostBuilder(args).Build();
 
+		using (var scope = host.Services.CreateScope())
+		{
+			await scope.ServiceProvider.DatabaseMigrateAsync();
+		}
+		
 		await host.RunAsync();
 
 		static IHostBuilder CreateHostBuilder(string[] args) =>

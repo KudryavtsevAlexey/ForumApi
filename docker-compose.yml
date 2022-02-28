@@ -1,15 +1,28 @@
 version: "3.4"
 
 services:
-  mssql-server:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "kalexforumapi2022"
-  api:
-    image: forum_api_image
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
+    mssql-server:
+        container_name: "mssql-server"
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment:
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "KAlex_forum_api2022!"
+            MSSQL_PID: Express
+        ports:
+            - "1433:1433"
+        volumes:
+            - data:/var/opt/mssql
+    
+    api:
+        container_name: "api"
+        image: api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8000:80"
+        depends_on:
+            - mssql-server
+volumes: 
+    data:
+  

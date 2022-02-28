@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using KudryavtsevAlexey.Forum.Services.Dtos;
-using KudryavtsevAlexey.Forum.Services.ServiceManager;
+﻿using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +7,7 @@ using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Api.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("api/account")]
     public class AccountController : ControllerBase
     {
@@ -57,7 +53,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 	            return BadRequest();
             }
 
-            return NoContent();
+            return Ok(token);
         }
 
         /// <summary>

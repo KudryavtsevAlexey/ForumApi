@@ -1906,3 +1906,24 @@ Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Ambiguous HTTP meth
 2022-02-08 12:45:11.815 +03:00 [INF] Application starting up
 2022-02-08 12:45:29.908 +03:00 [INF] HTTP GET /api/account/value responded 200 in 914.2448 ms
 2022-02-08 12:45:30.024 +03:00 [INF] HTTP GET /favicon.ico responded 404 in 0.5452 ms
+2022-02-25 17:41:43.342 +03:00 [ERR] Failed executing DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [ForumDb];
+2022-02-25 17:48:22.165 +03:00 [INF] HTTP GET /api/organization/find/name?organizationName=OrganizationName1 responded 401 in 124.3657 ms
+2022-02-25 17:52:00.779 +03:00 [INF] HTTP POST /api/account/register responded 404 in 8.9194 ms
+2022-02-25 17:52:29.596 +03:00 [INF] HTTP POST /api/account/register responded 404 in 2.3078 ms
+2022-02-25 17:53:01.397 +03:00 [INF] HTTP POST /api/account/registration responded 204 in 1787.1708 ms
+2022-02-25 17:55:13.494 +03:00 [INF] HTTP POST /api/account/sign-in responded 204 in 2189.0078 ms
+2022-02-25 17:55:59.479 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 167.8539 ms
+2022-02-25 17:56:33.593 +03:00 [INF] HTTP POST /api/organization/find/name?organizationName=organizationName1 responded 405 in 114.0590 ms
+2022-02-25 17:56:38.059 +03:00 [INF] HTTP GET /api/organization/find/name?organizationName=organizationName1 responded 200 in 231.6782 ms
+2022-02-28 15:37:35.213 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [AspNetRoles] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+2022-02-28 15:40:57.625 +03:00 [INF] HTTP POST /api/account/registration responded 204 in 7446.0181 ms
+2022-02-28 15:41:31.255 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 664.9037 ms
+2022-02-28 15:42:05.152 +03:00 [INF] HTTP POST /api/organization/create responded 204 in 142.3174 ms
