@@ -114,7 +114,7 @@ namespace KudryavtsevAlexey.Forum.Api
 			else
 			{
 				services.AddDbContext<ForumDbContext>(options =>
-					options.UseSqlServer(Configuration.GetConnectionString("ForumDbLocal")));
+					options.UseSqlServer(Configuration.GetConnectionString("ForumDb")));
 			}
 		}
 

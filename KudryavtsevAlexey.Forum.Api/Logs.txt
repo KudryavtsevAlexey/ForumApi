@@ -1927,3 +1927,39 @@ CREATE TABLE [AspNetRoles] (
 2022-02-28 15:40:57.625 +03:00 [INF] HTTP POST /api/account/registration responded 204 in 7446.0181 ms
 2022-02-28 15:41:31.255 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 664.9037 ms
 2022-02-28 15:42:05.152 +03:00 [INF] HTTP POST /api/organization/create responded 204 in 142.3174 ms
+2022-02-28 16:07:28.826 +03:00 [INF] HTTP POST /api/account/registration responded 204 in 1657.4492 ms
+2022-02-28 16:07:47.299 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 618.7335 ms
+2022-02-28 16:08:08.926 +03:00 [ERR] Object reference not set to an instance of an object.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at KudryavtsevAlexey.Forum.Services.Validation.BaseValidators.EmailValidator`1.IsValid(ValidationContext`1 context, String email) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Services\Validation\BaseValidators\EmailValidator.cs:line 17
+   at FluentValidation.Internal.RuleComponent`2.Validate(ValidationContext`1 context, TProperty value) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation/Internal/RuleComponent.cs:line 98
+   at FluentValidation.Internal.PropertyRule`2.InvokePropertyValidator(ValidationContext`1 context, Lazy`1 accessor, String propertyName, RuleComponent`2 component) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation/Internal/PropertyRule.cs:line 255
+   at FluentValidation.Internal.PropertyRule`2.Validate(ValidationContext`1 context) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation/Internal/PropertyRule.cs:line 128
+   at FluentValidation.AbstractValidator`1.Validate(ValidationContext`1 context) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation/AbstractValidator.cs:line 96
+   at FluentValidation.AbstractValidator`1.FluentValidation.IValidator.Validate(IValidationContext context) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation/AbstractValidator.cs:line 48
+   at FluentValidation.AspNetCore.FluentValidationModelValidator.Validate(ModelValidationContext mvContext) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation.AspNetCore/FluentValidationModelValidatorProvider.cs:line 113
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.ValidateNode()
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitComplexType(IValidationStrategy defaultStrategy)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.VisitImplementation(ModelMetadata& metadata, String& key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Visit(ModelMetadata metadata, String key, Object model)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.Validation.ValidationVisitor.Validate(ModelMetadata metadata, String key, Object model, Boolean alwaysValidateAtTopLevel, Object container)
+   at FluentValidation.AspNetCore.FluentValidationVisitor.<>n__1(ModelMetadata metadata, String key, Object model, Boolean alwaysValidateAtTopLevel, Object container)
+   at FluentValidation.AspNetCore.FluentValidationVisitor.<>c__DisplayClass2_0.<Validate>g__BaseValidate|0() in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation.AspNetCore/FluentValidationVisitor.cs:line 44
+   at FluentValidation.AspNetCore.FluentValidationVisitor.ValidateInternal(ModelMetadata metadata, String key, Object model, Func`1 continuation) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation.AspNetCore/FluentValidationVisitor.cs:line 62
+   at FluentValidation.AspNetCore.FluentValidationVisitor.Validate(ModelMetadata metadata, String key, Object model, Boolean alwaysValidateAtTopLevel, Object container) in /media/jskinner/Linux2/code/FluentValidation/src/FluentValidation.AspNetCore/FluentValidationVisitor.cs:line 46
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ObjectModelValidator.Validate(ActionContext actionContext, ValidationStateDictionary validationState, String prefix, Object model, ModelMetadata metadata, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.EnforceBindRequiredAndValidate(ObjectModelValidator baseObjectValidator, ActionContext actionContext, ParameterDescriptor parameter, ModelMetadata metadata, ModelBindingContext modelBindingContext, ModelBindingResult modelBindingResult, Object container)
+   at Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder.BindModelAsync(ActionContext actionContext, IModelBinder modelBinder, IValueProvider valueProvider, ParameterDescriptor parameter, ModelMetadata metadata, Object value, Object container)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerBinderDelegateProvider.<>c__DisplayClass0_0.<<CreateBinderDelegate>g__Bind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at KudryavtsevAlexey.Forum.Api.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext httpContext, RequestDelegate next) in C:\Users\Lenovo\source\repos\KudryavtsevAlexey.Forum\KudryavtsevAlexey.Forum.Api\Middlewares\ExceptionHandlingMiddleware.cs:line 21
+2022-02-28 16:08:09.304 +03:00 [ERR] HTTP POST /api/account/sign-in responded 500 in 474.2743 ms
+2022-02-28 16:08:19.888 +03:00 [INF] HTTP POST /api/organization/create responded 204 in 39.2006 ms
+2022-02-28 17:18:58.283 +03:00 [INF] HTTP POST /api/account/registration responded 204 in 1475.9631 ms
+2022-02-28 17:19:18.453 +03:00 [INF] HTTP POST /api/account/sign-in responded 200 in 376.4725 ms
+2022-02-28 17:19:43.249 +03:00 [INF] HTTP POST /api/organization/create responded 204 in 92.6350 ms

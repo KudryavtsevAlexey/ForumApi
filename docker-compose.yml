@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
     mssql-server:
-        container_name: "mssql-server"
+        container_name: "mssql"
         image: mcr.microsoft.com/mssql/server:2019-latest
         environment:
             ACCEPT_EULA: "Y"
@@ -14,7 +14,7 @@ services:
             - data:/var/opt/mssql
     
     api:
-        container_name: "api"
+        container_name: "forumapi"
         image: api
         build:
             context: .
@@ -23,6 +23,7 @@ services:
             - "8000:80"
         depends_on:
             - mssql-server
+#Connection string: "Server=mssql-server,1433; Database=ForumApiDocker; User ID=sa; Password=KAlex_forum_api2022!"  
 volumes: 
     data:
   
