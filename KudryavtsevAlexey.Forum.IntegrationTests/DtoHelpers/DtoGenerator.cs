@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;

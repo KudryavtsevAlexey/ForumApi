@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
@@ -7,10 +6,8 @@ using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Domain.Entities;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {

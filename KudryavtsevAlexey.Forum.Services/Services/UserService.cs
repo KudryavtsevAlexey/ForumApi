@@ -7,10 +7,7 @@ using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using System.Linq;
-using Microsoft.AspNetCore.Identity;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
 {

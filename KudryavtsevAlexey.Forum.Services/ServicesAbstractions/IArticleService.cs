@@ -1,5 +1,4 @@
-﻿using KudryavtsevAlexey.Forum.Domain.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Article;
 

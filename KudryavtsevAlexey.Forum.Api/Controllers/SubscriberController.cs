@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.Services.Dtos.Subscriber;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,10 +19,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		}
 
 		[HttpGet]
-		[Route("find")]
+		[Route("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> GetSubscriberById([FromQuery] int id)
+		public async Task<IActionResult> GetSubscriberById([FromRoute] int id)
 		{
 			var subscriber = await _serviceManager.SubscriberService.GetSubscriberById(id);
 
@@ -38,11 +37,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		/// <response code="401">If user not authorized</response>
 		/// <response code="404">If subscribers not found</response>
 		[HttpGet]
-		[Route("find/subscribers")]
+		[Route("{id}/subscribers")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> GetUserSubscribers([FromQuery] int id)
+		public async Task<IActionResult> GetUserSubscribers([FromRoute] int id)
 		{
 			var subscribers = await _serviceManager.UserService.GetUserSubscribers(id);
 
@@ -62,12 +61,12 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		/// <response code="401">If user not authorized</response>
 		/// <response code="404">If user or subscriber not found</response>
 		[HttpPost]
-		[Route("sub")]
+		[Route("start-sub")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> SubscribeUser(FindUserToSubscribeDto findUserToSubscribeDto)
+		public async Task<IActionResult> SubscribeUser([FromQuery(Name = "u")] int userId, [FromQuery(Name = "s")] int subscriberId)
 		{
-			await _serviceManager.SubscriberService.CreateSubscriber(findUserToSubscribeDto);
+			await _serviceManager.SubscriberService.CreateSubscriber(userId, subscriberId);
 			
 			return NoContent();
 		}
@@ -80,10 +79,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		/// <response code="401">If user not authorized</response>
 		/// <response code="404">If subscriber user or subscriber not found</response>
 		[HttpDelete]
-		[Route("unsub")]
+		[Route("stop-sub")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> StopSubscribe([FromQuery] int userId, [FromQuery] int subscriberId)
+		public async Task<IActionResult> StopSubscribe([FromQuery(Name = "u")] int userId, [FromQuery(Name = "s")] int subscriberId)
 		{
 			await _serviceManager.SubscriberService.DeleteSubscriber(userId, subscriberId);
 			

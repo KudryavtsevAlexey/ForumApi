@@ -1,17 +1,10 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
-using WebMotions.Fake.Authentication.JwtBearer;
 
 namespace KudryavtsevAlexey.Forum.IntegrationTests.WebApplicationFactory
 {

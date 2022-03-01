@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Validators;
 
 namespace KudryavtsevAlexey.Forum.Services.Validation.BaseValidators

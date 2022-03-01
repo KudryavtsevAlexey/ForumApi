@@ -2,11 +2,8 @@
 using KudryavtsevAlexey.Forum.Api;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
-using KudryavtsevAlexey.Forum.IntegrationTests.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KudryavtsevAlexey.Forum.IntegrationTests.GlobalTestConfiguration

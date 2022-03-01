@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Domain.Entities;
@@ -36,25 +35,25 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 			return subscriberDto;
 		}
 
-		public async Task CreateSubscriber(FindUserToSubscribeDto findUserToSubscribeDto)
+		public async Task CreateSubscriber(int userId, int subscriberId)
 		{
-			if (findUserToSubscribeDto.UserId == findUserToSubscribeDto.SubscriberId)
+			if (userId == subscriberId)
 			{
-				throw new SameUserIdentifiersException(findUserToSubscribeDto.UserId, findUserToSubscribeDto.SubscriberId);
+				throw new SameUserIdentifiersException(userId, subscriberId);
 			}
 
-			var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == findUserToSubscribeDto.UserId);
+			var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
 			if (user is null)
 			{
-				throw new UserNotFoundException(findUserToSubscribeDto.UserId);
+				throw new UserNotFoundException(userId);
 			}
 
-			var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == findUserToSubscribeDto.SubscriberId);
+			var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == subscriberId);
 
 			if (subscriber is null)
 			{
-				throw new UserNotFoundException(findUserToSubscribeDto.SubscriberId);
+				throw new UserNotFoundException(subscriberId);
 			}
 
 			var newSubscriber = _mapper.Map<Subscriber>(subscriber);

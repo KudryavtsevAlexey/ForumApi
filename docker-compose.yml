@@ -22,8 +22,7 @@ services:
         ports:
             - "8000:80"
         depends_on:
-            - mssql-server
-#Connection string: "Server=mssql-server,1433; Database=ForumApiDocker; User ID=sa; Password=KAlex_forum_api2022!"  
+            - mssql-server  
 volumes: 
     data:
   

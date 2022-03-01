@@ -1,8 +1,6 @@
-﻿using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace KudryavtsevAlexey.Forum.Domain.Entities
 {

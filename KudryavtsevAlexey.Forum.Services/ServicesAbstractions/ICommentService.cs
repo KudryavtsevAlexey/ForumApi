@@ -1,10 +1,6 @@
-﻿using System;
-using KudryavtsevAlexey.Forum.Domain.Entities;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Services.Dtos.Comment;
-using Microsoft.Identity.Client;
 
 namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 {

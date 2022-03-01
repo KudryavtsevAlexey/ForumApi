@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using KudryavtsevAlexey.Forum.Domain.Entities;
+﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KudryavtsevAlexey.Forum.Infrastructure.Database
 {

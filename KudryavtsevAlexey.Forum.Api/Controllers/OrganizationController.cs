@@ -27,13 +27,13 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpGet]
-        [Route("find/name")]
+        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationByName([FromQuery]string organizationName)
+        public async Task<IActionResult> GetOrganizationByName([FromRoute] int id)
         {
-            var organization = await _serviceManager.OrganizationService.GetOrganizationByName(organizationName);
+            var organization = await _serviceManager.OrganizationService.GetOrganizationById(id);
 
             if (organization is null)
             {
@@ -51,13 +51,13 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization users not found</response>
         [HttpGet]
-        [Route("find/users")]
+        [Route("{id}/users")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetOrganizationUsers([FromQuery]string organizationName)
+        public async Task<IActionResult> GetOrganizationUsers([FromRoute] int id)
         {
-            var organizationUsers = await _serviceManager.OrganizationService.GetOrganizationUsers(organizationName);
+            var organizationUsers = await _serviceManager.OrganizationService.GetOrganizationUsers(id);
 
             if (organizationUsers is null)
             {
@@ -74,7 +74,6 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="204">If organization created</response>
         /// <response code="401">If user not authorized</response>
         [HttpPost]
-        [AllowAnonymous]
         [Route("create")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -112,7 +111,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If organization not found</response>
         [HttpDelete]
-        [Route("{id}/delete")]
+        [Route("delete/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

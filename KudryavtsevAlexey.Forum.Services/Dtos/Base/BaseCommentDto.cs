@@ -1,6 +1,4 @@
-﻿using KudryavtsevAlexey.Forum.Services.Dtos.User;
-using System;
-using System.Data;
+﻿using System;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Base
 {

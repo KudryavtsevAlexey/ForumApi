@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using KudryavtsevAlexey.Forum.Domain.CustomExceptions;
 using KudryavtsevAlexey.Forum.Infrastructure.Database;
-using KudryavtsevAlexey.Forum.Services.Dtos.Article;
-using KudryavtsevAlexey.Forum.Services.Dtos.Listing;
 using KudryavtsevAlexey.Forum.Services.Dtos.Organization;
 using KudryavtsevAlexey.Forum.Services.Dtos.User;
 using KudryavtsevAlexey.Forum.Services.ServicesAbstractions;
@@ -10,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.Entities;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 using System.Linq;
 
 namespace KudryavtsevAlexey.Forum.Services.Services
@@ -27,14 +24,14 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<OrganizationDto> GetOrganizationByName(string organizationName)
+        public async Task<OrganizationDto> GetOrganizationById(int id)
         {
             var organization = await _dbContext.Organizations
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(organizationName);
+                throw new OrganizationNotFoundException(id);
             }
 
             var organizationDto = _mapper.Map<OrganizationDto>(organization);
@@ -42,16 +39,16 @@ namespace KudryavtsevAlexey.Forum.Services.Services
             return organizationDto;
         }
 
-        public async Task<List<ApplicationUserDto>> GetOrganizationUsers(string organizationName)
+        public async Task<List<ApplicationUserDto>> GetOrganizationUsers(int id)
         {
             var organization = await _dbContext.Organizations
                 .Include(x => x.Users)
                 .ThenInclude(x => x.Organization)
-                .FirstOrDefaultAsync(x => x.Name.ToLower() == organizationName.ToLower());
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (organization is null)
             {
-                throw new OrganizationNotFoundException(organizationName);
+                throw new OrganizationNotFoundException(id);
             }
 
             var organizationUsersDtos = _mapper.Map<List<ApplicationUserDto>>(organization.Users);

@@ -27,11 +27,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If article not found</response>
         [HttpGet]
-        [Route("find/id")]
+        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticleById([FromQuery]int id)
+        public async Task<IActionResult> GetArticleById([FromRoute]int id)
         {
             var article = await _serviceManager.ArticleService.GetArticleById(id);
 
@@ -46,7 +46,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("published")]
+        [Route("all/published")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,7 +70,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("by-date")]
+        [Route("all/newest")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,11 +94,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If article not found</response>
         [HttpGet]
-        [Route("published/find/id")]
+        [Route("published/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticleById([FromQuery]int id)
+        public async Task<IActionResult> GetPublishedArticleById([FromRoute]int id)
         {
             var article = await _serviceManager.ArticleService.GetPublishedArticleById(id);
 
@@ -113,11 +113,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("find/userId")]
+        [Route("all/user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetArticlesByUserId([FromQuery]int id)
+        public async Task<IActionResult> GetArticlesByUserId([FromRoute]int id)
         {
             var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
@@ -137,11 +137,11 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("find/userId/published")]
+        [Route("published/user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetPublishedArticlesByUserId([FromQuery]int id)
+        public async Task<IActionResult> GetPublishedArticlesByUserId([FromRoute]int id)
         {
             var articles = await _serviceManager.ArticleService.GetPublishedArticlesByUserId(id);
 
@@ -161,37 +161,13 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If articles not found</response>
         [HttpGet]
-        [Route("find/userId/unpublished")]
+        [Route("unpublished/user/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUnpublishedArticlesByUserId([FromQuery]int id)
+        public async Task<IActionResult> GetUnpublishedArticlesByUserId([FromRoute]int id)
         {
             var articles = await _serviceManager.ArticleService.GetUnpublishedArticlesByUserId(id);
-
-            if (articles.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(articles);
-        }
-
-        /// <summary>
-        /// Returns all articles by user
-        /// </summary>
-        /// <returns>All articles by user</returns>
-        /// <response code="200">Returns articles</response>
-        /// <response code="401">If user not authorized</response>
-        /// <response code="404">If articles not found</response>
-        [HttpGet]
-        [Route("find/userId/all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllArticlesByUserId([FromQuery]int id)
-        {
-            var articles = await _serviceManager.ArticleService.GetArticlesByUserId(id);
 
             if (articles.Count == 0)
             {
@@ -243,7 +219,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="401">If user not authorized</response>
         /// <response code="404">If user not found</response>
         [HttpDelete]
-        [Route("{id}/delete")]
+        [Route("delete/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

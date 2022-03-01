@@ -1,6 +1,5 @@
 ﻿using KudryavtsevAlexey.Forum.Domain.Entities;
 using System.Collections.Generic;
-using KudryavtsevAlexey.Forum.Domain.Entities.Comments;
 
 namespace KudryavtsevAlexey.Forum.IntegrationTests.DataHelpers
 {

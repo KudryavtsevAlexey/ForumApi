@@ -3,8 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using KudryavtsevAlexey.Forum.Domain.BaseExceptions;
-using Microsoft.AspNetCore.Mvc;
-using ILogger = Serilog.ILogger;
 
 namespace KudryavtsevAlexey.Forum.Api.Middlewares
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using KudryavtsevAlexey.Forum.Domain.Entities;
 using KudryavtsevAlexey.Forum.Services.Dtos.Base;
 using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 

@@ -26,10 +26,10 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="200">Returns tag</response>
         /// <response code="404">If tag not found</response>
         [HttpGet]
-        [Route("find/id")]
+        [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetTagById([FromQuery]int id)
+        public async Task<IActionResult> GetTagById([FromRoute]int id)
         {
             var tag = await _serviceManager.TagService.GetTagById(id);
 
@@ -96,7 +96,7 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
         /// <response code="204">If tag deleted</response>
         /// <response code="404">If tag not found</response>
         [HttpDelete]
-        [Route("{id}/delete")]
+        [Route("delete/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTag([FromRoute]int id)

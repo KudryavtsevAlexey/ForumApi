@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using KudryavtsevAlexey.Forum.Api;
@@ -10,12 +9,10 @@ using KudryavtsevAlexey.Forum.Infrastructure.Database;
 using KudryavtsevAlexey.Forum.IntegrationTests.DtoHelpers;
 using KudryavtsevAlexey.Forum.IntegrationTests.Extensions;
 using KudryavtsevAlexey.Forum.IntegrationTests.WebApplicationFactory;
-using KudryavtsevAlexey.Forum.Services.Dtos.Organization;
 using KudryavtsevAlexey.Forum.Services.Dtos.Tag;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests

@@ -15,8 +15,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.JsonWebTokens;
-using JwtConstants = Microsoft.IdentityModel.JsonWebTokens.JwtConstants;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace KudryavtsevAlexey.Forum.Services.Services

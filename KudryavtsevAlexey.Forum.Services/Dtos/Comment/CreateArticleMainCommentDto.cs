@@ -1,6 +1,5 @@
 ﻿using System;
 using KudryavtsevAlexey.Forum.Services.Dtos.Base;
-using KudryavtsevAlexey.Forum.Services.Dtos.User;
 
 namespace KudryavtsevAlexey.Forum.Services.Dtos.Comment
 {
