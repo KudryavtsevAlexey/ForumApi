@@ -42,34 +42,34 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/organization/create", "api/organization/", "api/organization/update", "api/organization/delete/")]
 		public async Task OrganizationCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var createOrganizationDto = _dtoGenerator.GetCreateOrganizationDto();
 			var createOrganizationJson = JsonGenerator.GetStringContent(createOrganizationDto);
 			
-			var organizationId = _dbContext.Organizations.Last().Id + 1;
-
-			var updateOrganizationDto = _dtoGenerator.GetUpdateOrganizationDto(organizationId);
-			var updateOrganizationJson = JsonGenerator.GetStringContent(updateOrganizationDto);
-
-			// act
 			var countBeforeCreate = _dbContext.Organizations.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createOrganizationJson);
 			var countAfterCreate = _dbContext.Organizations.Count();
-
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var organizationId = _dbContext.Organizations.Last().Id;
+			
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{organizationId}");
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateOrganizationDto = _dtoGenerator.GetUpdateOrganizationDto(organizationId);
+			var updateOrganizationJson = JsonGenerator.GetStringContent(updateOrganizationDto);
+			
 			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateOrganizationJson);
+			
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
 
 			var countBeforeDelete = _dbContext.Organizations.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{organizationId}");
 			var countAfterDelete = _dbContext.Organizations.Count();
-			
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -78,46 +78,43 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/article/create", "api/article/", "api/article/update", "api/article/delete/")]
 		public async Task ArticleCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var createArticleDto = _dtoGenerator.GetCreateArticleDto();
 			var createArticleJson = JsonGenerator.GetStringContent(createArticleDto);
 
-			var articleId = _dbContext.Articles.Last().Id + 1;
-
-			var updateArticleDto = _dtoGenerator.GetUpdateArticleDto(createArticleDto, articleId);
-			var updateArticleJson = JsonGenerator.GetStringContent(updateArticleDto);
-
-			// act
 			var countBeforeCreate = _dbContext.Articles.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleJson);
 			var countAfterCreate = _dbContext.Articles.Count();
-
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var articleId = _dbContext.Articles.Last().Id;
+			
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleJson);
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateArticleDto = _dtoGenerator.GetUpdateArticleDto(createArticleDto, articleId);
+			var updateArticleJson = JsonGenerator.GetStringContent(updateArticleDto);
 
-			// arrange
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleJson);
+
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var article = await _dbContext.Articles
 				.Include(x => x.Tags)
 				.ThenInclude(x => x.Articles)
 				.LastAsync();
 			
-			// assert
-			Assert.True(article.UserId > 0);
-			Assert.True(article.Tags.Count > 0);
-			Assert.True(article.Tags.First().Articles.Count > 0);
-
-			// act
 			var countBeforeDelete = _dbContext.Articles.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleId}");
 			var countAfterDelete = _dbContext.Articles.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(article.UserId > 0);
+			Assert.True(article.Tags.Count > 0);
+			Assert.True(article.Tags.First().Articles.Count > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -126,51 +123,48 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/listing/create", "api/listing/", "api/listing/update", "api/listing/delete/")]
 		public async Task ListingCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var createListingDto = _dtoGenerator.GetCreateListingDto();
 			var createListingJson = JsonGenerator.GetStringContent(createListingDto);
 
+			var countBeforeCreate = _dbContext.Listings.Count();
+			var postResponseMessage = await _client.PostAsync(createUrl, createListingJson);
+			var countAfterCreate = _dbContext.Listings.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var listingId = _dbContext.Listings.Last().Id;
+			
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingId}");
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
 			var updatedTag = _dbContext.Tags.First();
 			var updatedTagDto = _mapper.Map<TagDto>(updatedTag);
 
 			var tagList = new List<TagDto>() {updatedTagDto};
 
-			var listingId = _dbContext.Listings.Last().Id + 1;
-
 			var updateListingDto = _dtoGenerator.GetUpdateListingDto(listingId, tagList);
 			var updateListingJson = JsonGenerator.GetStringContent(updateListingDto);
-
-			// act
-			var countBeforeCreate = _dbContext.Listings.Count();
-			var postResponseMessage = await _client.PostAsync(createUrl, createListingJson);
-			var countAfterCreate = _dbContext.Listings.Count();
-
-			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingJson);
-
-			// arrange
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingJson);
+			
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var listing = await _dbContext.Listings
 				.Include(x => x.Tags)
 				.ThenInclude(x => x.Listings)
 				.LastAsync();
 
-			// assert
-			Assert.True(listing.UserId > 0);
-			Assert.True(listing.Tags.Count > 0);
-			Assert.True(listing.Tags.First().Listings.Count > 0);
-
-			// act
 			var countBeforeDelete = _dbContext.Listings.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingId}");
 			var countAfterDelete = _dbContext.Listings.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(listing.UserId > 0);
+			Assert.True(listing.Tags.Count > 0);
+			Assert.True(listing.Tags.First().Listings.Count > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -179,34 +173,35 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/tag/create", "api/tag/", "api/tag/update", "api/tag/delete/")]
 		public async Task TagCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var createTagDto = _dtoGenerator.GetCreateTagDto();
 			var createTagJson = JsonGenerator.GetStringContent(createTagDto);
 
-			var tagId = _dbContext.Tags.Last().Id + 1;
-
-			var updateTagDto = _dtoGenerator.GetUpdateTagDto(tagId);
-			var updateTagJson = JsonGenerator.GetStringContent(updateTagDto);
-
-			// act
 			var countBeforeCreate = _dbContext.Tags.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createTagJson);
 			var countAfterCreate = _dbContext.Tags.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var tagId = _dbContext.Tags.Last().Id;
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{tagId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateTagJson);
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateTagDto = _dtoGenerator.GetUpdateTagDto(tagId);
+			var updateTagJson = JsonGenerator.GetStringContent(updateTagDto);
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateTagJson);
 
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var countBeforeDelete = _dbContext.Tags.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{tagId}");
 			var countAfterDelete = _dbContext.Tags.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -215,45 +210,42 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/comment/article-comment/create", "api/comment/article-comment/", "api/comment/article-comment/update", "api/comment/article-comment/delete/")]
 		public async Task ArticleMainCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var createArticleMainCommentDto = _dtoGenerator.GetCreateArticleMainCommentDto();
 			var createArticleMainCommentJson = JsonGenerator.GetStringContent(createArticleMainCommentDto);
 
-			var articleMainCommentId = _dbContext.ArticleMainComments.Last().Id + 1;
-
-			var updateArticleMainCommentDto = _dtoGenerator.GetUpdateArticleMainCommentDto(articleMainCommentId);
-			var updateArticleMainCommentJson = JsonGenerator.GetStringContent(updateArticleMainCommentDto);
-
-			// act
 			var countBeforeCreate = _dbContext.ArticleMainComments.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleMainCommentJson);
 			var countAfterCreate = _dbContext.ArticleMainComments.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var articleMainCommentId = _dbContext.ArticleMainComments.Last().Id;
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleMainCommentId}");
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateArticleMainCommentDto = _dtoGenerator.GetUpdateArticleMainCommentDto(articleMainCommentId);
+			var updateArticleMainCommentJson = JsonGenerator.GetStringContent(updateArticleMainCommentDto);
+			
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleMainCommentJson);
-
-			// arrange
+			
+			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
 			var lastArticleMainComment = await _dbContext.ArticleMainComments
 				.Include(x => x.Article)
 				.Include(x => x.User)
 				.LastAsync();
-
-			// assert
-			Assert.True(lastArticleMainComment.ArticleId > 0);
-			Assert.True(lastArticleMainComment.UserId > 0);
-
-			// act
+			
 			var countBeforeDelete = _dbContext.ArticleMainComments.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleMainCommentId}");
 			var countAfterDelete = _dbContext.ArticleMainComments.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(lastArticleMainComment.ArticleId > 0);
+			Assert.True(lastArticleMainComment.UserId > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -262,7 +254,6 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/comment/listing-comment/create", "api/comment/listing-comment/", "api/comment/listing-comment/update", "api/comment/listing-comment/delete/")]
 		public async Task ListingMainCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var userId = _dbContext.Users.First().Id;
@@ -271,40 +262,37 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var createListingMainCommentDto = _dtoGenerator.GetCreateListingMainCommentDto(userId, listingId);
 			var createListingMainCommentJson = JsonGenerator.GetStringContent(createListingMainCommentDto);
 
-			var listingMainCommentId = _dbContext.ListingMainComments.Last().Id + 1;
-
-			var updateListingMainCommentDto = _dtoGenerator.GetUpdateListingMainCommentDto(listingMainCommentId);
-				
-			var updateListingMainCommentJson = JsonGenerator.GetStringContent(updateListingMainCommentDto);
-
-			// act
 			var countBeforeCreate = _dbContext.ListingMainComments.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createListingMainCommentJson);
 			var countAfterCreate = _dbContext.ListingMainComments.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var listingMainCommentId = _dbContext.ListingMainComments.Last().Id;
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingMainCommentId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingMainCommentJson);
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateListingMainCommentDto = _dtoGenerator.GetUpdateListingMainCommentDto(listingMainCommentId);
+			var updateListingMainCommentJson = JsonGenerator.GetStringContent(updateListingMainCommentDto);
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingMainCommentJson);
 
-			// arrange
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var lastListingMainComment = await _dbContext.ListingMainComments
 				.Include(x => x.Listing)
 				.Include(x => x.User)
 				.LastAsync();
-
-			// assert
-			Assert.True(lastListingMainComment.ListingId > 0);
-			Assert.True(lastListingMainComment.UserId > 0);
-
-			// act
+			
 			var countBeforeDelete = _dbContext.ListingMainComments.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingMainCommentId}");
 			var countAfterDelete = _dbContext.ListingMainComments.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(lastListingMainComment.ListingId > 0);
+			Assert.True(lastListingMainComment.UserId > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -313,7 +301,6 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/comment/article-subcomment/create", "api/comment/article-subcomment/", "api/comment/article-subcomment/update", "api/comment/article-subcomment/delete/")]
 		public async Task ArticleSubCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var userId = _dbContext.Users.First().Id;
@@ -323,41 +310,39 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var createArticleSubCommentDto = _dtoGenerator.GetCreateArticleSubCommentDto(userId, articleId, articleMainCommentId);
 			var createArticleSubCommentJson = JsonGenerator.GetStringContent(createArticleSubCommentDto);
 
-			var articleSubCommentId = _dbContext.ArticleSubComments.Last().Id + 1;
-
-			var updateArticleSubCommentDto = _dtoGenerator.GetUpdateArticleSubCommentDto(articleSubCommentId);
-			var updateArticleSubCommentJson = JsonGenerator.GetStringContent(updateArticleSubCommentDto);
-
-			// act
 			var countBeforeCreate = _dbContext.ArticleSubComments.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleSubCommentJson);
 			var countAfterCreate = _dbContext.ArticleSubComments.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var articleSubCommentId = _dbContext.ArticleSubComments.Last().Id;
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleSubCommentId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleSubCommentJson);
-
-			// arrange
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateArticleSubCommentDto = _dtoGenerator.GetUpdateArticleSubCommentDto(articleSubCommentId);
+			var updateArticleSubCommentJson = JsonGenerator.GetStringContent(updateArticleSubCommentDto);
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleSubCommentJson);
+			
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var lastArticleSubComment = await _dbContext.ArticleSubComments
 				.Include(x => x.Article)
 				.Include(x => x.User)
 				.Include(x => x.ArticleMainComment)
 				.LastAsync();
-
-			// assert
-			Assert.True(lastArticleSubComment.ArticleId > 0);
-			Assert.True(lastArticleSubComment.ArticleMainCommentId > 0);
-			Assert.True(lastArticleSubComment.UserId > 0);
-
-			// act
+			
 			var countBeforeDelete = _dbContext.ArticleSubComments.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleSubCommentId}");
 			var countAfterDelete = _dbContext.ArticleSubComments.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(lastArticleSubComment.ArticleId > 0);
+			Assert.True(lastArticleSubComment.ArticleMainCommentId > 0);
+			Assert.True(lastArticleSubComment.UserId > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -366,7 +351,6 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/comment/listing-subcomment/create", "api/comment/listing-subcomment/", "api/comment/listing-subcomment/update", "api/comment/listing-subcomment/delete/")]
 		public async Task ListingSubCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			await _client.Register();
 
 			var userId = _dbContext.Users.Last().Id;
@@ -376,41 +360,39 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var createListingSubCommentDto = _dtoGenerator.GetCreateListingSubCommentDto(userId, listingId, listingMainCommentId);
 			var createListingSubCommentJson = JsonGenerator.GetStringContent(createListingSubCommentDto);
 
-			var listingSubCommentId = _dbContext.ListingSubComments.Last().Id + 1;
-
-			var updateListingSubCommentDto = _dtoGenerator.GetUpdateListingSubCommentDto(listingSubCommentId);
-			var updateListingSubCommentJson = JsonGenerator.GetStringContent(updateListingSubCommentDto);
-
-			// act
 			var countBeforeCreate = _dbContext.ListingSubComments.Count();
 			var postResponseMessage = await _client.PostAsync(createUrl, createListingSubCommentJson);
 			var countAfterCreate = _dbContext.ListingSubComments.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+			
+			var listingSubCommentId = _dbContext.ListingSubComments.Last().Id;
 
 			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingSubCommentId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingSubCommentJson);
-
-			// arrange
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
+			
+			var updateListingSubCommentDto = _dtoGenerator.GetUpdateListingSubCommentDto(listingSubCommentId);
+			var updateListingSubCommentJson = JsonGenerator.GetStringContent(updateListingSubCommentDto);
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingSubCommentJson);
+			
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var lastListingSubComment = await _dbContext.ListingSubComments
 				.Include(x => x.Listing)
 				.Include(x => x.User)
 				.Include(x => x.ListingMainComment)
 				.LastAsync();
-
-			// assert
-			Assert.True(lastListingSubComment.ListingId > 0);
-			Assert.True(lastListingSubComment.ListingMainCommentId > 0);
-			Assert.True(lastListingSubComment.UserId > 0);
-
-			// act
+			
 			var countBeforeDelete = _dbContext.ListingSubComments.Count();
 			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingSubCommentId}");
 			var countAfterDelete = _dbContext.ListingSubComments.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
+			
+			Assert.True(lastListingSubComment.ListingId > 0);
+			Assert.True(lastListingSubComment.ListingMainCommentId > 0);
+			Assert.True(lastListingSubComment.UserId > 0);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countBeforeDelete - 1, countAfterDelete);
 		}
@@ -419,11 +401,10 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		[InlineData("api/subscriber/start-sub", "api/subscriber/", "api/user/update", "api/subscriber/stop-sub/")]
 		public async Task SubscriberCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
-			// arrange
 			int userId = await _dbContext.Users.Where(x => x.Subscribers.Count == 1)
 				.Select(x => x.Id)
 				.FirstOrDefaultAsync();
-
+			
 			await _client.Register();
 
 			var subscriberId = _dbContext.Users.Last().Id;
@@ -431,20 +412,26 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var findUserToSubscriberDto = _dtoGenerator.GetFindUserToSubscribeDto(userId, subscriberId);
 			var findUserToSubscriberJson = JsonGenerator.GetStringContent(findUserToSubscriberDto);
 
-			var createdSubscriberId = _dbContext.Subscribers.Last().UserId + 1;
-			
-			// act
 			var countBeforeCreate = _dbContext.Subscribers.Count();
 			var postResponseMessage = await _client.PostAsync($"{createUrl}", findUserToSubscriberJson);
 			var countAfterCreate = _dbContext.Subscribers.Count();
+			
+			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
+			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
+
+			var createdSubscriberId = _dbContext.Subscribers.Last().UserId;
+			
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{createdSubscriberId}");
+			
+			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
 
 			var updateApplicationUserDto = _dtoGenerator.GetUpdateApplicationUserDto(createdSubscriberId);
 			var updateApplicationUserJson = JsonGenerator.GetStringContent(updateApplicationUserDto);
-
-			var getResponseMessage = await _client.GetAsync($"{getUrl}{createdSubscriberId}");
-			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateApplicationUserJson);
-
-			// arrange
+			
+			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateApplicationUserJson);
+			
+			Assert.Equal(HttpStatusCode.NoContent, patchResponseMessage.StatusCode);
+			
 			var subscriber = await _dbContext.Subscribers
 				.Include(x => x.User)
 				.ThenInclude(x => x.Subscribers)
@@ -455,26 +442,18 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 				.ThenInclude(x => x.Subscriptions)
 				.LastAsync();
 
-			// assert
+			var countSubscribersBeforeDelete = _dbContext.Subscribers.Count();
+			var countSubscriptionsBeforeDelete = _dbContext.Subscriptions.Count();
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}?u={subscription.UserId}&s={subscriber.UserId}");
+			var countSubscribersAfterDelete = _dbContext.Subscribers.Count();
+			var countSubscriptionsAfterDelete = _dbContext.Subscriptions.Count();
+			
 			Assert.True(subscriber.UserId > 0);
 			Assert.True(subscription.UserId > 0);
 			Assert.True(subscriber.User.Subscribers.Count > 0);
 			Assert.True(subscription.User.Subscriptions.Count > 0);
 			Assert.True(subscriber.User.Subscribers.First().UserId > 0);
 			Assert.True(subscription.User.Subscriptions.First().UserId > 0);
-
-			// act
-			var countSubscribersBeforeDelete = _dbContext.Subscribers.Count();
-			var countSubscriptionsBeforeDelete = _dbContext.Subscriptions.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}?u={subscription.UserId}&s={subscriber.UserId}");
-			var countSubscribersAfterDelete = _dbContext.Subscribers.Count();
-			var countSubscriptionsAfterDelete = _dbContext.Subscriptions.Count();
-
-			// assert
-			Assert.Equal(HttpStatusCode.NoContent, postResponseMessage.StatusCode);
-			Assert.Equal(countBeforeCreate + 1, countAfterCreate);
-			Assert.Equal(HttpStatusCode.OK, getResponseMessage.StatusCode);
-			Assert.Equal(HttpStatusCode.NoContent, updateResponseMessage.StatusCode);
 			Assert.Equal(HttpStatusCode.NoContent, deleteResponseMessage.StatusCode);
 			Assert.Equal(countSubscribersBeforeDelete - 1, countSubscribersAfterDelete);
 			Assert.Equal(countSubscriptionsBeforeDelete - 1, countSubscriptionsAfterDelete);
