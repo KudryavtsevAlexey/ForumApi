@@ -29,9 +29,9 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.DtoHelpers
 			return new CreateOrganizationDto(Name: "CreatedOrganizationName");
 		}
 
-		public UpdateOrganizationDto GetUpdateOrganizationDto(int organizationId, string organizationName)
+		public UpdateOrganizationDto GetUpdateOrganizationDto(int organizationId)
 		{
-			return new UpdateOrganizationDto(organizationId, organizationName);
+			return new UpdateOrganizationDto(organizationId, "UpdatedOrganizationName");
 		}
 
 		public CreateArticleDto GetCreateArticleDto()

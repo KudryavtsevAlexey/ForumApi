@@ -35,25 +35,25 @@ namespace KudryavtsevAlexey.Forum.Services.Services
 			return subscriberDto;
 		}
 
-		public async Task CreateSubscriber(int userId, int subscriberId)
+		public async Task CreateSubscriber(FindUserToSubscribeDto findUserToSubscribeDto)
 		{
-			if (userId == subscriberId)
+			if (findUserToSubscribeDto.UserId == findUserToSubscribeDto.SubscriberId)
 			{
-				throw new SameUserIdentifiersException(userId, subscriberId);
+				throw new SameUserIdentifiersException(findUserToSubscribeDto.UserId, findUserToSubscribeDto.SubscriberId);
 			}
 
-			var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+			var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == findUserToSubscribeDto.UserId);
 
 			if (user is null)
 			{
-				throw new UserNotFoundException(userId);
+				throw new UserNotFoundException(findUserToSubscribeDto.UserId);
 			}
 
-			var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == subscriberId);
+			var subscriber = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == findUserToSubscribeDto.SubscriberId);
 
 			if (subscriber is null)
 			{
-				throw new UserNotFoundException(subscriberId);
+				throw new UserNotFoundException(findUserToSubscribeDto.SubscriberId);
 			}
 
 			var newSubscriber = _mapper.Map<Subscriber>(subscriber);

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using KudryavtsevAlexey.Forum.Services.Dtos.Subscriber;
 using KudryavtsevAlexey.Forum.Services.ServiceManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -64,9 +65,9 @@ namespace KudryavtsevAlexey.Forum.Api.Controllers
 		[Route("start-sub")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<IActionResult> SubscribeUser([FromQuery(Name = "u")] int userId, [FromQuery(Name = "s")] int subscriberId)
+		public async Task<IActionResult> SubscribeUser(FindUserToSubscribeDto findUserToSubscribeDto)
 		{
-			await _serviceManager.SubscriberService.CreateSubscriber(userId, subscriberId);
+			await _serviceManager.SubscriberService.CreateSubscriber(findUserToSubscribeDto);
 			
 			return NoContent();
 		}

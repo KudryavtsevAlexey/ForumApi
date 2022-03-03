@@ -39,7 +39,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/organization/create", "api/organization/find/name", "api/organization/update", "api/organization/")]
+		[InlineData("api/organization/create", "api/organization/", "api/organization/update", "api/organization/delete/")]
 		public async Task OrganizationCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -47,11 +47,10 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			var createOrganizationDto = _dtoGenerator.GetCreateOrganizationDto();
 			var createOrganizationJson = JsonGenerator.GetStringContent(createOrganizationDto);
-
-			var organizationName = createOrganizationDto.Name;
+			
 			var organizationId = _dbContext.Organizations.Last().Id + 1;
 
-			var updateOrganizationDto = _dtoGenerator.GetUpdateOrganizationDto(organizationId, organizationName);
+			var updateOrganizationDto = _dtoGenerator.GetUpdateOrganizationDto(organizationId);
 			var updateOrganizationJson = JsonGenerator.GetStringContent(updateOrganizationDto);
 
 			// act
@@ -59,11 +58,11 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createOrganizationJson);
 			var countAfterCreate = _dbContext.Organizations.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?organizationName={organizationName}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{organizationId}");
 			var patchResponseMessage = await _client.PatchAsync($"{updateUrl}", updateOrganizationJson);
 
 			var countBeforeDelete = _dbContext.Organizations.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{organizationId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{organizationId}");
 			var countAfterDelete = _dbContext.Organizations.Count();
 			
 			// assert
@@ -76,7 +75,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/article/create", "api/article/find/id", "api/article/update", "api/article/")]
+		[InlineData("api/article/create", "api/article/", "api/article/update", "api/article/delete/")]
 		public async Task ArticleCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -95,7 +94,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleJson);
 			var countAfterCreate = _dbContext.Articles.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={articleId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleJson);
 
 			// arrange
@@ -111,7 +110,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.Articles.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleId}");
 			var countAfterDelete = _dbContext.Articles.Count();
 
 			// assert
@@ -124,7 +123,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/listing/create", "api/listing/find/id", "api/listing/update", "api/listing/")]
+		[InlineData("api/listing/create", "api/listing/", "api/listing/update", "api/listing/delete/")]
 		public async Task ListingCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -148,7 +147,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createListingJson);
 			var countAfterCreate = _dbContext.Listings.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={listingId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingJson);
 
 			// arrange
@@ -164,7 +163,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.Listings.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingId}");
 			var countAfterDelete = _dbContext.Listings.Count();
 
 			// assert
@@ -177,7 +176,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/tag/create", "api/tag/find/id", "api/tag/update", "api/tag/")]
+		[InlineData("api/tag/create", "api/tag/", "api/tag/update", "api/tag/delete/")]
 		public async Task TagCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -196,11 +195,11 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createTagJson);
 			var countAfterCreate = _dbContext.Tags.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={tagId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{tagId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateTagJson);
 
 			var countBeforeDelete = _dbContext.Tags.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{tagId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{tagId}");
 			var countAfterDelete = _dbContext.Tags.Count();
 
 			// assert
@@ -213,7 +212,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/comment/article-comment/create", "api/comment/article-comment/find/id", "api/comment/article-comment/update", "api/comment/article-comment/")]
+		[InlineData("api/comment/article-comment/create", "api/comment/article-comment/", "api/comment/article-comment/update", "api/comment/article-comment/delete/")]
 		public async Task ArticleMainCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -232,7 +231,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleMainCommentJson);
 			var countAfterCreate = _dbContext.ArticleMainComments.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={articleMainCommentId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleMainCommentId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleMainCommentJson);
 
 			// arrange
@@ -247,7 +246,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.ArticleMainComments.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleMainCommentId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleMainCommentId}");
 			var countAfterDelete = _dbContext.ArticleMainComments.Count();
 
 			// assert
@@ -260,7 +259,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/comment/listing-comment/create", "api/comment/listing-comment/find/id", "api/comment/listing-comment/update", "api/comment/listing-comment/")]
+		[InlineData("api/comment/listing-comment/create", "api/comment/listing-comment/", "api/comment/listing-comment/update", "api/comment/listing-comment/delete/")]
 		public async Task ListingMainCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -283,7 +282,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createListingMainCommentJson);
 			var countAfterCreate = _dbContext.ListingMainComments.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={listingMainCommentId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingMainCommentId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingMainCommentJson);
 
 			// arrange
@@ -298,7 +297,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.ListingMainComments.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingMainCommentId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingMainCommentId}");
 			var countAfterDelete = _dbContext.ListingMainComments.Count();
 
 			// assert
@@ -311,7 +310,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/comment/article-subcomment/create", "api/comment/article-subcomment/find/id/", "api/comment/article-subcomment/update", "api/comment/article-subcomment/")]
+		[InlineData("api/comment/article-subcomment/create", "api/comment/article-subcomment/", "api/comment/article-subcomment/update", "api/comment/article-subcomment/delete/")]
 		public async Task ArticleSubCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -334,7 +333,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createArticleSubCommentJson);
 			var countAfterCreate = _dbContext.ArticleSubComments.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={articleSubCommentId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{articleSubCommentId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateArticleSubCommentJson);
 
 			// arrange
@@ -351,7 +350,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.ArticleSubComments.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleSubCommentId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{articleSubCommentId}");
 			var countAfterDelete = _dbContext.ArticleSubComments.Count();
 
 			// assert
@@ -364,7 +363,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/comment/listing-subcomment/create", "api/comment/listing-subcomment/find/id", "api/comment/listing-subcomment/update", "api/comment/listing-subcomment/")]
+		[InlineData("api/comment/listing-subcomment/create", "api/comment/listing-subcomment/", "api/comment/listing-subcomment/update", "api/comment/listing-subcomment/delete/")]
 		public async Task ListingSubCommentCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -387,7 +386,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var postResponseMessage = await _client.PostAsync(createUrl, createListingSubCommentJson);
 			var countAfterCreate = _dbContext.ListingSubComments.Count();
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={listingSubCommentId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{listingSubCommentId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateListingSubCommentJson);
 
 			// arrange
@@ -404,7 +403,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 
 			// act
 			var countBeforeDelete = _dbContext.ListingSubComments.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingSubCommentId}/delete");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}{listingSubCommentId}");
 			var countAfterDelete = _dbContext.ListingSubComments.Count();
 
 			// assert
@@ -417,7 +416,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 		}
 
 		[Theory]
-		[InlineData("api/subscriber/sub", "api/subscriber/find", "api/user/update", "api/subscriber")]
+		[InlineData("api/subscriber/start-sub", "api/subscriber/", "api/user/update", "api/subscriber/stop-sub/")]
 		public async Task SubscriberCrudTest(string createUrl, string getUrl, string updateUrl, string deleteUrl)
 		{
 			// arrange
@@ -432,7 +431,8 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var findUserToSubscriberDto = _dtoGenerator.GetFindUserToSubscribeDto(userId, subscriberId);
 			var findUserToSubscriberJson = JsonGenerator.GetStringContent(findUserToSubscriberDto);
 
-			var createdSubscriberId = _dbContext.Subscribers.Last().Id + 1;
+			var createdSubscriberId = _dbContext.Subscribers.Last().UserId + 1;
+			
 			// act
 			var countBeforeCreate = _dbContext.Subscribers.Count();
 			var postResponseMessage = await _client.PostAsync($"{createUrl}", findUserToSubscriberJson);
@@ -441,7 +441,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			var updateApplicationUserDto = _dtoGenerator.GetUpdateApplicationUserDto(createdSubscriberId);
 			var updateApplicationUserJson = JsonGenerator.GetStringContent(updateApplicationUserDto);
 
-			var getResponseMessage = await _client.GetAsync($"{getUrl}?id={createdSubscriberId}");
+			var getResponseMessage = await _client.GetAsync($"{getUrl}{createdSubscriberId}");
 			var updateResponseMessage = await _client.PatchAsync($"{updateUrl}", updateApplicationUserJson);
 
 			// arrange
@@ -466,7 +466,7 @@ namespace KudryavtsevAlexey.Forum.IntegrationTests.CrudIntegrationTests
 			// act
 			var countSubscribersBeforeDelete = _dbContext.Subscribers.Count();
 			var countSubscriptionsBeforeDelete = _dbContext.Subscriptions.Count();
-			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}/unsub?userId={subscription.UserId}&subscriberId={subscriber.UserId}");
+			var deleteResponseMessage = await _client.DeleteAsync($"{deleteUrl}?u={subscription.UserId}&s={subscriber.UserId}");
 			var countSubscribersAfterDelete = _dbContext.Subscribers.Count();
 			var countSubscriptionsAfterDelete = _dbContext.Subscriptions.Count();
 

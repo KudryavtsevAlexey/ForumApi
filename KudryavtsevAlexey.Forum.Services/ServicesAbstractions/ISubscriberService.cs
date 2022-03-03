@@ -7,7 +7,7 @@ namespace KudryavtsevAlexey.Forum.Services.ServicesAbstractions
 	{
 		public Task<SubscriberDto> GetSubscriberById(int subscriberId);
 
-		public Task CreateSubscriber(int userId, int subscriberId);
+		public Task CreateSubscriber(FindUserToSubscribeDto findUserToSubscribeDto);
 
 		public Task DeleteSubscriber(int userId, int subscriberId);
 	}
